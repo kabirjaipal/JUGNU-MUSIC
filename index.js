@@ -179,12 +179,12 @@ client.on("message", async message => {
 
 // 24 w
 const { CHANNEL_ID, SERVER_ID, YT_LINK } = require("./24.json");
-const { SERVER_ID } = require('./servers.json')
 const ytdl = require('ytdl-core');
 
 client.on('ready', async () => {
     // let channel = client.channels.cache.get("JUGNU") || await client.channels.fetch("JUGNU")
-    let channel = client.channels.cache.find(ch => ch.name === "🎧｜JUGNU Music")
+    let channel = client.channels.cache.find(ch => ch.name === "Voice channel name") || client.channels.cache.get(CHANNEL_ID)
+    // replace JUGNU Music To Your Voice Channel Name
 
     if (!channel) return;
     const connection = await channel.join();
@@ -193,14 +193,14 @@ client.on('ready', async () => {
 setInterval(async function () {
     if (!client.voice.connections.get(SERVER_ID)) {
         // let channel = client.channels.cache.get("JUGNU") || await client.channels.fetch("JUGNU")
-        let channel = client.channels.cache.find(ch => ch.name === "🎧｜JUGNU Music")
+        let channel = client.channels.cache.find(ch => ch.name === "voice channel name") || client.channels.cache.get(CHANNEL_ID)
+        // replace JUGNU Music To Your Voice Channel Name
         if (!channel) return;
 
         const connection = await channel.join()
         connection.play(ytdl(YT_LINK))
     }
 })
-
 client.on('message', async (message) => {
     if (!message.guild) return;
     if (message.author.bot) return;
