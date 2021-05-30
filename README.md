@@ -6,10 +6,10 @@
 
 ## LavaLink Server
 
-Lavalink:
-Host: lava.sudhan.tech
-Port: 1234
-Password: CodingWithSudhan
+- Lavalink:
+- Host: lava.sudhan.tech
+- Port: 1234
+- Password: CodingWithSudhan
 
 ## HOW TO SELFHOSt
 
