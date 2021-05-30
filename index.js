@@ -179,6 +179,7 @@ client.on("message", async message => {
 
 // 24 w
 const { CHANNEL_ID, SERVER_ID, YT_LINK } = require("./24.json");
+const { SERVER_ID } = require('./servers.json')
 const ytdl = require('ytdl-core');
 
 client.on('ready', async () => {
