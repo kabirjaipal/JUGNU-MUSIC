@@ -4,6 +4,13 @@
 
 [Join my Support Server](https://discord.gg/tVWrU5PWZV)
 
+## LavaLink Server
+
+Lavalink:
+Host: lava.sudhan.tech
+Port: 1234
+Password: CodingWithSudhan
+
 ## HOW TO SELFHOSt
 
 - download `nodejs` v12 or higher, and `ffmpeg`
