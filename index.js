@@ -19,7 +19,7 @@ const client = new Client({
     disableEveryone: true
 });
 // const mongoose = require('mongoose');
-// mongoose.connect('mongodb+srv://KABU:kabir@315116@kabu.mmxw3.mongodb.net/Data', {
+// mongoose.connect('mongourl', {
 //     useNewUrlParser: true,
 //     useUnifiedTopology: true,
 //     useFindAndModify: false,
