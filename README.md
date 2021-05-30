@@ -21,6 +21,11 @@ Enjoy ;)
 **Discord Server:**
 [https://discord.gg/tVWrU5PWZV](https://discord.gg/tVWrU5PWZV)
 
+## Special 
+This is Bot Have 24/7 Free Service
+For Info CheckOut My Video
+\` Coming Soon \`
+
 ## Credits
 
 [@tomato](https://github.com/Tomato6966/) For the Reacting system to messages, great Idea i adopted that [@Tomato6966/Musicium](https://github.com/Tomato6966/Musicium)
