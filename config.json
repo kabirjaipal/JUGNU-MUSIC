@@ -1,7 +1,7 @@
 {
   "IMPORTANT": "FILL IN THE 4 NEXT PARAMETERS, OTHERWISE SOME THINGS MAY OR MAY NOT WORK COOKIE IS IMPORTNAT!",
   
-  "token": "ODQ4NDMxMzYxMDk0MDU4MDA2.YLMhRw.3VLJIMH1WW0ayzibH3ydf-5FpKw",
+  "token": "token",
   "prefix": "j+",
   "ksoftapi": "",
   "cookie": "",
@@ -14,8 +14,8 @@
     "no"  : "#FF264A"
   },
   "Spotify": {
-    "ClientID": "99ace4b9725f4d2d8d8c29e61faa5995" ,
-    "ClientSecret": "f1933576c4954d3ebb5dda9b0d0324a4"
+    "ClientID": "id" ,
+    "ClientSecret": "id"
   },
   "customs": {
     "clear": "dynaudnorm=f=200",
