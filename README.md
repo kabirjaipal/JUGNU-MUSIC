@@ -21,7 +21,7 @@
 
 Enjoy ;)
 
-[REPLIT](https://replit.com/@kabirjaipal/Jugnu-or-Best-Music-Bot-on-Replit?v=1)
+[REPLIT](https://tii.ai/H5zW6)
 
 *Yes It Works on REPLIT*
 
