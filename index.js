@@ -26,11 +26,6 @@ const client = new Client({
 //     useCreateIndex: true
 // }).then(console.log("MongoDB Connected"))
 
-// music
-const { Player } = require("discord-player");
-const player = new Player(client);
-client.player = player;
-
 client.commands = new Collection();
 client.queue = new Map();
 client.aliases = new Collection();
@@ -164,17 +159,13 @@ client.on("message", async message => {
 
         try {
             command.run(client, message, args);
-            message.delete()
-            if (message.author.id) return message.delete()
         } catch (error) {
             console.error(error)
             functions.embedbuilder(client, 5000, message, "RED", "ERROR: ", "```" + error.toString().substr(0, 100) + "```" + "\n\n**Error got sent to my owner!**")
             functions.errorbuilder(error.stack.toString().substr(0, 2000))
         }
     } else
-        return message.reply(`Unkown command, try: ${prefix}help`).then(msg => msg.delete({
-            timeout: 3000
-        }));
+        return message.reply(`Unkown command, try: ${prefix}help`)
 });
 
 // 24 w
@@ -183,7 +174,7 @@ const ytdl = require('ytdl-core');
 
 client.on('ready', async () => {
     // let channel = client.channels.cache.get("JUGNU") || await client.channels.fetch("JUGNU")
-    let channel = client.channels.cache.find(ch => ch.name === "Voice channel name") || client.channels.cache.get(CHANNEL_ID)
+    let channel = client.channels.cache.find(ch => ch.name === "🎧｜JUGNU Music") || client.channels.cache.get(CHANNEL_ID)
     // replace JUGNU Music To Your Voice Channel Name
 
     if (!channel) return;
@@ -193,7 +184,7 @@ client.on('ready', async () => {
 setInterval(async function () {
     if (!client.voice.connections.get(SERVER_ID)) {
         // let channel = client.channels.cache.get("JUGNU") || await client.channels.fetch("JUGNU")
-        let channel = client.channels.cache.find(ch => ch.name === "voice channel name") || client.channels.cache.get(CHANNEL_ID)
+        let channel = client.channels.cache.find(ch => ch.name === "🎧｜JUGNU Music") || client.channels.cache.get(CHANNEL_ID)
         // replace JUGNU Music To Your Voice Channel Name
         if (!channel) return;
 
@@ -201,6 +192,7 @@ setInterval(async function () {
         connection.play(ytdl(YT_LINK))
     }
 })
+
 client.on('message', async (message) => {
     if (!message.guild) return;
     if (message.author.bot) return;
@@ -225,3 +217,5 @@ client.on('message', async (message) => {
 })
 keepAlive();
 client.login(config.token);
+
+

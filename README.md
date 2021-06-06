@@ -4,13 +4,6 @@
 
 [Join my Support Server](https://discord.gg/tVWrU5PWZV)
 
-## LavaLink Server
-
-- Lavalink:
-- Host: lava.sudhan.tech
-- Port: 1234
-- Password: CodingWithSudhan
-
 ## HOW TO SELFHOSt
 
 - download `nodejs` v12 or higher, and `ffmpeg`
@@ -21,7 +14,7 @@
 
 Enjoy ;)
 
-[REPLIT](https://tii.ai/H5zW6)
+[REPLIT](https://replit.com/@kabirjaipal/Jugnu-or-Best-Music-Bot-on-Replit?v=1)
 
 *Yes It Works on REPLIT*
 
@@ -35,7 +28,7 @@ For Info CheckOut My Video
 
 ## Credits
 
-[@tomato](https://github.com/Tomato6966/) For the Reacting system to messages, great Idea, I adopted that [@Tomato6966/Musicium](https://github.com/Tomato6966/Musicium)
+[@tomato](https://github.com/Tomato6966/) For the Reacting system to messages, great Idea i adopted that [@Tomato6966/Musicium](https://github.com/Tomato6966/Musicium)
 
 Thanks For Tomato6966
 Check Out Tomato6966 Gtihub Repo

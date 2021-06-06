@@ -21,12 +21,15 @@ module.exports.getRandomInt = getRandomInt;
 module.exports.QueueEmbed = QueueEmbed;
 module.exports.check_if_dj = check_if_dj;
 
-function check_if_dj(message, member) {
+/** 
+ * @param {Client} client 
+ * @param {Message} message 
+ * @param {String[]} args 
+ */
+
+function check_if_dj(message , member) {
     //if no message added return
     if (!message) return false;
-    //set variable for "client"
-    var client = message.client;
-
     if (!member) member = message.member;
     //get the adminroles
     var roleid = client.settings.get(message.guild.id, `djroles`)
@@ -96,9 +99,7 @@ function embedbuilder(client, deletetime, message, color, title, description, th
                 })
             return;
         }
-        return message.channel.send(embed).then(msg => msg.delete({
-            timeout: deletetime
-        }));
+        return message.channel.send(embed)
     } catch (error) {
         embedbuilder(client, 5000, message, "RED", "ERROR: ", "```" + error.toString().substr(0, 100) + "```" + "\n\n**Error got sent to my owner!**")
         errorbuilder(error.stack.toString().substr(0, 2000))

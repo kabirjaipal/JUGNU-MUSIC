@@ -1,20 +1,15 @@
 {
   "IMPORTANT": "FILL IN THE 4 NEXT PARAMETERS, OTHERWISE SOME THINGS MAY OR MAY NOT WORK COOKIE IS IMPORTNAT!",
-  
   "token": "token",
-  "prefix": "j+",
+  "prefix": "your_prefix",
   "ksoftapi": "",
   "cookie": "",
-
-
-  
-
   "colors": {
-    "yes" : "#06198C",
-    "no"  : "#FF264A"
+    "yes": "#06198C",
+    "no": "#FF264A"
   },
   "Spotify": {
-    "ClientID": "id" ,
+    "ClientID": "id",
     "ClientSecret": "id"
   },
   "customs": {
@@ -42,7 +37,7 @@
     "bassboost18": "bass=g=18,dynaudnorm=f=200",
     "bassboost19": "bass=g=19,dynaudnorm=f=200",
     "bassboost20": "bass=g=20,dynaudnorm=f=200",
-    "purebass": "bass=g=20,dynaudnorm=f=200,asubboost",    
+    "purebass": "bass=g=20,dynaudnorm=f=200,asubboost",
     "8d": "apulsator=hz=0.08",
     "vaporwave": "aresample=48000,asetrate=48000*0.8",
     "nightcore": "aresample=48000,asetrate=48000*1.25",
