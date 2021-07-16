@@ -24,7 +24,7 @@ Enjoy ;)
 ## Special 
 This is Bot Have 24/7 Free Service
 For Info CheckOut My Video
-\` Coming Soon \`
+https://youtu.be/shf7FJGpbCc
 
 ## Credits
 
