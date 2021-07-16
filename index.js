@@ -20,7 +20,7 @@ client.commands = new Collection();
 client.queue = new Map();
 client.aliases = new Collection();
 const cooldowns = new Collection();
-
+let prefix = config.prefix;
 const https = require('https-proxy-agent');
 const proxy = 'http://123.123.123.123:8080';
 const agent = https(proxy);
@@ -79,9 +79,6 @@ client.on("message", async message => {
     if (message.author.bot) return;
     if (!message.guild) return;
     //GET THE PREFIX
-
-    let prefix = client.settings.get(message.guild.id, `prefix`);
-    if (prefix === null) prefix = config.prefix; //if not prefix set it to standard prefix in the config.json file
     const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(prefix)})\\s*`);
     if (!prefixRegex.test(message.content)) return;
     const [, matchedPrefix] = message.content.match(prefixRegex);
@@ -99,18 +96,6 @@ client.on("message", async message => {
     //if not allowed to send embeds, return that
     if (!message.guild.me.permissionsIn(message.channel).has("EMBED_LINKS"))
         return message.reply("**:x: I am missing the Permission to `EMBED_LINKS`**")
-
-    //CHECK IF IN A BOT CHANNEL OR NOT
-    if (client.settings.get(message.guild.id, `botchannel`).toString() !== "") {
-        if (!client.settings.get(message.guild.id, `botchannel`).includes(message.channel.id) && !message.member.hasPermission("ADMINISTRATOR")) {
-            let leftb = "";
-            for (let i = 0; i < client.settings.get(message.guild.id, `botchannel`).length; i++) {
-                leftb += "<#" + client.settings.get(message.guild.id, `botchannel`)[i] + "> / "
-            }
-            return functions.embedbuilder(client, 5000, message, config.colors.no, `Not in the Bot Chat!`, `There is a Bot chat setup in this GUILD! try using the Bot Commands here: 
-            > ${leftb}`)
-        }
-    }
 
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();
