@@ -1,56 +1,36 @@
 {
-
   "name": "jugnu-music-main",
-
   "description": "**Make Sure You Give Credit.. Thank You**",
-
   "version": "1.0.0",
-
   "main": "index.js",
-
   "dependencies": {
-
     "@discordjs/opus": "^0.5.3",
-
     "ascii-table": "^0.0.9",
-
     "common-tags": "^1.8.0",
-
     "deezer-public-api": "^1.0.4",
-
     "discord.js": "^12.5.3",
-
     "discord.js-pagination": "^1.0.3",
-
     "distube": "^2.8.15",
-
     "enmap": "^5.8.6",
-
     "express": "^4.17.1",
-
     "ffmpeg-static": "^4.4.0",
-
     "opusscript": "^0.0.8",
-
     "soundcloud-downloader": "^1.0.0",
-
     "spotify-url-info": "^2.2.3"
-
   },
-
   "devDependencies": {},
-
   "scripts": {
-
     "test": "echo \"Error: no test specified\" && exit 1"
-
   },
-
   "keywords": [],
-
   "author": "",
-
-  "license": "ISC"
-
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KabirJaipal/JUGNU-MUSIC.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KabirJaipal/JUGNU-MUSIC/issues"
+  },
+  "homepage": "https://github.com/KabirJaipal/JUGNU-MUSIC#readme"
 }
-
