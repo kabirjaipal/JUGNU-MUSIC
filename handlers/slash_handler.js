@@ -56,17 +56,17 @@ module.exports = async (client) => {
 
     client.on("ready", async () => {
       try {
-        await client.guilds.cache
-          .get(`903532162236694539`)
-          .commands.set(client.arrayOfcommands);
-        // await client.application.commands
-        //   .set(client.arrayOfcommands)
-        //   .then((s) => {
-        //     console.log("Successfully reloaded application (/) commands.");
-        //   })
-        //   .catch((e) => {
-        //     console.log(e);
-        //   });
+        // await client.guilds.cache
+        //   .get(`903532162236694539`)
+        //   .commands.set(client.arrayOfcommands);
+        await client.application.commands
+          .set(client.arrayOfcommands)
+          .then((s) => {
+            console.log("Successfully reloaded application (/) commands.");
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       } catch (e) {
         console.log(e);
       }
