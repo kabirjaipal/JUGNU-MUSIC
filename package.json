@@ -19,6 +19,7 @@
     "@discordjs/voice": "^0.7.5",
     "@distube/soundcloud": "^1.1.0",
     "@distube/spotify": "^1.1.0",
+    "@distube/yt-dlp": "^1.0.2",
     "chalk": "^4.1.2",
     "discord.js": "^13.6.0",
     "distube": "^3.1.1",
