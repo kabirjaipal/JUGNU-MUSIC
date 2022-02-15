@@ -73,7 +73,7 @@ client.music = new Enmap({
   dataDir: "./Database/Music",
 });
 
-client.login(config.token);
+client.login(config.token || process.env.token);
 
 process.on("unhandledRejection", (reason, p) => {
   console.log(" [Error_Handling] :: Unhandled Rejection/Catch");
