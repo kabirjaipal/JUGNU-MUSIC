@@ -28,10 +28,6 @@ module.exports = new Command({
       return interaction.followUp(
         `** ${emoji.ERROR} You Need to Join Voice Channel first **`
       );
-    } else if (channel.userLimit != 0 && channel.full) {
-      return interaction.followUp(
-        `** ${emoji.ERROR} Your Voice Channel Full , i can't Join **`
-      );
     } else if (
       interaction.guild.me.voice.channel &&
       !interaction.guild.me.voice.channel.equals(channel)
@@ -51,9 +47,9 @@ module.exports = new Command({
           textChannel: interaction.channel,
         })
         .then((m) => {
-          interaction.followUp(`Added ${song} In Queue`).then(msg => {
-            msg.delete().catch(e => {})
-          })
+          interaction.followUp(`Added ${song} In Queue`).then((msg) => {
+            msg.delete().catch((e) => {});
+          });
         });
     }
   },

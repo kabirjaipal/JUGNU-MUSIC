@@ -50,166 +50,114 @@ function databasing(guildid, userid) {
       djroles: [],
       djonly: false,
     });
+    client.music.ensure(guildid, {
+      enable: false,
+      channel: "",
+      playmsg: "",
+      queuemsg: "",
+    });
   }
 }
 
 /**
  *
- * @param {Client} client
  * @param {CommandInteraction} interaction
  * @param {String[]} embeds
  * @returns
  */
-async function swap_pages(client, interaction, embeds) {
+async function swap_pages(interaction, embeds) {
   let currentPage = 0;
-  if (embeds.length === 1) {
-    return interaction.channel
-      .send({ embeds: [embeds[0]] })
-      .catch((e) => console.log("THIS IS TO PREVENT A CRASH"));
-  } else {
-    // first button disale
-    let firstdisable = new MessageActionRow().addComponents([
-      new MessageButton()
-        .setStyle("SECONDARY")
-        .setCustomId("0")
-        .setEmoji(`⏪`)
-        .setDisabled(true),
-      new MessageButton().setStyle("PRIMARY").setCustomId("1").setEmoji(`◀️`),
-      new MessageButton().setStyle("DANGER").setCustomId("2").setEmoji(`🗑`),
-      new MessageButton().setStyle("PRIMARY").setCustomId("3").setEmoji(`▶️`),
-      new MessageButton().setStyle("SECONDARY").setCustomId("4").setEmoji(`⏩`),
-    ]);
-    // all disabled
-    let alldisabled = new MessageActionRow().addComponents([
-      new MessageButton()
-        .setStyle("SECONDARY")
-        .setCustomId("0")
-        .setEmoji(`⏪`)
-        .setDisabled(true),
-      new MessageButton()
-        .setStyle("PRIMARY")
-        .setCustomId("1")
-        .setEmoji(`◀️`)
-        .setDisabled(true),
-      new MessageButton()
-        .setStyle("DANGER")
-        .setCustomId("2")
-        .setEmoji(`🗑`)
-        .setDisabled(true),
-      new MessageButton()
-        .setStyle("PRIMARY")
-        .setCustomId("3")
-        .setEmoji(`▶️`)
-        .setDisabled(true),
-      new MessageButton()
-        .setStyle("SECONDARY")
-        .setCustomId("4")
-        .setEmoji(`⏩`)
-        .setDisabled(true),
-    ]);
-    // second buttons disable
-    let lastdisable = new MessageActionRow().addComponents([
-      new MessageButton().setStyle("SECONDARY").setCustomId("0").setEmoji(`⏪`),
-      new MessageButton().setStyle("PRIMARY").setCustomId("1").setEmoji(`◀️`),
-      new MessageButton().setStyle("DANGER").setCustomId("2").setEmoji(`🗑`),
-      new MessageButton().setStyle("PRIMARY").setCustomId("3").setEmoji(`▶️`),
-      new MessageButton()
-        .setStyle("SECONDARY")
-        .setCustomId("4")
-        .setEmoji(`⏩`)
-        .setDisabled(true),
-    ]);
-    let allbuttons = new MessageActionRow().addComponents([
-      new MessageButton().setStyle("SECONDARY").setCustomId("0").setEmoji(`⏪`),
-      new MessageButton().setStyle("PRIMARY").setCustomId("1").setEmoji(`◀️`),
-      new MessageButton().setStyle("DANGER").setCustomId("2").setEmoji(`🗑`),
-      new MessageButton().setStyle("PRIMARY").setCustomId("3").setEmoji(`▶️`),
-      new MessageButton().setStyle("SECONDARY").setCustomId("4").setEmoji(`⏩`),
-    ]);
-    console.log(embeds.length);
-    //Send message with buttons
-    let swapmsg = await interaction.followUp({
-      embeds: [embeds[0]],
-      components: [allbuttons],
-    });
-    //create a collector for the thinggy
-    const collector = swapmsg.createMessageComponentCollector({
-      time: 2000 * 60,
-    });
-    collector.on("collect", async (b) => {
-      if (b.isButton()) {
+  let allbuttons = new MessageActionRow().addComponents([
+    new MessageButton().setStyle("SECONDARY").setCustomId("0").setEmoji(`⏪`),
+    new MessageButton().setStyle("PRIMARY").setCustomId("1").setEmoji(`◀️`),
+    new MessageButton().setStyle("DANGER").setCustomId("2").setEmoji(`🗑`),
+    new MessageButton().setStyle("PRIMARY").setCustomId("3").setEmoji(`▶️`),
+    new MessageButton().setStyle("SECONDARY").setCustomId("4").setEmoji(`⏩`),
+  ]);
+  //Send message with buttons
+  let swapmsg = await interaction.channel.send({
+    embeds: [embeds[0]],
+    components: [allbuttons],
+  });
+  //create a collector for the thinggy
+  const collector = swapmsg.createMessageComponentCollector({
+    time: 2000 * 60,
+  });
+  collector.on("collect", async (b) => {
+    if (b.isButton()) {
+      await b.deferUpdate().catch((e) => {});
+      // page first
+      if (b.customId == "0") {
         await b.deferUpdate().catch((e) => {});
-        // page first
-        if (b.customId == "0") {
+        if (currentPage !== 0) {
+          currentPage = 0;
+          await swapmsg.edit({
+            embeds: [embeds[currentPage]],
+            components: [allbuttons],
+          });
           await b.deferUpdate().catch((e) => {});
-          if (currentPage !== 0) {
-            currentPage = 0;
-            await swapmsg.edit({
-              embeds: [embeds[currentPage]],
-              components: [firstdisable],
-            });
-            await b.deferUpdate().catch((e) => {});
-          }
         }
-        //page forward
-        if (b.customId == "1") {
+      }
+      //page forward
+      if (b.customId == "1") {
+        await b.deferUpdate().catch((e) => {});
+        if (currentPage !== 0) {
+          currentPage -= 1;
+          await swapmsg.edit({
+            embeds: [embeds[currentPage]],
+            components: [allbuttons],
+          });
           await b.deferUpdate().catch((e) => {});
-          if (currentPage !== 0) {
-            currentPage -= 1;
-            await swapmsg.edit({
-              embeds: [embeds[currentPage]],
-              components: [allbuttons],
-            });
-            await b.deferUpdate().catch((e) => {});
-          } else {
-            currentPage = embeds.length - 1;
-            await swapmsg.edit({
-              embeds: [embeds[currentPage]],
-              components: [allbuttons],
-            });
-            await b.deferUpdate().catch((e) => {});
-          }
-        }
-        //go home
-        else if (b.customId == "2") {
-          try {
-            swapmsg.edit({
-              embeds: [embeds[currentPage]],
-              components: [alldisabled],
-            });
-          } catch (e) {}
-        }
-        //go forward
-        else if (b.customId == "3") {
-          if (currentPage < embeds.length - 1) {
-            currentPage++;
-            await swapmsg.edit({
-              embeds: [embeds[currentPage]],
-              components: [allbuttons],
-            });
-          } else {
-            currentPage = 0;
-            await swapmsg.edit({
-              embeds: [embeds[currentPage]],
-              components: [allbuttons],
-            });
-          }
-        }
-        // page last
-        if (b.customId == "4") {
+        } else {
           currentPage = embeds.length - 1;
           await swapmsg.edit({
             embeds: [embeds[currentPage]],
-            components: [lastdisable],
+            components: [allbuttons],
+          });
+          await b.deferUpdate().catch((e) => {});
+        }
+      }
+      //go home
+      else if (b.customId == "2") {
+        try {
+          allbuttons.components.forEach((btn) => btn.setDisabled(true));
+          swapmsg.edit({
+            embeds: [embeds[currentPage]],
+            components: [allbuttons],
+          });
+        } catch (e) {}
+      }
+      //go forward
+      else if (b.customId == "3") {
+        if (currentPage < embeds.length - 1) {
+          currentPage++;
+          await swapmsg.edit({
+            embeds: [embeds[currentPage]],
+            components: [allbuttons],
+          });
+        } else {
+          currentPage = 0;
+          await swapmsg.edit({
+            embeds: [embeds[currentPage]],
+            components: [allbuttons],
           });
         }
       }
-    });
+      // page last
+      if (b.customId == "4") {
+        currentPage = embeds.length - 1;
+        await swapmsg.edit({
+          embeds: [embeds[currentPage]],
+          components: [allbuttons],
+        });
+      }
+    }
+  });
 
-    collector.on("end", () => {
-      swapmsg.edit({ components: [alldisabled] });
-    });
-  }
+  collector.on("end", () => {
+    allbuttons.components.forEach((btn) => btn.setDisabled(true));
+    swapmsg.edit({ components: [allbuttons] });
+  });
 }
 
 /**

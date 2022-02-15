@@ -33,11 +33,7 @@ module.exports = new Command({
       return interaction.followUp(
         `** ${emoji.ERROR} You Need to Join Voice Channel first **`
       );
-    } else if (channel.userLimit != 0 && channel.full) {
-      return interaction.followUp(
-        `** ${emoji.ERROR} Your Voice Channel Full , i can't Join **`
-      );
-    } else if (
+    }  else if (
       interaction.guild.me.voice.channel &&
       !interaction.guild.me.voice.channel.equals(channel)
     ) {

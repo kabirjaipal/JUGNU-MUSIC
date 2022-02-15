@@ -105,7 +105,7 @@ module.exports = new Command({
               )
           );
         }
-        swap_pages(client, interaction, embeds);
+        swap_pages(interaction, embeds);
       }
     }
   },

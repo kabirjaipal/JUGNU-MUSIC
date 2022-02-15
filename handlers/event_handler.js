@@ -1,6 +1,5 @@
 const { Client } = require("discord.js");
 const fs = require("fs");
-const chalk = require("chalk");
 /**
  *
  * @param {Client} client
@@ -18,7 +17,7 @@ module.exports = (client) => {
           client.events.set(pull.name, pull);
         }
       }
-      console.log(chalk.gray.bold(`${file}  Events Loaded Successfullly`))
+      console.log(`${file}  Events Loaded Successfullly`);
     });
   } catch (e) {
     console.log(e.message);

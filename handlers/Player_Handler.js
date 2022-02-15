@@ -10,65 +10,6 @@ const {
 } = require("discord.js");
 const chalk = require("chalk");
 
-let raw = new MessageActionRow().addComponents([
-  new MessageButton()
-    .setStyle("SECONDARY")
-    .setCustomId("playp")
-    .setLabel("Previous")
-    .setEmoji(emoji.previous_track),
-  new MessageButton()
-    .setStyle("SECONDARY")
-    .setCustomId("pause")
-    .setLabel("Pause")
-    .setEmoji(emoji.pause_resume),
-  new MessageButton()
-    .setStyle("SECONDARY")
-    .setCustomId("skip")
-    .setLabel("Skip")
-    .setEmoji(emoji.skip_track),
-  new MessageButton()
-    .setStyle("SECONDARY")
-    .setCustomId("loop")
-    .setLabel("Off")
-    .setEmoji(emoji.repeat_mode),
-  new MessageButton()
-    .setStyle("SECONDARY")
-    .setCustomId("stop")
-    .setLabel("Stop")
-    .setEmoji(emoji.stop),
-]);
-let d_raw = new MessageActionRow().addComponents([
-  new MessageButton()
-    .setStyle("SECONDARY")
-    .setCustomId("playp")
-    .setLabel("Previous")
-    .setEmoji(emoji.previous_track)
-    .setDisabled(true),
-  new MessageButton()
-    .setStyle("SECONDARY")
-    .setCustomId("pause")
-    .setLabel("Pause")
-    .setEmoji(emoji.pause_resume)
-    .setDisabled(true),
-  new MessageButton()
-    .setStyle("SECONDARY")
-    .setCustomId("skip")
-    .setLabel("Skip")
-    .setEmoji(emoji.skip_track)
-    .setDisabled(true),
-  new MessageButton()
-    .setStyle("SECONDARY")
-    .setCustomId("loop")
-    .setLabel("Off")
-    .setDisabled(true)
-    .setEmoji(emoji.repeat_mode),
-  new MessageButton()
-    .setStyle("SECONDARY")
-    .setCustomId("stop")
-    .setLabel("Stop")
-    .setDisabled(true)
-    .setEmoji(emoji.stop),
-]);
 const status = (queue) =>
   `Volume: ${queue.volume}% • Filter: ${
     queue.filters.join(", ") || "Off"
@@ -85,7 +26,10 @@ module.exports = async (client) => {
     // play song
     player.on("playSong", async (queue, song) => {
       if (!queue) return;
-
+      client.updateplaymsg(queue);
+      client.updatequeuemsg(queue);
+      let data = await client.music.get(queue.textChannel.guild.id);
+      if (queue.textChannel.id === data.channel) return;
       queue.textChannel
         .send({
           embeds: [
@@ -107,7 +51,7 @@ module.exports = async (client) => {
               ])
               .setFooter({ text: ee.footertext, iconURL: ee.footericon }),
           ],
-          components: [raw],
+          components: [client.buttons],
         })
         .then((msg) => {
           client.temp2.set(queue.textChannel.guild.id, msg.id);
@@ -117,7 +61,9 @@ module.exports = async (client) => {
     // add song
     player.on("addSong", async (queue, song) => {
       if (!queue) return;
-
+      client.updatequeuemsg(queue);
+      let data = await client.music.get(queue.textChannel.guild.id);
+      if (queue.textChannel.id === data.channel) return;
       queue.textChannel
         .send({
           embeds: [
@@ -155,7 +101,9 @@ module.exports = async (client) => {
     // add list
     player.on("addList", async (queue, playlist) => {
       if (!queue) return;
-
+      client.updatequeuemsg(queue);
+      let data = await client.music.get(queue.textChannel.guild.id);
+      if (queue.textChannel.id === data.channel) return;
       queue.textChannel
         .send({
           embeds: [
@@ -199,14 +147,16 @@ module.exports = async (client) => {
     // disconnect
     player.on("disconnect", async (queue) => {
       if (!queue) return;
-
+      client.updatemusic(queue.textChannel.guild);
+      let data = await client.music.get(queue.textChannel.guild.id);
+      if (queue.textChannel.id === data.channel) return;
       let ID = client.temp2.get(queue.textChannel.guild.id);
       let playembed = await queue.textChannel.messages.fetch(ID, {
         cache: true,
         force: true,
       });
       if (playembed) {
-        playembed.edit({ components: [d_raw] }).catch((e) => {});
+        playembed.edit({ components: [client.buttons2] }).catch((e) => {});
       }
       queue.textChannel.send({
         embeds: [
@@ -222,14 +172,15 @@ module.exports = async (client) => {
     // finish song
     player.on("finishSong", async (queue, song) => {
       if (!queue) return;
-
+      let data = await client.music.get(queue.textChannel.guild.id);
+      if (queue.textChannel.id === data.channel) return;
       let ID = client.temp2.get(queue.textChannel.guild.id);
       let playembed = await queue.textChannel.messages.fetch(ID, {
         cache: true,
         force: true,
       });
       if (playembed) {
-        playembed.edit({ components: [d_raw] }).catch((e) => {});
+        playembed.edit({ components: [client.buttons2] }).catch((e) => {});
       }
       queue.textChannel
         .send({
@@ -259,7 +210,7 @@ module.exports = async (client) => {
         })
         .catch((e) => {});
       if (playembed) {
-        playembed.edit({ components: [d_raw] }).catch((e) => {});
+        playembed.edit({ components: [client.buttons2] }).catch((e) => {});
       }
       channel.send({
         embeds: [
@@ -274,7 +225,9 @@ module.exports = async (client) => {
     // no related
     player.on("noRelated", async (queue) => {
       if (!queue) return;
-
+      client.updatemusic(queue.textChannel.guild);
+      let data = await client.music.get(queue.textChannel.guild.id);
+      if (queue.textChannel.id === data.channel) return;
       queue.textChannel.send({
         embeds: [
           new MessageEmbed()
@@ -287,14 +240,16 @@ module.exports = async (client) => {
     // finish queue
     player.on("finish", async (queue) => {
       if (!queue) return;
-
+      client.updatemusic(queue.textChannel.guild);
+      let data = await client.music.get(queue.textChannel.guild.id);
+      if (queue.textChannel.id === data.channel) return;
       let ID = client.temp2.get(queue.textChannel.guild.id);
       let playembed = await queue.textChannel.messages.fetch(ID, {
         cache: true,
         force: true,
       });
       if (playembed) {
-        playembed.edit({ components: [d_raw] }).catch((e) => {});
+        playembed.edit({ components: [client.buttons2] }).catch((e) => {});
       }
       queue.textChannel.send({
         embeds: [
@@ -423,34 +378,36 @@ module.exports = async (client) => {
                 send(interaction, `** 🎧 Nothing Playing **`);
               } else if (queue.paused) {
                 await queue.resume();
-                raw.components[1] = new MessageButton()
+                client.buttons.components[1] = new MessageButton()
                   .setCustomId("pause")
                   .setStyle("SECONDARY")
                   .setLabel("Pause")
                   .setEmoji(emoji.pause);
                 let ID =
-                  client.temp2.get(queue.textChannel.guild.id) ||
-                  client.temp.get(queue.textChannel.guild.id);
+                  client.temp.get(queue.textChannel.guild.id) ||
+                  client.temp2.get(queue.textChannel.guild.id);
                 let playembed = await queue.textChannel.messages
                   .fetch(ID, {
                     cache: true,
                     force: true,
                   })
                   .catch((e) => {});
-                if (playembed) {
-                  playembed.edit({ components: [raw] }).catch((e) => {});
-                }
+
+                playembed
+                  .edit({ components: [client.buttons] })
+                  .catch((e) => {});
+
                 send(interaction, `** ${emoji.resume} Song Resumed !! **`);
               } else if (!queue.paused) {
                 await queue.pause();
-                raw.components[1] = new MessageButton()
+                client.buttons.components[1] = new MessageButton()
                   .setCustomId("pause")
                   .setStyle("SECONDARY")
                   .setLabel("Resume")
                   .setEmoji(emoji.resume);
                 let ID =
-                  client.temp2.get(queue.textChannel.guild.id) ||
-                  client.temp.get(queue.textChannel.guild.id);
+                  client.temp.get(queue.textChannel.guild.id) ||
+                  client.temp2.get(queue.textChannel.guild.id);
                 let playembed = await queue.textChannel.messages
                   .fetch(ID, {
                     cache: true,
@@ -458,7 +415,9 @@ module.exports = async (client) => {
                   })
                   .catch((e) => {});
                 if (playembed) {
-                  playembed.edit({ components: [raw] }).catch((e) => {});
+                  playembed
+                    .edit({ components: [client.buttons] })
+                    .catch((e) => {});
                 }
                 send(interaction, `** ${emoji.pause} Song Paused !! **`);
               }
@@ -483,14 +442,14 @@ module.exports = async (client) => {
                 send(interaction, `** 🎧 Nothing Playing **`);
               } else if (queue.repeatMode === 0) {
                 await queue.setRepeatMode(1);
-                raw.components[3] = new MessageButton()
+                client.buttons.components[3] = new MessageButton()
                   .setStyle("SECONDARY")
                   .setCustomId("loop")
                   .setLabel("Queue")
                   .setEmoji("🔁");
-                let ID =
-                  client.temp2.get(queue.textChannel.guild.id) ||
-                  client.temp.get(queue.textChannel.guild.id);
+                  let ID =
+                  client.temp.get(queue.textChannel.guild.id) ||
+                  client.temp2.get(queue.textChannel.guild.id);
                 let playembed = await queue.textChannel.messages
                   .fetch(ID, {
                     cache: true,
@@ -498,19 +457,21 @@ module.exports = async (client) => {
                   })
                   .catch((e) => {});
                 if (playembed) {
-                  playembed.edit({ components: [raw] }).catch((e) => {});
+                  playembed
+                    .edit({ components: [client.buttons] })
+                    .catch((e) => {});
                 }
                 send(interaction, `** ${emoji.SUCCESS} Song Loop On !! **`);
               } else if (queue.repeatMode === 1) {
                 await queue.setRepeatMode(2);
-                raw.components[3] = new MessageButton()
+                client.buttons.components[3] = new MessageButton()
                   .setStyle("SECONDARY")
                   .setCustomId("loop")
                   .setLabel("Off")
                   .setEmoji(emoji.repeat_mode);
-                let ID =
-                  client.temp2.get(queue.textChannel.guild.id) ||
-                  client.temp.get(queue.textChannel.guild.id);
+                  let ID =
+                  client.temp.get(queue.textChannel.guild.id) ||
+                  client.temp2.get(queue.textChannel.guild.id);
                 let playembed = await queue.textChannel.messages
                   .fetch(ID, {
                     cache: true,
@@ -518,19 +479,21 @@ module.exports = async (client) => {
                   })
                   .catch((e) => {});
                 if (playembed) {
-                  playembed.edit({ components: [raw] }).catch((e) => {});
+                  playembed
+                    .edit({ components: [client.buttons] })
+                    .catch((e) => {});
                 }
                 send(interaction, `** ${emoji.SUCCESS} Queue Loop On !! **`);
               } else if (queue.repeatMode === 2) {
                 await queue.setRepeatMode(0);
-                raw.components[3] = new MessageButton()
+                client.buttons.components[3] = new MessageButton()
                   .setStyle("SECONDARY")
                   .setCustomId("loop")
                   .setLabel("Song")
                   .setEmoji("🔂");
-                let ID =
-                  client.temp2.get(queue.textChannel.guild.id) ||
-                  client.temp.get(queue.textChannel.guild.id);
+                  let ID =
+                  client.temp.get(queue.textChannel.guild.id) ||
+                  client.temp2.get(queue.textChannel.guild.id);
                 let playembed = await queue.textChannel.messages
                   .fetch(ID, {
                     cache: true,
@@ -538,7 +501,9 @@ module.exports = async (client) => {
                   })
                   .catch((e) => {});
                 if (playembed) {
-                  playembed.edit({ components: [raw] }).catch((e) => {});
+                  playembed
+                    .edit({ components: [client.buttons] })
+                    .catch((e) => {});
                 }
                 send(interaction, `** ${emoji.SUCCESS} Loop Off !! **`);
               }
@@ -552,6 +517,43 @@ module.exports = async (client) => {
   } catch (e) {
     console.log(chalk.red(e));
   }
+
+  client.on("messageCreate", async (message) => {
+    if (!message.guild || !message.guild.available) return;
+    let data = await client.music.get(message.guildId);
+    if (data.enable === false) return;
+    let channel = await message.guild.channels.cache.get(data.channel);
+    if (!channel) return;
+    if (message.channel.id === channel.id) {
+      if (message.author.bot) {
+        setTimeout(() => {
+          message.delete().catch((e) => {});
+        }, 3000);
+      } else {
+        let voiceChannel = await message.member.voice.channel;
+        if (!voiceChannel) {
+          return send(message, `You need to Join Voice Channel`);
+        } else if (
+          message.guild.me.voice.channel &&
+          !message.guild.me.voice.channel.equals(voiceChannel)
+        ) {
+          return send(message, `You need to Join \`My\` Voice Channel`);
+        } else {
+          let song = message.cleanContent;
+          await message.delete().catch((e) => {});
+          player
+            .play(voiceChannel, song, {
+              member: message.member,
+              message: message,
+              textChannel: message.channel,
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      }
+    }
+  });
 };
 
 /**
