@@ -17,7 +17,7 @@ let player = new Distube(client, {
   emptyCooldown: 2,
   leaveOnEmpty: false,
   leaveOnFinish: false,
-  leaveOnStop: false,
+  leaveOnStop: true,
   nsfw: true,
   savePreviousSongs: true,
   searchCooldown: 0,
