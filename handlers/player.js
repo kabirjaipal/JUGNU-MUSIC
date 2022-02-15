@@ -1,9 +1,9 @@
 const Distube = require("distube").default;
 const client = require("../index");
-const { kookie } = require("../settings/config.json");
 const filters = require("../settings/filters.json");
 const { SpotifyPlugin } = require("@distube/spotify");
 const { SoundCloudPlugin } = require("@distube/soundcloud");
+const { YtDlpPlugin } = require(`@distube/yt-dlp`);
 let spotifyoptions = {
   parallel: true,
   emitEventsAfterFetching: true,
@@ -33,7 +33,11 @@ let player = new Distube(client, {
     dlChunkSize: 1024 * 1024 * 64,
     filter: "audioonly",
   },
-  plugins: [new SpotifyPlugin(spotifyoptions), new SoundCloudPlugin()],
+  plugins: [
+    new SpotifyPlugin(spotifyoptions),
+    new SoundCloudPlugin(),
+    new YtDlpPlugin(),
+  ],
 });
 
 module.exports = player;
