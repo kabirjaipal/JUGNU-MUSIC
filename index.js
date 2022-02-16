@@ -52,13 +52,15 @@ client.events = new Collection();
 client.cooldowns = new Collection();
 client.subcmd = new Collection();
 client.commands = new Collection();
+client.mcommands = new Collection();
+client.aliases = new Collection();
 client.temp = new Map();
 client.temp2 = new Map();
 client.categories = fs.readdirSync("./commands/");
 
 // Initializing the project
 //Loading files, with the client variable like Command Handler, Event Handler, ...
-["event_handler", "slash_handler", "Player_Handler"].forEach((handler) => {
+["event_handler", "slash_handler", "Player_Handler","command_handler"].forEach((handler) => {
   require(`./handlers/${handler}`)(client);
 });
 
