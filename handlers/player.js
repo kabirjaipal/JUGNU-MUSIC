@@ -23,16 +23,7 @@ let player = new Distube(client, {
   searchCooldown: 0,
   searchSongs: 0,
   updateYouTubeDL: true,
-  // youtubeCookie: `${kookie}`,
   youtubeDL: true,
-  ytdlOptions: {
-    highWaterMark: 1024 * 1024 * 64,
-    quality: "highestaudio",
-    format: "audioonly",
-    liveBuffer: 60000,
-    dlChunkSize: 1024 * 1024 * 64,
-    filter: "audioonly",
-  },
   plugins: [
     new SpotifyPlugin(spotifyoptions),
     new SoundCloudPlugin(),
