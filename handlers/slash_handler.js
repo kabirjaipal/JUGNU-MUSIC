@@ -42,47 +42,74 @@ module.exports = async (client) => {
       }
     });
     client.on("ready", async () => {
+    
+       try {
+    client.arrayOfcommands = [];
+    fs.readdirSync("./commands").forEach((cmd) => {
+      let commands = fs
+        .readdirSync(`./commands/${cmd}/`)
+        .filter((file) => file.endsWith(".js"));
+      for (cmds of commands) {
+        let pull = require(`../commands/${cmd}/${cmds}`);
+        if (pull.options) {
+          pull.options
+            .filter((g) => g.type === "SUB_COMMAND")
+            .forEach((sub) => {
+              client.subcmd.set(sub.name, sub);
+            });
+        }
+        if (pull.name) {
+          if (pull.userPermissions || pull.userPermissions !== [])
+            pull.defaultPermission = false;
+          client.commands.set(pull.name, pull);
+          client.arrayOfcommands.push(pull);
+        } else {
+          continue;
+        }
+      }
+    });
+    client.on("ready", async () => {
       try {
-        await client.guilds.fetch().catch((e) => { });
+        await client.guilds.fetch().catch((e) => {});
         await client.guilds.cache.forEach(async (guild) => {
           await guild.commands
             .set(client.arrayOfcommands)
-            .then(async (cmd) => {
-              function getRoles(commandName) {
-                const permissions = client.arrayOfcommands.find(
-                  (x) => x.name === commandName
-                ).userPermissions;
-                if (!permissions) return null;
-                return guild.roles.cache.filter(
-                  (r) => r.permissions.has(permissions) && !r.managed
-                );
-              }
-              const fullPermissions = cmd.reduce((accumulator, x) => {
-                let roles = getRoles(x.name);
-                if (!roles) return accumulator;
+            // .then(async (cmd) => {
+            //   function getRoles(commandName) {
+            //     const permissions = client.arrayOfcommands.find(
+            //       (x) => x.name === commandName
+            //     ).userPermissions;
+            //     if (!permissions) return null;
+            //     return guild.roles.cache.filter(
+            //       (r) => r.permissions.has(permissions) && !r.managed
+            //     );
+            //   }
+            //   const fullPermissions = cmd.reduce((accumulator, x) => {
+            //     let roles = getRoles(x.name);
+            //     if (!roles) return accumulator;
 
-                const permissions = roles.reduce((a, v) => {
-                  return [
-                    ...a,
-                    {
-                      id: v.id,
-                      type: "ROLE",
-                      permission: true,
-                    },
-                  ];
-                }, []);
+            //     const permissions = roles.reduce((a, v) => {
+            //       return [
+            //         ...a,
+            //         {
+            //           id: v.id,
+            //           type: "ROLE",
+            //           permission: true,
+            //         },
+            //       ];
+            //     }, []);
 
-                return [
-                  ...accumulator,
-                  {
-                    id: x.id,
-                    permissions,
-                  },
-                ];
-              }, []);
+            //     return [
+            //       ...accumulator,
+            //       {
+            //         id: x.id,
+            //         permissions,
+            //       },
+            //     ];
+            //   }, []);
 
-              await guild.commands.permissions.set({ fullPermissions });
-            })
+            //   await guild.commands.permissions.set({ fullPermissions });
+            // })
             .catch((e) => {
               console.log(e);
             });
@@ -93,12 +120,13 @@ module.exports = async (client) => {
     });
 
     client.on("guildCreate", async (guild) => {
-      await guild.commands.set(client.arrayOfcommands).catch((e) => { });
+      await guild.commands.set(client.arrayOfcommands).catch((e) => {});
     });
     console.log(`${client.commands.size} Commands Loaded`);
   } catch (e) {
     console.log(e);
   }
+
   /**
    *
    * @param {CommandInteraction} interaction
