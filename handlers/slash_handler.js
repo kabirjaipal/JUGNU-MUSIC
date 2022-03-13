@@ -32,8 +32,6 @@ module.exports = async (client) => {
             });
         }
         if (pull.name) {
-          if (pull.userPermissions || pull.userPermissions !== [])
-            pull.defaultPermission = false;
           client.commands.set(pull.name, pull);
           client.arrayOfcommands.push(pull);
         } else {
