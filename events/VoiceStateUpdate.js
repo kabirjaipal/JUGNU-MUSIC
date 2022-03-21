@@ -1,10 +1,5 @@
 const client = require("../index");
 const { databasing } = require("../handlers/functions");
-const player = require("../handlers/player");
-const { MessageEmbed, VoiceState } = require("discord.js");
-const ee = require("../settings/embed.json");
-const emoji = require("../settings/emoji.json");
-const chalk = require("chalk");
 
 client.on("voiceStateUpdate", async (os, ns) => {
   if (!ns.guild || ns.member.user.bot) return;
