@@ -23,8 +23,11 @@ client.on("guildCreate", async (guild) => {
       console.log(e.message);
     }
   } else {
-    channel.send(
+    await channel.send(
       `I don't have \`USE_APPLICATION_COMMANDS\` so i can't create slash commands in your server , if you want to use me then give me \`USE_APPLICATION_COMMANDS\` and reinvite`
     );
+    setTimeout(() => {
+      guild.leave().catch((e) => {});
+    }, 5000);
   }
 });
