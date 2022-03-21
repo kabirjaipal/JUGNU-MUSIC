@@ -39,27 +39,22 @@ module.exports = async (client) => {
         }
       }
     });
+
     client.on("ready", async () => {
       try {
-        await client.guilds.fetch().catch((e) => {});
+        await client.guilds.fetch()
         await client.guilds.cache.forEach(async (guild) => {
-          await guild.commands.set(client.arrayOfcommands).catch((e) => {
-            console.log(e);
-          });
-        });
+          await guild.commands.set(client.arrayOfcommands).catch(e => {})
+        })
       } catch (e) {
         console.log(e);
       }
     });
 
-    client.on("guildCreate", async (guild) => {
-      await guild.commands.set(client.arrayOfcommands).catch((e) => {});
-    });
-    console.log(`${client.commands.size} Commands Loaded`);
+    console.log(` Loaded ${client.commands.size} commands `);
   } catch (e) {
     console.log(e);
   }
-
   /**
    *
    * @param {CommandInteraction} interaction
