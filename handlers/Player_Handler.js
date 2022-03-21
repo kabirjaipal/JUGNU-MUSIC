@@ -3,12 +3,10 @@ const ee = require("../settings/embed.json");
 const emoji = require("../settings/emoji.json");
 const {
   MessageEmbed,
-  MessageActionRow,
   MessageButton,
   Client,
   ButtonInteraction,
 } = require("discord.js");
-const chalk = require("chalk");
 
 const status = (queue) =>
   `Volume: ${queue.volume}% • Filter: ${
@@ -217,7 +215,7 @@ module.exports = async (client) => {
           new MessageEmbed()
             .setColor(ee.color)
             .setTitle(`Found a Error...`)
-            .setDescription(chalk.red(String(error).substr(0, 3000)))
+            .setDescription(String(error).substring(0, 3000))
             .setFooter({ text: ee.footertext, iconURL: ee.footericon }),
         ],
       });
@@ -267,7 +265,7 @@ module.exports = async (client) => {
       (queue.volume = 90), (queue.autoplay = false);
     });
   } catch (e) {
-    console.log(chalk.red(e));
+    console.log(e);
   }
 
   // interaction handling
@@ -515,7 +513,7 @@ module.exports = async (client) => {
       }
     });
   } catch (e) {
-    console.log(chalk.red(e));
+    console.log(e);
   }
 
   client.on("messageCreate", async (message) => {
@@ -567,7 +565,7 @@ async function send(interaction, string) {
       embeds: [
         new MessageEmbed()
           .setColor(ee.color)
-          .setDescription(`>>> ${string.substring(0,3000)}`)
+          .setDescription(`>>> ${string.substringing(0,3000)}`)
           .setFooter({ text: ee.footertext, iconURL: ee.footericon }),
       ],
     })
