@@ -65,7 +65,7 @@ module.exports = async (client) => {
       embeds: [
         new MessageEmbed()
           .setColor(ee.color)
-          .setDescription(data.substr(0, 2000))
+          .setDescription(data.substring(0, 2000))
           .setFooter({
             text: ee.footertext,
             iconURL: ee.footericon,
@@ -208,7 +208,7 @@ module.exports = async (client) => {
         }**__`;
       })
       .join("\n\n")
-      .substr(0, 3000);
+      .substring(0, 3000);
 
     msg.edit({
       embeds: [
