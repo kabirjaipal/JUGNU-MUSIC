@@ -1,7 +1,7 @@
 {
   "name": "jugnumusic",
   "version": "3.0.0",
-  "description": "",
+  "description": "best music bot with op filters",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -20,11 +20,11 @@
     "@distube/soundcloud": "^1.1.0",
     "@distube/spotify": "^1.1.0",
     "@distube/yt-dlp": "^1.0.2",
-    "chalk": "^4.1.2",
+    "chalk": "^5.0.1",
     "discord.js": "^13.6.0",
     "distube": "^3.1.1",
     "enmap": "^5.8.7",
-    "express": "^4.17.2",
+    "express": "^4.17.3",
     "ffmpeg-static": "^4.4.1",
     "libsodium-wrappers": "^0.7.9",
     "mongoose": "^6.1.6",
