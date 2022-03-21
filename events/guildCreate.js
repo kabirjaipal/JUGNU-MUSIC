@@ -11,14 +11,10 @@ client.on("guildCreate", async (guild) => {
 
   if (guild.me.permissions.has("USE_APPLICATION_COMMANDS")) {
     try {
-      guild.commands
-        .set(client.arrayOfCommands)
-        .then((s) => {
-          channel.send(`Successfully reloaded application (/) commands.`);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      let commands = await client.commands.map((cmd) => cmd);
+      await guild.commands.set(commands).catch((e) => {
+        console.log(e);
+      });
     } catch (e) {
       console.log(e.message);
     }
