@@ -565,7 +565,7 @@ async function send(interaction, string) {
       embeds: [
         new MessageEmbed()
           .setColor(ee.color)
-          .setDescription(`>>> ${string.substringing(0,3000)}`)
+          .setDescription(`>>> ${string.substring(0,3000)}`)
           .setFooter({ text: ee.footertext, iconURL: ee.footericon }),
       ],
     })
