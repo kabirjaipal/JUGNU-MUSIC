@@ -8,8 +8,8 @@ module.exports = new Command({
   // options
   name: "setup",
   description: `setup music request channel in server`,
-  userPermissions: ["MANAGE_GUILD"],
-  botPermissions: ["MANAGE_GUILD"],
+  userPermissions: ["MANAGE_CHANNELS"],
+  botPermissions: ["MANAGE_CHANNELS"],
   category: "Config",
   cooldown: 10,
   // command start
