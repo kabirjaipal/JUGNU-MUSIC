@@ -42,7 +42,7 @@ module.exports = new Command({
       );
     } else {
       await queue.stop();
-      interaction.followUp(`** ${emoji.stop} Song Stoped **`);
+      interaction.followUp(`** ${emoji.stop} Song Stopped **`);
     }
   },
 });
