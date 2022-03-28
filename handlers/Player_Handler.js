@@ -353,7 +353,7 @@ module.exports = async (client) => {
                 send(interaction, `** 🎧 Nothing Playing **`);
               } else {
                 await queue.stop().catch((e) => {});
-                send(interaction, `** ${emoji.stop} Song Stoped !!**.`);
+                send(interaction, `** ${emoji.stop} Song Stopped !!**.`);
               }
             }
             break;
