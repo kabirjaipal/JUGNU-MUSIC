@@ -327,10 +327,10 @@ module.exports = async (client) => {
                 send(interaction, `** 🎧 Nothing Playing **`);
               } else if (queue.songs.length === 1) {
                 queue.stop().catch((e) => {});
-                send(interaction, `** ${emoji.skip_track} Song Skiped !!**.`);
+                send(interaction, `** ${emoji.skip_track} Song Skipped !!**.`);
               } else {
                 await queue.skip().catch((e) => {});
-                send(interaction, `** ${emoji.skip_track} Song Skiped !!**.`);
+                send(interaction, `** ${emoji.skip_track} Song Skipped !!**.`);
               }
             }
             break;

@@ -44,7 +44,7 @@ client.on("messageCreate", async (message) => {
       });
     } else if (cooldown(message, command)) {
       return message.channel.send(
-        `*You are On Cooldown , wait \`${cooldown(
+        `*You are On Cooldown, wait \`${cooldown(
           message,
           command
         ).toFixed()}\` Seconds*`

@@ -32,7 +32,7 @@ module.exports = new Command({
       );
     } else if (interaction.guild.me.voice.serverMute) {
       return interaction.followUp(
-        `** ${emoji.ERROR} I am Muted in Voice Channel , unmute me first **`
+        `** ${emoji.ERROR} I am Muted in Voice Channel, unmute me first **`
       );
     } else if (!queue) {
       return interaction.followUp(`** ${emoji.ERROR} Nothing Playing Now **`);

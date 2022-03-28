@@ -66,7 +66,7 @@ module.exports = new Command({
             },
             {
               name: `${emoji.setup} Bot Commands`,
-              value: `>>> \`\`\` Commands ${client.commands.size} , SubCommands ${client.subcmd.size}\`\`\``,
+              value: `>>> \`\`\` Commands ${client.commands.size}, SubCommands ${client.subcmd.size}\`\`\``,
             },
             {
               name: `${emoji.time} Bot Uptime`,

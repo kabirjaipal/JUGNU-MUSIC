@@ -47,7 +47,7 @@ client.on("interactionCreate", async (interaction) => {
       } else if (cooldown(interaction, cmd)) {
         return client.embed(
           interaction,
-          ` You are On Cooldown , wait \`${cooldown(
+          ` You are On Cooldown, wait \`${cooldown(
             interaction,
             cmd
           ).toFixed()}\` Seconds`

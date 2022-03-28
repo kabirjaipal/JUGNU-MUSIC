@@ -90,7 +90,7 @@ module.exports = new Command({
           interaction.followUp(` ${emoji.lyrics} Check Your DMS!!`)
       })
       .catch(e => {
-          interaction.followUp(` ${emoji.ERROR} Can't send , Open Your DMS`)
+          interaction.followUp(` ${emoji.ERROR} Can't send, Open Your DMS`)
       })
     }
   },

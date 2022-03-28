@@ -73,12 +73,12 @@ module.exports = new Command({
       } else if (queue.repeatMode === 1) {
         return client.embed(
           interaction,
-          `** ${emoji.SUCCESS} Song Loop Enabled!! **`
+          `** ${emoji.SUCCESS} Set Song on Loop!! **`
         );
       } else if (queue.repeatMode === 2) {
         return client.embed(
           interaction,
-          `** ${emoji.SUCCESS} Queue Loop Enabled!! **`
+          `** ${emoji.SUCCESS} Set Queue on Loop!! **`
         );
       }
     }

@@ -42,11 +42,11 @@ module.exports = new Command({
       );
     } else if (interaction.guild.me.voice.serverMute) {
       return interaction.followUp(
-        `** ${emoji.ERROR} I am Muted in Voice Channel , unmute me first **`
+        `** ${emoji.ERROR} I am Muted in Voice Channel, unmute me first **`
       );
     } else {
       let query = interaction.options.getString("song");
-      interaction.followUp(`** ${emoji.search} Searchingg \`${query}\` **`);
+      interaction.followUp(`** ${emoji.search} Searching \`${query}\` **`);
       await player
         .search(query, {
           limit: 10,
