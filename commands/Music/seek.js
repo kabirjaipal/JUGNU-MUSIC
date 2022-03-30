@@ -49,12 +49,11 @@ module.exports = new Command({
         `** ${emoji.ERROR} You are Not DJ and also not Song Requester **`
       );
     } else {
-      let seeksong = interaction.options.getNumber("amount")
-                if (seeksong > queue.songs[0].duration || seeksong < 0) return interaction.reply({
-                    embeds: [
-                        new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **The Seek Position must be between \`0\` and \`${Queue.songs[0].duration}\`!**`)
-                    ] });
-await queue.seek(seeksong);
+      let seek = interaction.options.getNumber("amount") * 1000;
+      await queue.seek(seek)
+      interaction.followUp(
+        `** ${emoji.SUCCESS} Seeked ${seek / 1000} Seconds **`
+      );
     }
   },
 });
