@@ -177,7 +177,7 @@ module.exports = async (client) => {
           )
           .setImage(song.thumbnail)
           .setFooter({
-            text: `Requsted By ${song.user.tag}`,
+            text: `Requested By ${song.user.tag}`,
             iconURL: song.thumbnail,
           }),
       ],
