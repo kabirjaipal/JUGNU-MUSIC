@@ -42,11 +42,8 @@ module.exports = async (client) => {
 
     client.on("ready", async () => {
       try {
-        await client.guilds.fetch()
         let commands = await client.commands.map((cmd) => cmd);
-        await client.guilds.cache.forEach(async (guild) => {
-          await guild.commands.set(commands).catch(e => {})
-        })
+          await client.application.commands.set(commands);
       } catch (e) {
         console.log(e);
       }
