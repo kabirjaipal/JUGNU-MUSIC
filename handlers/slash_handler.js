@@ -32,6 +32,8 @@ module.exports = async (client) => {
             });
         }
         if (pull.name) {
+          if (cmd.userPermissions || pull.userPermissions !== [])
+            pull.defaultPermission = false;
           client.commands.set(pull.name, pull);
           client.arrayOfcommands.push(pull);
         } else {
@@ -39,17 +41,61 @@ module.exports = async (client) => {
         }
       }
     });
-
     client.on("ready", async () => {
       try {
-        let commands = await client.commands.map((cmd) => cmd);
-          await client.application.commands.set(commands);
+        await client.guilds.fetch().catch((e) => { });
+        await client.guilds.cache.forEach(async (guild) => {
+          await guild.commands
+            .set(client.arrayOfcommands)
+            .then(async (cmd) => {
+              function getRoles(commandName) {
+                const permissions = client.arrayOfcommands.find(
+                  (x) => x.name === commandName
+                ).userPermissions;
+                if (!permissions) return null;
+                return guild.roles.cache.filter(
+                  (r) => r.permissions.has(permissions) && !r.managed
+                );
+              }
+              const fullPermissions = cmd.reduce((accumulator, x) => {
+                let roles = getRoles(x.name);
+                if (!roles) return accumulator;
+
+                const permissions = roles.reduce((a, v) => {
+                  return [
+                    ...a,
+                    {
+                      id: v.id,
+                      type: "ROLE",
+                      permission: true,
+                    },
+                  ];
+                }, []);
+
+                return [
+                  ...accumulator,
+                  {
+                    id: x.id,
+                    permissions,
+                  },
+                ];
+              }, []);
+
+              await guild.commands.permissions.set({ fullPermissions });
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        });
       } catch (e) {
         console.log(e);
       }
     });
 
-    console.log(` Loaded ${client.commands.size} commands `);
+    client.on("guildCreate", async (guild) => {
+      await guild.commands.set(client.arrayOfcommands).catch((e) => { });
+    });
+    console.log(`${client.commands.size} Commands Loaded`);
   } catch (e) {
     console.log(e);
   }
@@ -63,7 +109,7 @@ module.exports = async (client) => {
       embeds: [
         new MessageEmbed()
           .setColor(ee.color)
-          .setDescription(data.substring(0, 2000))
+          .setDescription(data.substr(0, 2000))
           .setFooter({
             text: ee.footertext,
             iconURL: ee.footericon,
@@ -140,7 +186,7 @@ module.exports = async (client) => {
     .setColor("RANDOM")
     .setTitle(`Join Voice Channel to Play Song`)
     .setImage(
-      `https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80`
+      `https://cdn.discordapp.com/attachments/943412442359275540/967452058703781948/unknown.png`
     )
     .setDescription(
       `>>> ** I Support Youtube , Spotify , Soundclound many many More **`
@@ -152,7 +198,7 @@ module.exports = async (client) => {
    *
    * @param {Queue} queue
    */
-  client.updateplaymsg = async function (queue) {
+  client.updateplaymsg = async function(queue) {
     let data = client.music.get(queue.textChannel.guildId);
     if (data.enable === false) return;
     let song = queue.songs[0];
@@ -186,7 +232,7 @@ module.exports = async (client) => {
    *
    * @param {Queue} queue
    */
-  client.updatequeuemsg = async function (queue) {
+  client.updatequeuemsg = async function(queue) {
     let data = client.music.get(queue.textChannel.guildId);
     if (data.enable === false) return;
     let channel = await queue.textChannel.guild.channels.cache.get(
@@ -203,10 +249,10 @@ module.exports = async (client) => {
       .map((song, index) => {
         return `\`${index + 1}\` [\`${song.name}\`](${song.url}) __**${
           song.user.tag
-        }**__`;
+          }**__`;
       })
       .join("\n\n")
-      .substring(0, 3000);
+      .substr(0, 3000);
 
     msg.edit({
       embeds: [
@@ -225,7 +271,7 @@ module.exports = async (client) => {
    *
    * @param {Guild} guild
    */
-  client.updatemusic = async function (guild) {
+  client.updatemusic = async function(guild) {
     let data = client.music.get(guild.id);
     if (data.enable === false) return;
     let channel = await guild.channels.cache.get(data.channel);
