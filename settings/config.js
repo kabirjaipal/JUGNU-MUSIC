@@ -22,6 +22,7 @@ module.exports = {
   },
   // others
   guildID: process.env.guildID || "GUILD_ID", // for slash command
+  mongodb : process.env.mongodb || "MONGO_URL",
   filters: {
     clear: "dynaudnorm=f=200",
     lightbass: "bass=g=8,dynaudnorm=f=200",
