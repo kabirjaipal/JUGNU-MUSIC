@@ -27,7 +27,8 @@ module.exports = async (client) => {
       await client.application.commands.set(arrayOfcommands);
       if(client.config.guildID){
           let guild = client.guilds.cache.get(client.config.guildID)
-       await guild.commands.set(arrayOfcommands)
+          if(!guild) return
+          await guild.commands.set(arrayOfcommands)
       }
 
     });
