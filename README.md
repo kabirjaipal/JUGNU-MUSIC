@@ -1,15 +1,10 @@
-
 # Hi, I'm Kabir! 👋
 
+I'm a Discord Bot Developer and here is mine Discord Music Bot
 
-I'm a Discord Bot Developer and here is mine bot handler
+# Advance Discord Music Bot
 
-
-# Discord.JS V14 Handler
-
-a discord.js handler which support slash commands , message commands , events and more...
-
-
+a discord music bot with many commands , buttons , 24/7 , autresume ,etc
 
 ## **Installation | How to use the Bot**
 
@@ -28,85 +23,31 @@ a discord.js handler which support slash commands , message commands , events an
 
 ```javascript
 {
-  token: "BOT_TOKEN"
-  prefix: "BOT_PREFIX",
+  TOKEN: "BOT_TOKEN",
+  PREFIX: "BOT_PREFIX",
 }
 ```
 
 ## Handler Features
 
-- easy to use Handler
-- support event Handler
+- easy to use Music Bot
+- support Youtube , Spotify , Soundcloud , etc 700+ websites
 - slash commands support
 - message commands support
-- based on [discord.js v14](https://deploy-preview-1011--discordjs-guide.netlify.app/additional-info/changes-in-v14.html)
-- provied code snipet for commands
-- support sub directory in commands folder
-- support code suggestions in Handler
-
+- stable & up to date with discord.js v13
+- support 24/7 in voice channel
+- support autoresume system
+- support music request channel system
+- support more filters
+- support dj system
+- work on replit and others vps
 
 ## Feedback
 
 If you have any feedback, please reach out to us at [Discord Server](https://discord.gg/PcUVWApWN3)
 
-
-## Usage/Examples
-
-- For Slash Command
-```javascript
-const {
-  Client,
-  CommandInteraction,
-  ApplicationCommandType,
-} = require("discord.js");
-const { embed: ee, emoji } = require("../../../settings/config");
-
-module.exports = {
-  name: "",
-  description: ``,
-  userPermissions: [],
-  botPermissions: [],
-  category: "",
-  cooldown: 10,
-  type: ApplicationCommandType.ChatInput,
-  /**
-   *
-   * @param {Client} client
-   * @param {CommandInteraction} interaction
-   * @param {String[]} args
-   */
-  run: async (client, interaction, args) => {
-    // Code
-  },
-};
-```
-- for Message Command
-```javascript
-const { Client, Message } = require("discord.js");
-const { embed: ee, emoji } = require("../../../settings/config");
-
-module.exports = {
-  name: "",
-  description: ``,
-  userPermissions: [],
-  botPermissions: [],
-  category: "",
-  cooldown: 10,
-  /**
-   *
-   * @param {Client} client
-   * @param {Message} message
-   * @param {String[]} args
-   * @param {String} prefix
-   */
-  run: async (client, message, args, prefix) => {
-    // Code
-  },
-};
-```
-
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
-# Thanks For Using Mine Handler Please Give a Star
+# Thanks For Using Music bot Please Give a Star and please give me credit
