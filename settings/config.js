@@ -10,8 +10,8 @@ module.exports = {
     footericon: " ",
   },
   emoji: {
-    ERROR: "<:Unchecked:967466050549596160>",
-    SUCCESS: "<:check:967465972170653736>",
+    ERROR: "❌",
+    SUCCESS: "✅",
     disabled: "🔴",
     enabled: "🟢",
     cleared: "🧹",
@@ -21,7 +21,7 @@ module.exports = {
     bot: "🤖",
   },
   // others
-  guildID: process.env.guildID || "903532162236694539", // for slash command
+  guildID: process.env.guildID || "GUILD_ID", // for slash command
   filters: {
     clear: "dynaudnorm=f=200",
     lightbass: "bass=g=8,dynaudnorm=f=200",
@@ -91,12 +91,5 @@ module.exports = {
     `8️⃣`,
     `9️⃣`,
     `🔟`,
-    `🟥`,
-    `🟧`,
-    `🟨`,
-    `🟩`,
-    `🟦`,
-    `🟪`,
-    `🟫`,
   ],
 };
