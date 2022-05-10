@@ -16,7 +16,7 @@ module.exports = async (client) => {
     providerOptions: {
       url: mongodb,
       collection: "music",
-      dbName: client.user.username,
+      dbName: client.user.username.replace(" ", ""),
     },
   });
   // queue
@@ -26,7 +26,7 @@ module.exports = async (client) => {
     providerOptions: {
       url: mongodb,
       collection: "queue",
-      dbName: client.user.username,
+      dbName: client.user.username.replace(" ", ""),
     },
   });
   // autoresume
@@ -36,7 +36,7 @@ module.exports = async (client) => {
     providerOptions: {
       url: mongodb,
       collection: "autoresume",
-      dbName: client.user.username,
+      dbName: client.user.username.replace(" ", ""),
     },
   });
 
