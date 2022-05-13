@@ -14,7 +14,7 @@ a discord music bot with many commands , buttons , 24/7 , autresume ,etc
 
 **3.** Fill in everything in **`settings/config.js`**
 
-**4.** after Fill everything in config Type in shall **`npm install`**
+**4.** after Fill everything in config Type in shell **`npm install`** and **`npm i node@latest`**
 
 **5.** start the bot with **`node index.js`**
 <br/>
