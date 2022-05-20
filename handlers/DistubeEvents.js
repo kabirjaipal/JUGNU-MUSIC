@@ -12,14 +12,14 @@ module.exports = async (client) => {
   client.distube.setMaxListeners(0);
 
   async function autoresume() {
-    if(!client.autoresume) return
+    if (!client.autoresume) return;
     let guildIds = await client.autoresume.keys;
     if (!guildIds || !guildIds.length) return;
     for (const GID of guildIds) {
       let guild = client.guilds.cache.get(GID);
       if (!guild) await client.autoresume.delete(gId);
       let data = await client.autoresume.get(guild.id);
-      if(!data) return
+      if (!data) return;
       let voiceChannel = guild.channels.cache.get(data.voiceChannel);
       if (!voiceChannel && data.voiceChannel)
         voiceChannel =
@@ -93,7 +93,7 @@ module.exports = async (client) => {
     // events
     client.distube.on("playSong", async (queue, song) => {
       let data = await client.music.get(`${queue.textChannel.guildId}.music`);
-      if(!data) return
+      if (!data) return;
       await client.updatequeue(queue);
       await client.updateplayer(queue);
       if (data.channel === queue.textChannel.id) return;
@@ -131,7 +131,7 @@ module.exports = async (client) => {
 
     client.distube.on("addSong", async (queue, song) => {
       let data = await client.music.get(`${queue.textChannel.guildId}.music`);
-      if(!data) return
+      if (!data) return;
       await client.updatequeue(queue);
       if (data.channel === queue.textChannel.id) return;
 
@@ -176,7 +176,7 @@ module.exports = async (client) => {
 
     client.distube.on("addList", async (queue, playlist) => {
       let data = await client.music.get(`${queue.textChannel.guildId}.music`);
-      if(!data) return
+      if (!data) return;
       await client.updatequeue(queue);
       if (data.channel === queue.textChannel.id) return;
       queue.textChannel
@@ -227,7 +227,7 @@ module.exports = async (client) => {
         await client.joinVoiceChannel(queue.textChannel.guild);
       }
       let data = await client.music.get(`${queue.textChannel.guildId}.music`);
-      if(!data) return
+      if (!data) return;
       if (data.channel === queue.textChannel.id) return;
       queue.textChannel
         .send({
@@ -351,7 +351,7 @@ module.exports = async (client) => {
             autoplay: newQueue.autoplay,
           });
           let data = await client.autoresume.get(newQueue.textChannel.guildId);
-          if(!data) return
+          if (!data) return;
           if (data?.guild != newQueue.textChannel.guildId) {
             await client.autoresume.set(
               `${newQueue.textChannel.guildId}.guild`,
@@ -693,9 +693,13 @@ module.exports = async (client) => {
       if (message.channelId === musicchannel.id) {
         // code
         if (message.author.bot) {
-          msgdelete();
+          if (message.id != data.qmsg || message.id != data.pmsg) {
+            msgdelete();
+          }
         } else {
-          msgdelete();
+          if (message.id != data.qmsg || message.id != data.pmsg) {
+            msgdelete();
+          }
           let voiceChannel = message.member.voice.channel;
 
           if (!message.guild.me.permissions.has("CONNECT")) {
