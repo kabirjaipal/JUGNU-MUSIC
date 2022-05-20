@@ -223,7 +223,7 @@ module.exports = async (client) => {
       await client.editPlayerMessage(queue.textChannel);
       await client.updateembed(client, queue.textChannel.guild);
       let db = await client.music?.get(`${queue.textChannel.guildId}.vc`);
-      if (db.enable) {
+      if (db && db?.enable) {
         await client.joinVoiceChannel(queue.textChannel.guild);
       }
       let data = await client.music.get(`${queue.textChannel.guildId}.music`);
