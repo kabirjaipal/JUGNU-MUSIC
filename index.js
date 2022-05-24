@@ -1,8 +1,5 @@
 const JUGNU = require("./handlers/Client");
 const { TOKEN } = require("./settings/config");
-const libsodium = require("libsodium-wrappers");
-const ffmpeg = require("ffmpeg-static");
-const voice = require("@discordjs/voice");
 
 const client = new JUGNU();
 module.exports = client;
@@ -21,6 +18,6 @@ process.on("uncaughtExceptionMonitor", (err, origin) => {
   console.log(err, origin);
 });
 process.on("multipleResolves", (type, promise, reason) => {
-  // console.log(" [Error_Handling] :: Multiple Resolves");
-  // console.log(type, promise, reason);
+  console.log(" [Error_Handling] :: Multiple Resolves");
+  console.log(type, promise, reason);
 });

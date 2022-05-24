@@ -77,7 +77,7 @@ module.exports = {
     VoteURL: process.env.VoteURL || `https://discord.gg/PcUVWApWN3`,
   },
   options: {
-    embedFooter: false,
+    embedFooter: true,
     nowplayingMsg: true
   },
   numberEmojis: [
