@@ -46,7 +46,7 @@ module.exports = {
                 "⌚️ Uptime ",
                 `<t:${Math.floor(Date.now() / 1000 - client.uptime / 1000)}:R>`
               )
-              .addField("📁 Users", `\`${client.users.cache.size}\``, true)
+              .addField("📁 Users", `\`${client.guilds.cache.size.reduce((a,b) => a + b.memberCount,0)}\``, true)
               .addField("📁 Servers", `\`${client.guilds.cache.size}\``, true)
               .addField("📁 Channels", `\`${client.channels.cache.size}\``, true)
               .addField("👾 Discord.js", `\`v${version}\``, true)
