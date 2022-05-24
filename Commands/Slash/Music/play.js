@@ -38,9 +38,15 @@ module.exports = {
       member: interaction.member,
       textChannel: interaction.channel,
     });
-    interaction.followUp({
-      content: `Searching \`${song}\``,
-      ephemeral: true,
-    });
+    interaction
+      .followUp({
+        content: `Searching \`${song}\``,
+        ephemeral: true,
+      })
+      .then((msg) => {
+        setTimeout(() => {
+          msg.delete().catch((e) => {})
+        }, 3000);
+      });
   },
 };
