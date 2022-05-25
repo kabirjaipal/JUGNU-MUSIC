@@ -1,11 +1,10 @@
 {
   "name": "jugnu",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "a op advance discord music bot",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "node": "npm i --save-dev node@latest && npm config set prefix=$(pwd)/node_modules/node && export PATH=$(pwd)/node_modules/node/bin:$PATH"
+    "start": "node index.js"
   },
   "keywords": [
     "music",
@@ -24,10 +23,10 @@
     "@joshdb/json": "^1.0.5",
     "@joshdb/mongo": "^1.1.6",
     "cpu-stat": "^2.0.1",
-    "discord.js": "^13.6.0",
+    "discord.js": "^13.7.0",
     "distube": "^3.3.4",
-    "ffmpeg-static": "^4.4.1",
-    "glob": "^8.0.1",
+    "ffmpeg-static": "^5.0.0",
+    "glob": "^8.0.3",
     "libsodium-wrappers": "^0.7.10",
     "opusscript": "^0.0.8"
   }
