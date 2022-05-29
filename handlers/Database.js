@@ -1,5 +1,6 @@
 const { mongodb } = require("../settings/config");
 const Josh = require("@joshdb/core");
+// enable it if using mongo db
 // const provider = require("@joshdb/mongo");
 const { Client } = require("discord.js");
 const provider = require("@joshdb/json");
