@@ -39,7 +39,7 @@ class JUGNU extends Client {
     this.config = require("../settings/config");
     this.getFooter = function (user) {
       let obj = {
-        text: `Requsted By ${user.tag}`,
+        text: `Requested By ${user.tag}`,
         iconURL: user.displayAvatarURL({ dynamic: true }),
       };
       if (options.embedFooter) {
