@@ -6,11 +6,10 @@ const { links } = require("../../../settings/config");
 module.exports = {
   name: "invite",
   description: `Get My Invite Link to add me`,
-  userPermissions: ["SEND_MESSAGES"],
-  botPermissions: ["EMBED_LINKS"],
+  userPermissions: ["SendMessages"],
+  botPermissions: ["EmbedLinks"],
   category: "Information",
   cooldown: 5,
-  type: "CHAT_INPUT",
   inVoiceChannel: false,
   inSameVoiceChannel: false,
   Player: false,

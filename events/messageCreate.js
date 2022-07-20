@@ -1,13 +1,14 @@
 const { cooldown, check_dj, databasing } = require("../handlers/functions");
 const client = require("..");
 const { PREFIX: botPrefix, emoji } = require("../settings/config");
-const { Permissions } = require("discord.js");
+const { PermissionFlagsBits } = require("discord.js");
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot || !message.guild || !message.id) return;
   await databasing(message.guildId, message.author.id);
   let settings = await client.music.get(message.guild.id);
   let prefix = settings?.prefix || botPrefix;
+  
   let mentionprefix = new RegExp(
     `^(<@!?${client.user.id}>|${escapeRegex(prefix)})\\s*`
   );
@@ -30,12 +31,12 @@ client.on("messageCreate", async (message) => {
   if (command) {
     let queue = client.distube.getQueue(message.guild.id);
     let voiceChannel = message.member.voice.channel;
-    let botChannel = message.guild.me.voice.channel;
+    let botChannel = message.guild.members.me.voice.channel;
     let checkDJ = await check_dj(client, message.member, queue?.songs[0]);
 
     if (
       !message.member.permissions.has(
-        Permissions.FLAGS[command.userPermissions] || []
+        PermissionFlagsBits[command.userPermissions] || []
       )
     ) {
       return client.embed(
@@ -43,8 +44,8 @@ client.on("messageCreate", async (message) => {
         `You Don't Have \`${command.userPermissions}\` Permission to Use \`${command.name}\` Command!!`
       );
     } else if (
-      !message.guild.me.permissions.has(
-        Permissions.FLAGS[command.botPermissions] || []
+      !message.guild.members.me.permissions.has(
+        PermissionFlagsBits[command.botPermissions] || []
       )
     ) {
       return client.embed(

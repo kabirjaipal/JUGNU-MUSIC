@@ -5,11 +5,10 @@ const { Queue } = require("distube");
 module.exports = {
   name: "reset",
   description: `reset bot to default settings`,
-  userPermissions: ["MANAGE_GUILD"],
-  botPermissions: ["EMBED_LINKS"],
+  userPermissions: ["ManageGuild"],
+  botPermissions: ["EmbedLinks"],
   category: "Settings",
   cooldown: 5,
-  type: "CHAT_INPUT",
   inVoiceChannel: true,
   inSameVoiceChannel: true,
   Player: false,

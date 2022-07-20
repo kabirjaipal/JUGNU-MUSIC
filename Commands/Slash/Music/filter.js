@@ -1,15 +1,15 @@
-const { CommandInteraction } = require("discord.js");
+const { ApplicationCommandOptionType, ApplicationCommandType, CommandInteraction } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
   name: "filter",
   description: `set filters in current queue`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: ["Connect"],
+  botPermissions: ["Connect"],
   category: "Music",
   cooldown: 5,
-  type: "CHAT_INPUT",
+  type: ApplicationCommandType.ChatInput,
   inVoiceChannel: true,
   inSameVoiceChannel: true,
   Player: true,
@@ -18,7 +18,7 @@ module.exports = {
     {
       name: "name",
       description: `type filter name to set in queue`,
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       required: true,
     },
   ],
@@ -34,7 +34,7 @@ module.exports = {
 
     let filterName = interaction.options.getString("name");
     if (filterName === "off") {
-      queue.setFilter(false);
+      queue.filters.clear();
       client.embed(
         interaction,
         `${client.config.emoji.SUCCESS} Queue Filter Off !!`
@@ -48,7 +48,7 @@ module.exports = {
         ).map(f => `\`${f}\``).join(" , ").substring(0, 2000)} \`\`\``
       );
     } else if (Object.keys(client.distube.filters).includes(filterName)) {
-      queue.setFilter(filterName);
+      queue.filters.set([filterName]);
       client.embed(
         interaction,
         `${client.config.emoji.SUCCESS} Current Queue Filter: \`${queue.filters.join(", ") || "Off"

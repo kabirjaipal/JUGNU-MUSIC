@@ -1,8 +1,9 @@
 const {
+  ActionRowBuilder,
   Message,
-  MessageEmbed,
-  MessageActionRow,
-  MessageSelectMenu,
+  EmbedBuilder,
+  SelectMenuBuilder,
+  ComponentType
 } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
@@ -12,14 +13,13 @@ module.exports = {
   aliases: ["h", "cmds", "commands"],
   description: `need help ? see my all commands`,
   userPermissions: [],
-  botPermissions: ["EMBED_LINKS"],
+  botPermissions: ["EmbedLinks"],
   category: "Information",
   cooldown: 5,
   inVoiceChannel: false,
   inSameVoiceChannel: false,
   Player: false,
   djOnly: false,
-
   /**
    *
    * @param {JUGNU} client
@@ -43,8 +43,8 @@ module.exports = {
       Date.now() / 1000 - client.uptime / 1000
     )}:R>`;
 
-    let raw = new MessageActionRow().addComponents([
-      new MessageSelectMenu()
+    const row = new ActionRowBuilder().addComponents([
+      new SelectMenuBuilder()
         .setCustomId("help-menu")
         .setPlaceholder(`Click to see my all Category`)
         .addOptions([
@@ -54,7 +54,7 @@ module.exports = {
             emoji: `🏘️`,
             description: `Click to Go On HomePage`,
           },
-          client.mcategories.map((cat) => {
+          ...client.mcategories.map((cat) => {
             return {
               label: `${cat.toLocaleUpperCase()}`,
               value: cat,
@@ -69,31 +69,32 @@ module.exports = {
       .setColor(client.config.embed.color)
       .setAuthor({
         name: client.user.tag,
-        iconURL: client.user.displayAvatarURL({ dynamic: true }),
+        iconURL: client.user.displayAvatarURL(),
       })
-      .setThumbnail(message.guild.iconURL({ dynamic: true }))
       .setDescription(
         `** An advanced  Music System with Audio Filtering A unique Music Request System and way much more! **`
       )
-      .addField(
-        `Stats`,
+      .addFields([{ 
+        name: `Stats`, value:
         `>>> ** :gear: \`${allcommands}\` Commands \n :file_folder: \`${allguilds}\` Guilds \n ⌚️ ${botuptime} Uptime \n 🏓 \`${client.ws.ping}\` Ping \n  Made by [\` Tech Boy Development \`](https://discord.gg/PcUVWApWN3) **`
-      )
+                  }])
       .setFooter(client.getFooter(message.author));
 
     let main_msg = await message.reply({
       embeds: [help_embed],
-      components: [raw],
+      components: [row],
     });
 
     let filter = (i) => i.user.id === message.author.id;
-    let colector = await main_msg.createMessageComponentCollector({
+    const collector = await main_msg.createMessageComponentCollector({
       filter: filter,
       time: 20000,
+      componentType: ComponentType.SelectMenu
     });
-    colector.on("collect", async (i) => {
-      if (i.isSelectMenu()) {
+    
+    collector.on("collect", async (i) => {
         await i.deferUpdate().catch((e) => {});
+      
         if (i.customId === "help-menu") {
           let [directory] = i.values;
           if (directory == "home") {
@@ -107,7 +108,7 @@ module.exports = {
                     .setTitle(
                       `${emoji[directory]} ${directory} Commands ${emoji[directory]}`
                     )
-                    .setThumbnail(message.guild.iconURL({ dynamic: true }))
+                    .setThumbnail(message.guild.iconURL())
                     .setDescription(
                       `>>> ${client.mcommands
                         .filter((cmd) => cmd.category === directory)
@@ -122,12 +123,12 @@ module.exports = {
               .catch((e) => null);
           }
         }
-      }
+      
     });
 
-    colector.on("end", async (c, i) => {
-      raw.components.forEach((c) => c.setDisabled(true));
-      main_msg.edit({ components: [raw] }).catch((e) => {});
+    collector.on("end", async (c, i) => {
+      row.components.forEach((c) => c.setDisabled(true));
+      main_msg.edit({ components: [row] }).catch((e) => {});
     });
   },
 };

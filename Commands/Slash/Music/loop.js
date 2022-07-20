@@ -1,4 +1,4 @@
-const { CommandInteraction } = require("discord.js");
+const { ApplicationCommandOptionType, ApplicationCommandType, CommandInteraction } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
@@ -9,7 +9,7 @@ module.exports = {
   botPermissions: ["CONNECT"],
   category: "Music",
   cooldown: 5,
-  type: "CHAT_INPUT",
+  type: ApplicationCommandType.ChatInput,
   inVoiceChannel: true,
   inSameVoiceChannel: true,
   Player: true,
@@ -18,7 +18,7 @@ module.exports = {
     {
       name: "loopmode",
       description: `choose loop mode`,
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       required: true,
       choices: [
         {

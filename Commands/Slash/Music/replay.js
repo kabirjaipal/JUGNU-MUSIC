@@ -5,11 +5,10 @@ const { Queue } = require("distube");
 module.exports = {
   name: "replay",
   description: `replay current song of queue`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: ["Connect"],
+  botPermissions: ["Connect"],
   category: "Music",
   cooldown: 5,
-  type: "CHAT_INPUT",
   inVoiceChannel: true,
   inSameVoiceChannel: true,
   Player: true,

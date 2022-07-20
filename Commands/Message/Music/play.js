@@ -6,8 +6,8 @@ module.exports = {
   name: "play",
   aliases: ["p", "song"],
   description: `play your fav by Name/Link`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: ["Connect"],
+  botPermissions: ["Connect"],
   category: "Music",
   cooldown: 5,
   inVoiceChannel: true,
@@ -33,6 +33,7 @@ module.exports = {
       );
     } else {
       let { channel } = message.member.voice;
+   //    distube.play(message.member.voice.channel, ..., { message, member: message.member })
       client.distube.play(channel, song, {
         member: message.member,
         textChannel: message.channel,

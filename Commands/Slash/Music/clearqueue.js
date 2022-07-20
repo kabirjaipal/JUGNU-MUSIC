@@ -5,11 +5,10 @@ const { Queue } = require("distube");
 module.exports = {
   name: "clearqueue",
   description: `clear current queue in server`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: ["Connect"],
+  botPermissions: ["Connect"],
   category: "Music",
   cooldown: 5,
-  type: "CHAT_INPUT",
   inVoiceChannel: true,
   inSameVoiceChannel: true,
   Player: true,

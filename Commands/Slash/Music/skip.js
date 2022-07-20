@@ -5,11 +5,10 @@ const { Queue } = require("distube");
 module.exports = {
   name: "skip",
   description: `skip to next song in queue`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: ["Connect"],
+  botPermissions: ["Connect"],
   category: "Music",
   cooldown: 5,
-  type: "CHAT_INPUT",
   inVoiceChannel: true,
   inSameVoiceChannel: true,
   Player: true,

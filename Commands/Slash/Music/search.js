@@ -1,4 +1,4 @@
-const { CommandInteraction , MessageActionRow , MessageSelectMenu , MessageEmbed} = require("discord.js");
+const { ApplicationCommandOptionType, ApplicationCommandType, CommandInteraction , MessageActionRow , MessageSelectMenu , MessageEmbed} = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 const { numberEmojis } = require("../../../settings/config");
@@ -6,11 +6,11 @@ const { numberEmojis } = require("../../../settings/config");
 module.exports = {
   name: "search",
   description: `search a song by name`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: ["Connect"],
+  botPermissions: ["Connect"],
   category: "Music",
   cooldown: 5,
-  type: "CHAT_INPUT",
+  type: ApplicationCommandType.ChatInput,
   inVoiceChannel: true,
   inSameVoiceChannel: true,
   Player: false,
@@ -19,7 +19,7 @@ module.exports = {
     {
       name: "song",
       description: `give song url/name to play`,
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       required: true,
     },
   ],

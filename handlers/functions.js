@@ -3,9 +3,10 @@ const {
   Collection,
   Client,
   GuildMember,
-  Permissions,
-  MessageActionRow,
-  MessageButton,
+  PermissionFlagsBits,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle
 } = require("discord.js");
 const { embed: ee, emoji, PREFIX } = require("../settings/config");
 const client = require("../index");
@@ -68,7 +69,7 @@ async function check_dj(client, member, song = null) {
   //if he is a dj or admin, then return false, which will continue the cmd
   if (
     !isdj &&
-    !member.permissions.has(Permissions.FLAGS.ADMINISTRATOR) &&
+    !member.permissions.has(PermissionsFlagsBits.Administrator) &&
     song?.user.id !== member.id
   ) {
     return `<@${roleid}>`;
@@ -100,16 +101,16 @@ async function databasing(guildID, userID) {
 
 async function swap_pages(interaction, embeds) {
   let currentPage = 0;
-  let allbuttons = new MessageActionRow().addComponents([
-    new MessageButton().setStyle("SECONDARY").setCustomId("0").setLabel("<<"),
+  let allbuttons = new ActionRowBuilder().addComponents([
+    new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("0").setLabel("<<"),
     // .setEmoji(`⏪`),
-    new MessageButton().setStyle("SECONDARY").setCustomId("1").setLabel("<"),
+    new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("1").setLabel("<"),
     // .setEmoji(`◀️`),
-    new MessageButton().setStyle("DANGER").setCustomId("2").setLabel("⛔️"),
+    new ButtonBuilder().setStyle(ButtonStyle.Danger).setCustomId("2").setLabel("⛔️"),
     // .setEmoji(`🗑`),
-    new MessageButton().setStyle("SECONDARY").setCustomId("3").setLabel(">"),
+    new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("3").setLabel(">"),
     // .setEmoji(`▶️`),
-    new MessageButton().setStyle("SECONDARY").setCustomId("4").setLabel(">>"),
+    new ButtonBuilder().setStyle(ButtonStyle.Secondary).setCustomId("4").setLabel(">>"),
     // .setEmoji(`⏩`),
   ]);
   if (embeds.length === 1) {

@@ -1,11 +1,11 @@
 const client = require("../index");
 const { cooldown , check_dj , databasing} = require("../handlers/functions");
 const { emoji } = require("../settings/config");
-const { Permissions } = require("discord.js");
+const { PermissionFlagsBits, InteractionType } = require("discord.js");
 
 client.on("interactionCreate", async (interaction) => {
   // Slash Command Handling
-  if (interaction.isCommand()) {
+  if (interaction.type === InteractionType.ApplicationCommand) {
     await interaction.deferReply({ ephemeral: false }).catch((e) => {});
     await databasing(interaction.guildId,interaction.user.id)
     const cmd = client.commands.get(interaction.commandName);
@@ -31,11 +31,11 @@ client.on("interactionCreate", async (interaction) => {
       // checking user perms
       let queue = client.distube.getQueue(interaction.guild.id);
       let voiceChannel = interaction.member.voice.channel;
-      let botChannel = interaction.guild.me.voice.channel;
+      let botChannel = interaction.guild.members.me.voice.channel;
       let checkDJ = await check_dj(client, interaction.member, queue?.songs[0]);
       if (
         !interaction.member.permissions.has(
-          Permissions.FLAGS[cmd.userPermissions] || []
+          PermissionFlagsBits[cmd.userPermissions] || []
         )
       ) {
         return client.embed(
@@ -43,8 +43,8 @@ client.on("interactionCreate", async (interaction) => {
           `You Don't Have \`${cmd.userPermissions}\` Permission to Use \`${cmd.name}\` Command!!`
         );
       } else if (
-        !interaction.guild.me.permissions.has(
-          Permissions.FLAGS[cmd.botPermissions] || []
+        !interaction.guild.members.me.permissions.has(
+          PermissionFlagsBits[cmd.botPermissions] || []
         )
       ) {
         return client.embed(
@@ -87,7 +87,7 @@ client.on("interactionCreate", async (interaction) => {
   }
 
   // Context Menu Handling
-  if (interaction.isContextMenu()) {
+  if (interaction.isContextMenuCommand()) {
     await interaction.deferReply({ ephemeral: true }).catch((e) => {});
     const command = client.commands.get(interaction.commandName);
     if (command) command.run(client, interaction);

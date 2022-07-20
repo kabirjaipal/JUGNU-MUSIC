@@ -1,8 +1,9 @@
+console.log(process.env.PREFIX)
 module.exports = {
   TOKEN:
     process.env.TOKEN ||
     "BOT_TOKEN",
-  PREFIX: process.env.PREFIX || "BOT_PREFIX",
+  PREFIX: process.env.PREFIX,
   embed: {
     color: process.env.color || "#220f80",
     wrongcolor: process.env.wrongcolor || "#8a0808",

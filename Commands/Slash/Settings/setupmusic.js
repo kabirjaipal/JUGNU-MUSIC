@@ -1,15 +1,14 @@
-const { CommandInteraction } = require("discord.js");
+const { CommandInteraction, ChannelType } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
   name: "setupmusic",
   description: `setup music channel in server`,
-  userPermissions: ["MANAGE_CHANNELS"],
-  botPermissions: ["MANAGE_CHANNELS"],
+  userPermissions: ["ManageChannels"],
+  botPermissions: ["ManageChannels"],
   category: "Settings",
   cooldown: 5,
-  type: "CHAT_INPUT",
   inVoiceChannel: false,
   inSameVoiceChannel: false,
   Player: false,
@@ -34,9 +33,10 @@ module.exports = {
         `** ${client.config.emoji.ERROR} Music Request Channel already Setup in ${oldChannel} Delete first and Setup Again **`
       );
     } else {
-      interaction.guild.channels
-        .create(`${client.user.username}-requests`, {
-          type: "GUILD_TEXT",
+     await interaction.guild.channels
+        .create({
+          name: `${client.user.username}-requests`, 
+          type: ChannelType.GuildText,
           rateLimitPerUser: 3,
           reason: `for music bot`,
           topic: `Music Request Channel for ${client.user.username}, Type Song Name or Link to Play Song`,

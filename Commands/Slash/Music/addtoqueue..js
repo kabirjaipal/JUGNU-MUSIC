@@ -1,10 +1,10 @@
-const { ContextMenuInteraction } = require("discord.js");
+const { ApplicationCommandType, ContextMenuInteraction } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 
 module.exports = {
     name: "addtoqueue",
     category: "Music",
-    type: "MESSAGE",
+    type: ApplicationCommandType.Message,
 
     /**
      * 
@@ -16,7 +16,7 @@ module.exports = {
         let msg = await interaction.channel.messages.fetch(interaction.targetId)
         let song = msg.cleanContent || msg.embeds[0].description || msg.embeds[0].title
         let voiceChannel = interaction.member.voice.channel
-        let botChannel = interaction.guild.me.voice.channel
+        let botChannel = interaction.guild.members.me.voice.channel
         if (!msg || !song) {
             return client.embed(
                 interaction,

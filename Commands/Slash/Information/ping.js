@@ -5,11 +5,10 @@ const { Queue } = require("distube");
 module.exports = {
   name: "ping",
   description: `get ping of bot`,
-  userPermissions: ["SEND_MESSAGES"],
-  botPermissions: ["EMBED_LINKS"],
+  userPermissions: ["SendMessages"],
+  botPermissions: ["EmbedLinks"],
   category: "Information",
   cooldown: 5,
-  type: "CHAT_INPUT",
   inVoiceChannel: false,
   inSameVoiceChannel: false,
   Player: false,

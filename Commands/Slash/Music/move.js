@@ -1,4 +1,4 @@
-const { CommandInteraction } = require("discord.js");
+const { ApplicationCommandOptionType, ApplicationCommandType, CommandInteraction } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
@@ -9,7 +9,7 @@ module.exports = {
   botPermissions: ["CONNECT"],
   category: "Music",
   cooldown: 5,
-  type: "CHAT_INPUT",
+  type: ApplicationCommandType.ChatInput,
   inVoiceChannel: true,
   inSameVoiceChannel: true,
   Player: true,
@@ -18,13 +18,13 @@ module.exports = {
     {
       name: "trackindex",
       description: `Song Index`,
-      type: "NUMBER",
+      type: ApplicationCommandOptionType.Number,
       required: true,
     },
     {
       name: "targetindex",
       description: `Target Song Index`,
-      type: "NUMBER",
+      type: ApplicationCommandOptionType.Number,
       required: true,
     },
   ],

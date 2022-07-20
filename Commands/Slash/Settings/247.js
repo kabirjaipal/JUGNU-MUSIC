@@ -5,11 +5,10 @@ const { Queue } = require("distube");
 module.exports = {
   name: "247",
   description: `toggle 24/7 system on/off`,
-  userPermissions: ["MANAGE_GUILD"],
-  botPermissions: ["EMBED_LINKS"],
+  userPermissions: ["ManageGuild"],
+  botPermissions: ["EmbedLinks"],
   category: "Settings",
   cooldown: 5,
-  type: "CHAT_INPUT",
   inVoiceChannel: true,
   inSameVoiceChannel: true,
   Player: false,

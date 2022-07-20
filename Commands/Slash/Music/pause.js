@@ -9,7 +9,6 @@ module.exports = {
   botPermissions: ["CONNECT"],
   category: "Music",
   cooldown: 5,
-  type: "CHAT_INPUT",
   inVoiceChannel: true,
   inSameVoiceChannel: true,
   Player: true,

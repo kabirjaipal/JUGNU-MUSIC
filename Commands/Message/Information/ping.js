@@ -4,10 +4,10 @@ const { Queue } = require("distube");
 
 module.exports = {
   name: "ping",
-  aliases: ["latancy"],
+  aliases: ["latency"],
   description: `get ping of bot`,
-  userPermissions: ['SEND_MESSAGES'],
-  botPermissions: ['EMBED_LINKS'],
+  userPermissions: ['SendMessages'],
+  botPermissions: ['EmbedLinks'],
   category: "Information",
   cooldown: 5,
   inVoiceChannel: false,

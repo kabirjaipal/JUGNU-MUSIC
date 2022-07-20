@@ -1,4 +1,4 @@
-const { CommandInteraction , MessageEmbed , version} = require("discord.js");
+const { CommandInteraction , EmbedBuilder , version} = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 let os = require("os");
@@ -7,11 +7,10 @@ let cpuStat = require("cpu-stat");
 module.exports = {
   name: "stats",
   description: `see stats of bot`,
-  userPermissions: ["SEND_MESSAGES"],
-  botPermissions: ["EMBED_LINKS"],
+  userPermissions: ["SendMessages"],
+  botPermissions: ["EmbedLinks"],
   category: "Information",
   cooldown: 5,
-  type: "CHAT_INPUT",
   inVoiceChannel: false,
   inSameVoiceChannel: false,
   Player: false,
@@ -29,37 +28,64 @@ module.exports = {
     cpuStat.usagePercent(function (err, percent, seconds) {
         interaction.editReply({
           embeds: [
-            new MessageEmbed()
+            new EmbedBuilder()
               .setColor(client.config.embed.color)
               .setAuthor({
                 name: client.user.username,
-                iconURL: client.user.displayAvatarURL({ dynamic: true }),
+                iconURL: client.user.displayAvatarURL(),
               })
               .setTitle("__**Stats:**__")
-              .addField(
-                "⏳ Memory Usage",
-                `\`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
+              .addFields([{
+               name: "⏳ Memory Usage",
+               value: `\`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
                   2
-                )}\` / \`${(os.totalmem() / 1024 / 1024).toFixed(2)} MB\``
-              )
-              .addField(
-                "⌚️ Uptime ",
-                `<t:${Math.floor(Date.now() / 1000 - client.uptime / 1000)}:R>`
-              )
-              .addField("📁 Users", `\`${client.guilds.cache.size.reduce((a,b) => a + b.memberCount,0)}\``, true)
-              .addField("📁 Servers", `\`${client.guilds.cache.size}\``, true)
-              .addField("📁 Channels", `\`${client.channels.cache.size}\``, true)
-              .addField("👾 Discord.js", `\`v${version}\``, true)
-              .addField("🤖 Node", `\`${process.version}\``, true)
-              .addField("🏓 Ping", `\`${client.ws.ping}ms\``, true)
-              .addField(
-                "🤖 CPU",
-                `\`\`\`md\n${os.cpus().map((i) => `${i.model}`)[0]}\`\`\``
-              )
-              .addField("🤖 CPU usage", `\`${percent.toFixed(2)}%\``, true)
-              .addField("🤖 Arch", `\`${os.arch()}\``, true)
-              // .addField("\u200b", `\u200b`)
-              .addField("💻 Platform", `\`\`${os.platform()}\`\``, true)
+                )}\` / \`${(os.totalmem() / 1024 / 1024).toFixed(2)} MB\``,
+                inline: true
+              }, {
+                name: "⌚️ Uptime ",
+                value: `<t:${Math.floor(Date.now() / 1000 - client.uptime / 1000)}:R>` ,
+                inline: true
+              }, {
+                name: "📁 Users",
+                value: `\`${client.guilds.cache.size.reduce((a,b) => a + b.memberCount,0)}\``,
+                inline: true
+              }, {
+               name: "📁 Servers",
+               value: `\`${client.guilds.cache.size}\``,
+               inline: true
+              }, {
+               name: "📁 Channels",
+               value: `\`${client.channels.cache.size}\``,
+               inline: true
+              }, {
+                name: "👾 Discord.js",
+                value: `\`v${version}\``,
+                inline: true
+              }, {
+                name: "🤖 Node",
+                value: `\`${process.version}\``,
+                inline: true
+              }, {
+                name: "🏓 Ping",
+                value: `\`${client.ws.ping}ms\``,
+                inline: true
+              }, {
+                name: "🤖 CPU",
+                value: `\`\`\`md\n${os.cpus().map((i) => `${i.model}`)[0]}\`\`\``,
+                inline: true       
+              }, {
+               name: "🤖 CPU usage",
+               value: `\`${percent.toFixed(2)}%\``,
+               inline: true
+              }, {
+                name: "🤖 Arch",
+                value: `\`${os.arch()}\``,
+                inline: true
+              }, {
+                name: "💻 Platform",
+                value: `\`\`${os.platform()}\`\``,
+                inline: true
+              }])
               .setFooter(client.getFooter(interaction.user)),
           ],
         });
