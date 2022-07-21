@@ -1,3 +1,4 @@
 node_modules
 data
 replit.nix
+package-lock.json
