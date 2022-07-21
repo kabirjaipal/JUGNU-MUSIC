@@ -47,7 +47,7 @@ module.exports = {
                 inline: true
               }, {
                 name: "📁 Users",
-                value: `\`${client.guilds.cache.size.reduce((a,b) => a + b.memberCount,0)}\``,
+                value: `\`${client.guilds.cache.reduce((a,b) => a + b.memberCount,0)}\``,
                 inline: true
               }, {
                name: "📁 Servers",

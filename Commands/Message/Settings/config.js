@@ -1,4 +1,4 @@
-const { Message, MessageEmbed } = require("discord.js");
+const { Message, EmbedBuilder } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
@@ -29,13 +29,13 @@ module.exports = {
 
     message.reply({
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setColor(client.config.embed.color)
           .setAuthor({
             name: `${message.guild.name} Config`,
-            iconURL: message.guild.iconURL({ dynamic: true }),
+            iconURL: message.guild.iconURL(),
           })
-          .setThumbnail(message.guild.iconURL({ dynamic: true }))
+          .setThumbnail(message.guild.iconURL())
           .addFields([
             {
               name: `Prefix`,

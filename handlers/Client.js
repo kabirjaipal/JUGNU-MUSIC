@@ -10,7 +10,6 @@ class JUGNU extends Client {
   constructor() {
     super({
       messageCacheLifetime: 60,
-      fetchAllMembers: false,
       messageCacheMaxSize: 10,
       restTimeOffset: 0,
       restWsBridgetimeout: 100,
@@ -19,7 +18,6 @@ class JUGNU extends Client {
         parse: ["roles", "users", "everyone"],
         repliedUser: false,
       },
-      partials: ["CHANNEL", "GUILD_MEMBER", "MESSAGE", "USER"],
       intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,

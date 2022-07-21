@@ -1,8 +1,8 @@
 const {
   Message,
-  MessageActionRow,
-  MessageSelectMenu,
-  MessageEmbed,
+  ActionRowBuilder,
+  SelectMenuBuilder,
+  EmbedBuilder,
 } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
@@ -51,15 +51,15 @@ module.exports = {
       })
       .join("\n\n");
 
-    let embed = new MessageEmbed()
+    let embed = new EmbedBuilder()
       .setColor(client.config.embed.color)
       .setTitle(`\`${query}\` Search Results`)
       .setDescription(tracks.substring(0, 3800))
       //   .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
       .setFooter(client.getFooter(message.author));
 
-    let menuraw = new MessageActionRow().addComponents([
-      new MessageSelectMenu()
+    let menuraw = new ActionRowBuilder().addComponents([
+      new SelectMenuBuilder()
         .setCustomId("search")
         .setPlaceholder(`Click to See Best Songs`)
         .addOptions(

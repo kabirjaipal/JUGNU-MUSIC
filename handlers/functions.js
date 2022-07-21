@@ -69,7 +69,7 @@ async function check_dj(client, member, song = null) {
   //if he is a dj or admin, then return false, which will continue the cmd
   if (
     !isdj &&
-    !member.permissions.has(PermissionsFlagsBits.Administrator) &&
+    !member.permissions.has(PermissionFlagsBits.Administrator) &&
     song?.user.id !== member.id
   ) {
     return `<@${roleid}>`;

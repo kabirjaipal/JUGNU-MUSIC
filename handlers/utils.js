@@ -273,7 +273,7 @@ module.exports = async (client) => {
         new EmbedBuilder()
           .setColor(client.config.embed.color)
           .setAuthor({
-            text: `Queue for ${guild.name}  -  [ ${queue.songs.length} Tracks ]`,
+            name: `Queue for ${guild.name}  -  [ ${queue.songs.length} Tracks ]`,
             iconURL: guild.iconURL(),
           })
           .setDescription(string.substring(0, 2048))

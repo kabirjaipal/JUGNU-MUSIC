@@ -307,7 +307,7 @@ module.exports = async (client) => {
       voiceMap.set(queue.textChannel.guildId, queue.voiceChannel.id);
 
       queue.volume = 100;
-      queue.filters.set(["bassboost6"]);
+      queue.filters.add("bassboost6");
 
       /**
        * Autoresume Code

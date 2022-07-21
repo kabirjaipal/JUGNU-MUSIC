@@ -65,7 +65,7 @@ module.exports = {
         ]),
     ]);
 
-    let help_embed = new MessageEmbed()
+    let help_embed = new EmbedBuilder()
       .setColor(client.config.embed.color)
       .setAuthor({
         name: client.user.tag,
@@ -74,6 +74,7 @@ module.exports = {
       .setDescription(
         `** An advanced  Music System with Audio Filtering A unique Music Request System and way much more! **`
       )
+      .setThumbnail(message.guild.iconURL())
       .addFields([{ 
         name: `Stats`, value:
         `>>> ** :gear: \`${allcommands}\` Commands \n :file_folder: \`${allguilds}\` Guilds \n ⌚️ ${botuptime} Uptime \n 🏓 \`${client.ws.ping}\` Ping \n  Made by [\` Tech Boy Development \`](https://discord.gg/PcUVWApWN3) **`
@@ -103,7 +104,7 @@ module.exports = {
             main_msg
               .edit({
                 embeds: [
-                  new MessageEmbed()
+                  new EmbedBuilder()
                     .setColor(client.config.embed.color)
                     .setTitle(
                       `${emoji[directory]} ${directory} Commands ${emoji[directory]}`

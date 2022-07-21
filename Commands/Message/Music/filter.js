@@ -49,11 +49,11 @@ module.exports = {
           .substring(0, 2000)} `
       );
     } else if (Object.keys(client.distube.filters).includes(filterName)) {
-      queue.filters.set([filterName]);
+      queue.filters.add(filterName);
       client.embed(
         message,
         `${client.config.emoji.SUCCESS} Current Queue Filter: \`${
-          queue.filters.join(", ") || "Off"
+          queue.filters.names.join(", ") || "Off"
         }\` !!`
       );
     }
