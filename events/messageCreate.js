@@ -4,7 +4,7 @@ const { PREFIX: botPrefix, emoji } = require("../settings/config");
 const { PermissionFlagsBits } = require("discord.js");
 
 client.on("messageCreate", async (message) => {
-  if (message.author.bot || !message.guild || !message.id) return;
+  if (message.author.bot || !message.guild || !message.id || !message.system || !message.webhookId) return;
   await databasing(message.guildId, message.author.id);
   let settings = await client.music.get(message.guild.id);
   let prefix = settings?.prefix || botPrefix;
