@@ -5,8 +5,8 @@ const { Queue } = require("distube");
 module.exports = {
   name: "pause",
   description: `pause current song in queue`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: ["Connect"],
+  botPermissions: ["Connect"],
   category: "Music",
   cooldown: 5,
   inVoiceChannel: true,

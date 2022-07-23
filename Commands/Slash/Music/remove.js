@@ -5,8 +5,8 @@ const { Queue } = require("distube");
 module.exports = {
   name: "remove",
   description: `remove a song from current queue`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: ["Connect"],
+  botPermissions: ["Connect"],
   category: "Music",
   cooldown: 5,
   type: ApplicationCommandType.ChatInput,

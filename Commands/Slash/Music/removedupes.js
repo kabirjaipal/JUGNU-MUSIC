@@ -41,7 +41,7 @@ module.exports = {
       }
     }
     //clear the Queue
-    queue.delete();
+    queue.songs.splice(1);
     //now add every not dupe song again
     await newtracks.map((song, index) => {
       queue.addToQueue(song, index);
