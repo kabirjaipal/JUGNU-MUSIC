@@ -1,6 +1,6 @@
 # Hi, I'm Kabir! 👋
 
-I'm a Discord Bot Developer and here is my Discord Music bot.
+I'm a Discord Bot Developer and here is my Discord Music bot.Thanks for using this Music bot, please give a star and credit me.
 
 # Advance Discord Music Bot
 
@@ -12,7 +12,7 @@ A discord music bot with many commands, buttons, 24/7, autresume, etc.
 
 **2.** Download this repo and unzip it or git clone it.
 
-**3.** Fill up everything in **`settings/config.js`**
+**3.** Fill up everything in **`settings/config.js`**.
 
 **4.** Install all dependencies by typing **`npm install`** in the shell.
 
@@ -43,10 +43,8 @@ A discord music bot with many commands, buttons, 24/7, autresume, etc.
 
 ## Feedback
 
-If you have any feedback, please reach out to us at [Discord Server](https://discord.gg/PcUVWApWN3).
+If you have any feedback, please reach out to us at our [Discord Server](https://discord.gg/PcUVWApWN3).
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
-
-# Thanks for using this Music bot.Please give a star and credit me.
+Distributed under the [MIT](https://choosealicense.com/licenses/mit/) License.
