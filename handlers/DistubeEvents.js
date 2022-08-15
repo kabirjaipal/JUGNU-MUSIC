@@ -293,7 +293,7 @@ module.exports = async (client) => {
           embeds: [
             new MessageEmbed()
               .setColor(client.config.embed.color)
-              .setDescription(` Queue has ended! No more music to play`),
+              .setDescription(`Queue has ended! No more music to play`),
           ],
         })
         .then((msg) => {
