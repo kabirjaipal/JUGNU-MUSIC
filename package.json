@@ -23,7 +23,7 @@
     "@joshdb/json": "^1.0.5",
     "@joshdb/mongo": "^1.1.6",
     "cpu-stat": "^2.0.1",
-    "discord.js": "^14.1.2",
+    "discord.js": "^14.2.0",
     "distube": "^4.0.3",
     "ffmpeg-static": "^5.0.2",
     "glob": "^8.0.3",
