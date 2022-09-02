@@ -1,5 +1,10 @@
 const JUGNU = require("./Client");
-const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+const {
+  EmbedBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} = require("discord.js");
 const { Queue } = require("distube");
 
 /**
@@ -14,7 +19,7 @@ module.exports = async (client) => {
       interaction
         .followUp({
           embeds: [
-            new MessageEmbed()
+            new EmbedBuilder()
               .setColor(client.config.embed.color)
               .setDescription(` ${data.substring(0, 3000)}`)
               .setFooter(client.getFooter(user)),
@@ -25,7 +30,7 @@ module.exports = async (client) => {
       interaction
         .reply({
           embeds: [
-            new MessageEmbed()
+            new EmbedBuilder()
               .setColor(client.config.embed.color)
               .setDescription(` ${data.substring(0, 3000)}`)
               .setFooter(client.getFooter(user)),
@@ -39,29 +44,29 @@ module.exports = async (client) => {
    * @param {Queue} queue
    */
   client.buttons = (enable) => {
-    let raw = new MessageActionRow().addComponents([
-      new MessageButton()
-        .setStyle("SECONDARY")
+    let raw = new ActionRowBuilder().addComponents([
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Secondary)
         .setCustomId("skip")
         .setLabel("Skip")
         .setDisabled(enable),
-      new MessageButton()
-        .setStyle("SUCCESS")
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Success)
         .setCustomId("pauseresume")
         .setLabel("Pause & Resume")
         .setDisabled(enable),
-      new MessageButton()
-        .setStyle("PRIMARY")
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Primary)
         .setCustomId("loop")
         .setLabel("Loop")
         .setDisabled(enable),
-      new MessageButton()
-        .setStyle("DANGER")
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Danger)
         .setCustomId("stop")
         .setLabel("Stop")
         .setDisabled(enable),
-      new MessageButton()
-        .setStyle("SECONDARY")
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Secondary)
         .setCustomId("autoplay")
         .setLabel("Autoplay")
         .setDisabled(enable),
@@ -127,28 +132,30 @@ module.exports = async (client) => {
     for (let i = 0; i < quelist.length; i++) {
       let desc = String(quelist[i]).substring(0, 2048);
       await embeds.push(
-        new MessageEmbed()
+        new EmbedBuilder()
           .setAuthor({
             name: `Queue for ${guild.name}  -  [ ${tracks.length} Tracks ]`,
             iconURL: guild.iconURL({ dynamic: true }),
           })
-          .addField(
-            `**\` N. \` *${
-              tracks.length > maxTracks
-                ? tracks.length - maxTracks
-                : tracks.length
-            } other Tracks ...***`,
-            `\u200b`
-          )
+          .addFields([
+            {
+              name : `**\` N. \` *${
+                tracks.length > maxTracks
+                  ? tracks.length - maxTracks
+                  : tracks.length
+              } other Tracks ...***`,
+              value : `\u200b`
+            },
+            {
+              name : `**\` 0. \` __CURRENT TRACK__**`,
+              value : `**${queue.songs[0].name.substring(0, 35)}** - \`${
+                queue.songs[0].isLive
+                  ? `LIVE STREAM`
+                  : queue.songs[0].formattedDuration.split(` | `)[0]
+              }\` \`${queue.songs[0].user.tag}\``
+            }
+          ])
           .setColor(client.config.embed.color)
-          .addField(
-            `**\` 0. \` __CURRENT TRACK__**`,
-            `**${queue.songs[0].name.substring(0, 35)}** - \`${
-              queue.songs[0].isLive
-                ? `LIVE STREAM`
-                : queue.songs[0].formattedDuration.split(` | `)[0]
-            }\` \`${queue.songs[0].user.tag}\``
-          )
           .setDescription(desc)
       );
     }
@@ -168,7 +175,7 @@ module.exports = async (client) => {
    * @param {Guild} guild
    */
   client.queueembed = (guild) => {
-    let embed = new MessageEmbed()
+    let embed = new EmbedBuilder()
       .setColor(client.config.embed.color)
       .setTitle(`${guild.name} || Queue`)
       .setDescription(`\n\n ** There are \`0\` Songs in Queue ** \n\n`)
@@ -185,7 +192,7 @@ module.exports = async (client) => {
    * @param {Guild} guild
    */
   client.playembed = (guild) => {
-    let embed = new MessageEmbed()
+    let embed = new EmbedBuilder()
       .setColor(client.config.embed.color)
       .setTitle(`Join a Voice Channel and Type Song Link/Name to Play`)
       .setDescription(
@@ -271,21 +278,21 @@ module.exports = async (client) => {
       .join("\n");
     queueembed.edit({
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setColor(client.config.embed.color)
           .setAuthor({
             name: `Queue for ${guild.name}  -  [ ${queue.songs.length} Tracks ]`,
             iconURL: guild.iconURL({ dynamic: true }),
           })
           .setDescription(string.substring(0, 2048))
-          .addField(
-            `**\` 0. \` __CURRENT TRACK__**`,
-            `**${currentSong.name.substring(0, 35)}** - \`${
+          .addFields([{
+            name : `**\` 0. \` __CURRENT TRACK__**`,
+            value : `**${currentSong.name.substring(0, 35)}** - \`${
               currentSong.isLive
                 ? `LIVE STREAM`
                 : currentSong.formattedDuration.split(` | `)[0]
             }\` \`${currentSong.user.tag}\``
-          )
+          }])
           .setFooter({
             text: guild.name,
             iconURL: guild.iconURL({ dynamic: true }),
@@ -315,7 +322,7 @@ module.exports = async (client) => {
     if (!track.name) queue.stop();
     playembed.edit({
       embeds: [
-        new MessageEmbed()
+        new EmbedBuilder()
           .setColor(client.config.embed.color)
           .setImage(track.thumbnail)
           .setTitle(track?.name)
@@ -346,7 +353,7 @@ module.exports = async (client) => {
   client.joinVoiceChannel = async (guild) => {
     let db = await client.music?.get(`${guild.id}.vc`);
     if (!db?.enable) return;
-    if (!guild.me.permissions.has("CONNECT")) return;
+    if (!guild.members.me.permissions.has("CONNECT")) return;
     let voiceChannel = guild.channels.cache.get(db.channel);
     setTimeout(() => {
       client.distube.voices.join(voiceChannel);

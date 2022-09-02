@@ -1,4 +1,9 @@
-const { Client, Collection, Intents } = require("discord.js");
+const {
+  Client,
+  Collection,
+  GatewayIntentBits,
+  Partials,
+} = require("discord.js");
 const fs = require("fs");
 const Distube = require("distube").default;
 const { SpotifyPlugin } = require("@distube/spotify");
@@ -19,12 +24,19 @@ class JUGNU extends Client {
         parse: ["roles", "users", "everyone"],
         repliedUser: false,
       },
-      partials: ["CHANNEL", "GUILD_MEMBER", "MESSAGE", "USER"],
+      partials: [
+        Partials.Channel,
+        Partials.GuildMember,
+        Partials.Message,
+        Partials.User,
+      ],
       intents: [
-        Intents.FLAGS.GUILDS,
-        Intents.FLAGS.GUILD_MESSAGES,
-        Intents.FLAGS.GUILD_VOICE_STATES,
-        Intents.FLAGS.GUILD_MEMBERS,
+        ,
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers,
       ],
     });
 
@@ -55,22 +67,18 @@ class JUGNU extends Client {
       leaveOnEmpty: false,
       leaveOnFinish: false,
       leaveOnStop: true,
-      emitNewSongOnly: true,
-      emitAddSongWhenCreatingQueue: false,
-      emitAddListWhenCreatingQueue: false,
       plugins: [
         new SpotifyPlugin({
           emitEventsAfterFetching: true,
           parallel: true,
         }),
         new SoundCloudPlugin(),
-        new YtDlpPlugin(),
+        new YtDlpPlugin({
+          update: false,
+        }),
       ],
-      youtubeDL: false,
-      emptyCooldown: 2,
-      nsfw: false,
+      emitNewSongOnly: false,
       savePreviousSongs: true,
-      searchCooldown: 0,
       searchSongs: 0,
       customFilters: filters,
     });

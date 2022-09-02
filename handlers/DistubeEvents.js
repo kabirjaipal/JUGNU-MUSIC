@@ -1,5 +1,5 @@
 "use strict";
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("./Client");
 const { Song, SearchResult } = require("distube");
 let voiceMap = new Map();
@@ -56,13 +56,13 @@ module.exports = async (client) => {
             url: track.url,
             views: track.views,
           }),
-          guild.members.cache.get(track.memberId) || guild.me,
+          guild.members.cache.get(track.memberId) || guild.members.me,
           track.source
         );
       };
 
       await client.distube.play(voiceChannel, tracks[0].url, {
-        member: guild.members.cache.get(tracks[0].memberId) || guild.me,
+        member: guild.members.cache.get(tracks[0].memberId) || guild.members.me,
         textChannel: textChannel,
       });
       let newQueue = client.distube.getQueue(guild.id);
@@ -100,7 +100,7 @@ module.exports = async (client) => {
       queue.textChannel
         .send({
           embeds: [
-            new MessageEmbed()
+            new EmbedBuilder()
               .setColor(client.config.embed.color)
               .setDescription(`** [\`${song.name}\`](${song.url}) **`)
               .addFields([
@@ -138,7 +138,7 @@ module.exports = async (client) => {
       queue.textChannel
         .send({
           embeds: [
-            new MessageEmbed()
+            new EmbedBuilder()
               .setColor(client.config.embed.color)
               .setAuthor({
                 name: `Added to Queue`,
@@ -182,7 +182,7 @@ module.exports = async (client) => {
       queue.textChannel
         .send({
           embeds: [
-            new MessageEmbed()
+            new EmbedBuilder()
               .setColor(client.config.embed.color)
               .setAuthor({
                 name: `Playlist Added to Queue`,
@@ -232,10 +232,12 @@ module.exports = async (client) => {
       queue.textChannel
         .send({
           embeds: [
-            new MessageEmbed()
+            new EmbedBuilder()
               .setColor(client.config.embed.color)
               .setDescription(
-                `${client.config.emoji.ERROR} Disconnected From <#${voiceMap.get(
+                `${
+                  client.config.emoji.ERROR
+                } Disconnected From <#${voiceMap.get(
                   queue.textChannel.guildId
                 )}> Voice Channel`
               ),
@@ -252,7 +254,7 @@ module.exports = async (client) => {
       channel
         .send({
           embeds: [
-            new MessageEmbed()
+            new EmbedBuilder()
               .setColor(client.config.embed.color)
               .setTitle(`Found a Error...`)
               .setDescription(String(error).substring(0, 3000)),
@@ -269,9 +271,9 @@ module.exports = async (client) => {
       queue.textChannel
         .send({
           embeds: [
-            new MessageEmbed()
+            new EmbedBuilder()
               .setColor(client.config.embed.color)
-              .setTitle(`No Related Song Found for \`${queue.songs[0].name}\``),
+              .setTitle(`No Related Song Found for \`${queue?.songs[0].name}\``),
           ],
         })
         .then((msg) => {
@@ -291,7 +293,7 @@ module.exports = async (client) => {
       queue.textChannel
         .send({
           embeds: [
-            new MessageEmbed()
+            new EmbedBuilder()
               .setColor(client.config.embed.color)
               .setDescription(`Queue has ended! No more music to play`),
           ],
@@ -307,7 +309,7 @@ module.exports = async (client) => {
       voiceMap.set(queue.textChannel.guildId, queue.voiceChannel.id);
 
       queue.volume = 100;
-      queue.setFilter("bassboost6");
+      queue.filters.add("bassboost6");
 
       /**
        * Autoresume Code
@@ -437,7 +439,7 @@ module.exports = async (client) => {
       message.channel
         .send({
           embeds: [
-            new MessageEmbed()
+            new EmbedBuilder()
               .setColor(client.config.embed.color)
               .setDescription(`I cant search \`${quary}\``),
           ],
@@ -453,7 +455,7 @@ module.exports = async (client) => {
       message.channel
         .send({
           embeds: [
-            new MessageEmbed()
+            new EmbedBuilder()
               .setColor(client.config.embed.color)
               .setDescription(
                 `${client.config.emoji.ERROR} No result found for \`${quary}\`!`
@@ -478,7 +480,7 @@ module.exports = async (client) => {
         queue.textChannel
           .send({
             embeds: [
-              new MessageEmbed()
+              new EmbedBuilder()
                 .setColor(client.config.embed.color)
                 .setDescription("Channel is empty. Leaving the channel"),
             ],
@@ -512,8 +514,8 @@ module.exports = async (client) => {
                   `** ${client.config.emoji.ERROR} You Need to Join Voice Channel**`
                 );
               } else if (
-                interaction.guild.me.voice.channel &&
-                !interaction.guild.me.voice.channel.equals(channel)
+                interaction.guild.members.me.voice.channel &&
+                !interaction.guild.members.me.voice.channel.equals(channel)
               ) {
                 send(
                   interaction,
@@ -547,8 +549,8 @@ module.exports = async (client) => {
                   `** ${client.config.emoji.ERROR} You Need to Join Voice Channel**`
                 );
               } else if (
-                interaction.guild.me.voice.channel &&
-                !interaction.guild.me.voice.channel.equals(channel)
+                interaction.guild.members.me.voice.channel &&
+                !interaction.guild.members.me.voice.channel.equals(channel)
               ) {
                 send(
                   interaction,
@@ -576,8 +578,8 @@ module.exports = async (client) => {
                   `** ${client.config.emoji.ERROR} You Need to Join Voice Channel**`
                 );
               } else if (
-                interaction.guild.me.voice.channel &&
-                !interaction.guild.me.voice.channel.equals(channel)
+                interaction.guild.members.me.voice.channel &&
+                !interaction.guild.members.me.voice.channel.equals(channel)
               ) {
                 send(
                   interaction,
@@ -605,8 +607,8 @@ module.exports = async (client) => {
                   `** ${client.config.emoji.ERROR} You Need to Join Voice Channel**`
                 );
               } else if (
-                interaction.guild.me.voice.channel &&
-                !interaction.guild.me.voice.channel.equals(channel)
+                interaction.guild.members.me.voice.channel &&
+                !interaction.guild.members.me.voice.channel.equals(channel)
               ) {
                 send(
                   interaction,
@@ -640,8 +642,8 @@ module.exports = async (client) => {
                   `** ${client.config.emoji.ERROR} You Need to Join Voice Channel**`
                 );
               } else if (
-                interaction.guild.me.voice.channel &&
-                !interaction.guild.me.voice.channel.equals(channel)
+                interaction.guild.members.me.voice.channel &&
+                !interaction.guild.members.me.voice.channel.equals(channel)
               ) {
                 send(
                   interaction,
@@ -699,6 +701,7 @@ module.exports = async (client) => {
             }, 3000);
           }
         } else {
+          let song = message.cleanContent;
           if (message.id != data.qmsg || message.id != data.pmsg) {
             setTimeout(() => {
               message.delete().catch((e) => {});
@@ -706,7 +709,11 @@ module.exports = async (client) => {
           }
           let voiceChannel = message.member.voice.channel;
 
-          if (!message.guild.me.permissions.has("CONNECT")) {
+          if (
+            !message.guild.members.me.permissions.has(
+              PermissionFlagsBits.Connect
+            )
+          ) {
             return client.embed(
               message,
               `** ${client.config.emoji.ERROR} I don't Have Permission to Join Voice Channel **`
@@ -717,15 +724,14 @@ module.exports = async (client) => {
               `** ${client.config.emoji.ERROR} You Need to Join Voice Channel **`
             );
           } else if (
-            message.guild.me.voice.channel &&
-            !message.guild.me.voice.channel.equals(voiceChannel)
+            message.guild.members.me.voice.channel &&
+            !message.guild.members.me.voice.channel.equals(voiceChannel)
           ) {
             return client.embed(
               message,
               `** ${client.config.emoji.ERROR} You Need to Join __MY__ Voice Channel **`
             );
           } else {
-            let song = message.cleanContent;
             client.distube.play(voiceChannel, song, {
               member: message.member,
               message: message,
@@ -741,7 +747,7 @@ module.exports = async (client) => {
     interaction
       .followUp({
         embeds: [
-          new MessageEmbed()
+          new EmbedBuilder()
             .setColor(client.config.embed.color)
             .setTitle(`${string.substring(0, 3000)}`)
             .setFooter(client.getFooter(interaction.user)),
