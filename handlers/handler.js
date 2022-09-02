@@ -73,7 +73,6 @@ module.exports = async (client) => {
                 default:
                   break;
               }
-              
             });
           }
           client.commands.set(command.name, command);
@@ -88,7 +87,7 @@ module.exports = async (client) => {
     client.on("ready", async () => {
       // await client.application.commands.set(allCommands);
       let guild = client.guilds.cache.get(client.config.guildID);
-      await guild.commands.set(allCommands);
+      if (guild) await guild.commands.set(allCommands);
     });
   } catch (e) {
     console.log(e);
