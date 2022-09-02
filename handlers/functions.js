@@ -7,9 +7,7 @@ const {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
-  Utils,
 } = require("discord.js");
-const { embed: ee, emoji, PREFIX } = require("../settings/config");
 const client = require("../index");
 const { Song } = require("distube");
 
@@ -81,7 +79,7 @@ async function check_dj(client, member, song = null) {
 
 async function databasing(guildID, userID) {
   await client.music.ensure(guildID, {
-    prefix: PREFIX,
+    prefix: client.config.PREFIX,
     djrole: null,
     vc: {
       enable: false,
@@ -293,9 +291,7 @@ function toPascalCase(string) {
   const words = string?.match(/[a-z]+/gi);
   if (!words) return "";
   return words
-    .map(function (word) {
-      return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
-    })
+    .map((word) => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase())
     .join("");
 }
 
@@ -308,4 +304,3 @@ module.exports = {
   createBar,
   toPascalCase,
 };
-
