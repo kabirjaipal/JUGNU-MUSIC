@@ -36,19 +36,19 @@ module.exports = {
     if (loopmode === "off") {
       await queue.setRepeatMode(0);
       return client.embed(
-        interaction,
+        message,
         `** ${client.config.emoji.ERROR} Loop Disabled!! **`
       );
     } else if (loopmode === "song" || loopmode === "s") {
       await queue.setRepeatMode(1);
       return client.embed(
-        interaction,
+        message,
         `** ${client.config.emoji.SUCCESS} Song Loop Enabled!! **`
       );
     } else if (loopmode === "queue" || loopmode === "q") {
       await queue.setRepeatMode(2);
       return client.embed(
-        interaction,
+        message,
         `** ${client.config.emoji.SUCCESS} Queue Loop Enabled!! **`
       );
     }
