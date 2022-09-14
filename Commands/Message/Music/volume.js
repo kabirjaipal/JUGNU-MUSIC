@@ -28,10 +28,10 @@ module.exports = {
     let volume = Number(args[0]);
     if (!volume) {
       return client.embed(message, `${client.config.emoji.ERROR} Please Provide Volume %`);
-    } else if (volume > 250) {
+    } else if (volume > 2500) {
       return client.embed(
         message,
-        `${client.config.emoji.ERROR} Provide Volume Amount Between 1 - 250  !!`
+        `${client.config.emoji.ERROR} Provide Volume Amount Between 1 - 2500  !!`
       );
     } else {
       await queue.setVolume(volume);
