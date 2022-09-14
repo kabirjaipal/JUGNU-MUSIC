@@ -30,21 +30,21 @@ a discord music bot with many commands , buttons , 24/7 , autresume ,etc
 
 ## Music Bot Features
 
-- easy to use Music Bot
-- support Youtube , Spotify , Soundcloud , etc 700+ websites
-- slash commands support
-- message commands support
-- stable & up to date with discord.js v14
-- support 24/7 in voice channel
-- support autoresume system
-- support music request channel system
-- support more filters
-- support dj system
-- work on replit and others vps
+- Easy to use Music Bot
+- Support Youtube , Spotify , Soundcloud , etc 700+ websites
+- Slash commands support
+- Message commands support
+- Stable & up to date with discord.js v14
+- Support 24/7 in voice channel
+- Support autoresume system
+- Support music request channel system
+- Support more filters
+- Support dj system
+- Work on replit and others vps
 
 ## Feedback
 
-If you have any feedback, please reach out to us at [Discord Server](https://discord.gg/PcUVWApWN3)
+If you have any feedback, please reach out to us at [Discord Server](https://discord.gg/FuKfAREn9f)
 
 ## License
 
