@@ -4,7 +4,7 @@ I'm a Discord Bot Developer and here is mine Discord Music Bot
 
 # Advance Discord Music Bot
 
-a discord music bot with many commands , buttons , 24/7 , autresume ,etc
+a discord music bot with many commands , buttons , 24/7 , autoresume ,etc
 
 ## **Installation | How to use the Bot**
 
