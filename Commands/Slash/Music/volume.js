@@ -32,10 +32,10 @@ module.exports = {
   run: async (client, interaction, args, queue) => {
     // Code
     let volume = interaction.options.getNumber("amount");
-    if (volume > 2500) {
+    if (volume > 250) {
       return client.embed(
         interaction,
-        `${client.config.emoji.ERROR} Provide Volume Amount Between 1 - 2500  !!`
+        `${client.config.emoji.ERROR} Provide Volume Amount Between 1 - 250  !!`
       );
     } else {
       await queue.setVolume(volume);

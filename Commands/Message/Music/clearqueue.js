@@ -4,7 +4,7 @@ const { Queue } = require("distube");
 
 module.exports = {
   name: "clearqueue",
-  aliases : ['clq','clearq'],
+  aliases: ["clq", "clearq"],
   description: `clear current queue of server`,
   userPermissions: ["CONNECT"],
   botPermissions: ["CONNECT"],
@@ -25,7 +25,7 @@ module.exports = {
    */
   run: async (client, message, args, prefix, queue) => {
     // Code
-    queue.delete();
+    queue.remove();
     client.embed(message, `${client.config.emoji.SUCCESS} Queue Cleared !!`);
   },
 };

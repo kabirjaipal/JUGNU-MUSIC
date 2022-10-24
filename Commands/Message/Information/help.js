@@ -93,7 +93,7 @@ module.exports = {
     let filter = (i) => i.user.id === message.author.id;
     let colector = await main_msg.createMessageComponentCollector({
       filter: filter,
-      time: 20000,
+      time: 60000,
     });
     colector.on("collect", async (i) => {
       if (i.isSelectMenu()) {

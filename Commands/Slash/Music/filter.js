@@ -58,7 +58,7 @@ module.exports = {
       client.embed(
         interaction,
         `${client.config.emoji.SUCCESS} Current Queue Filter: \`${
-          queue.filters.join(", ") || "Off"
+          queue.filters.names.join(", ") || "Off"
         }\` !!`
       );
     }

@@ -24,7 +24,7 @@ module.exports = {
    */
   run: async (client, interaction, args, queue) => {
     // Code
-    queue.delete()
+    queue.remove();
     client.embed(
       interaction,
       `${client.config.emoji.SUCCESS} Queue Cleared !!`

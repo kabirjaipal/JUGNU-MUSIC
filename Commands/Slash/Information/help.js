@@ -77,9 +77,9 @@ module.exports = {
       )
       .addFields([
         {
-          name : `Stats`,
-          value : `>>> ** :gear: \`${allcommands}\` Commands \n :file_folder: \`${allguilds}\` Guilds \n ⌚️ ${botuptime} Uptime \n 🏓 \`${client.ws.ping}\` Ping \n  Made by [\` Tech Boy Development \`](https://discord.gg/PcUVWApWN3) **`
-        }
+          name: `Stats`,
+          value: `>>> ** :gear: \`${allcommands}\` Commands \n :file_folder: \`${allguilds}\` Guilds \n ⌚️ ${botuptime} Uptime \n 🏓 \`${client.ws.ping}\` Ping \n  Made by [\` Tech Boy Development \`](https://discord.gg/PcUVWApWN3) **`,
+        },
       ])
       .setFooter(client.getFooter(interaction.user));
 
@@ -91,7 +91,7 @@ module.exports = {
     let filter = (i) => i.user.id === interaction.user.id;
     let colector = await main_msg.createMessageComponentCollector({
       filter: filter,
-      time: 20000,
+      time: 60000,
     });
     colector.on("collect", async (i) => {
       if (i.isSelectMenu()) {
