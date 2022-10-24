@@ -1,0 +1,30 @@
+/* 
+Dark Blue: #12232E
+
+Lighter Blue: #007CC7
+
+Lightest Blue: #4DA8DA
+
+Shadow of Dark Blue: #203647
+
+Shadow of Light Blue: #EEFBFB
+*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg_color: #12232e;
+  --bg_hover: #203647;
+  --head_color: #007cc7;
+  --head_hover: #4da8da;
+  --text_color: rgb(235, 216, 216);
+}
+
+body {
+  background-color: var(--bg_color);
+  color: var(--text_color);
+}
