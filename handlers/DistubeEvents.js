@@ -1,7 +1,7 @@
 "use strict";
 const { EmbedBuilder, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("./Client");
-const { Song, SearchResult } = require("distube");
+const { Song, SearchResultVideo } = require("distube");
 let voiceMap = new Map();
 
 /**
@@ -44,7 +44,7 @@ module.exports = async (client) => {
       if (!tracks || !tracks[0]) continue;
       const makeTrack = async (track) => {
         return new Song(
-          new SearchResult({
+          new SearchResultVideo({
             duration: track.duration,
             formattedDuration: track.formattedDuration,
             id: track.id,
@@ -273,7 +273,9 @@ module.exports = async (client) => {
           embeds: [
             new EmbedBuilder()
               .setColor(client.config.embed.color)
-              .setTitle(`No Related Song Found for \`${queue?.songs[0].name}\``),
+              .setTitle(
+                `No Related Song Found for \`${queue?.songs[0].name}\``
+              ),
           ],
         })
         .then((msg) => {
@@ -500,7 +502,7 @@ module.exports = async (client) => {
       if (!interaction.guild || interaction.user.bot) return;
       if (interaction.isButton()) {
         await interaction.deferUpdate().catch((e) => {});
-        const { customId, member, guild } = interaction;
+        const { customId, member } = interaction;
         let voiceMember = interaction.guild.members.cache.get(member.id);
         let channel = voiceMember.voice.channel;
         let queue = client.distube.getQueue(interaction.guildId);
