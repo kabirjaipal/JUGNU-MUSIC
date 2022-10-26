@@ -33,6 +33,7 @@ a discord music bot with many commands , buttons , 24/7 , autoresume ,etc
 - Easy to use Music Bot
 - Support Youtube , Spotify , Soundcloud , etc 700+ websites
 - Slash commands support
+- Dashboard support
 - Message commands support
 - Stable & up to date with discord.js v14
 - Support 24/7 in voice channel
