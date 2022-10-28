@@ -11,6 +11,9 @@ client.on("ready", async () => {
   // loading database
   require("../handlers/Database")(client);
 
+  // loading dashboard
+  require("../Dashboard/server");
+
   client.guilds.cache.forEach(async (guild) => {
     await client.updateembed(client, guild);
   });
