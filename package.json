@@ -4,7 +4,7 @@
   "description": "I'm a Discord Bot Developer and here is mine Discord Music Bot",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
