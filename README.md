@@ -10,13 +10,15 @@ a discord music bot with many commands , buttons , 24/7 , autoresume ,etc
 
 **1.** Install [node.js v16](https://nodejs.org/en/) or higher
 
-**2.** Download this repo and unzip it | or git clone it
+**2.** Install FFmpeg (add it to path on windows)
 
-**3.** Fill in everything in **`settings/config.js`**
+**3.** Download this repo and unzip it | or git clone it
 
-**4.** after Fill everything in config Type in shall **`npm install`** and **`npm i node`**
+**4.** Fill in everything in **`settings/config.js`**
 
-**5.** start the bot with **`node index.js`**
+**5.** after Fill everything in config Type in shall **`npm install`** and **`npm i node`**
+
+**6.** start the bot with **`node index.js`**
 <br/>
 
 ### _Modify - config.js_
