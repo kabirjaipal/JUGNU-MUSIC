@@ -1,7 +1,5 @@
 module.exports = {
-  TOKEN:
-    process.env.TOKEN ||
-    "BOT_TOKEN",
+  TOKEN: process.env.TOKEN || "BOT_TOKEN",
   PREFIX: process.env.PREFIX || "BOT_PREFIX",
   embed: {
     color: process.env.color || "#220f80",
@@ -19,10 +17,15 @@ module.exports = {
     search: "🔎",
     ping: "🏓",
     bot: "🤖",
+    pause_resume: "⏯️",
+    skip: "⏭️",
+    loop: "🔄",
+    stop: "⏹️",
+    autoplay: "♾",
   },
   // others
-  guildID: process.env.guildID || "GUILD_ID", // for slash command
-  mongodb : process.env.mongodb || "MONGO_URL",
+  guildID: process.env.GUILD_ID || "GUILD_ID", // for slash command
+  mongodb: process.env.MONGO_URL || "MONGO_URL",
   filters: {
     clear: "dynaudnorm=f=200",
     lightbass: "bass=g=8,dynaudnorm=f=200",
@@ -78,7 +81,7 @@ module.exports = {
   },
   options: {
     embedFooter: true,
-    nowplayingMsg: true
+    nowplayingMsg: true,
   },
   numberEmojis: [
     `0️⃣`,

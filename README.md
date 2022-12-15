@@ -16,7 +16,10 @@ a discord music bot with many commands , buttons , 24/7 , autoresume ,etc
 
 **4.** after Fill everything in config Type in shall **`npm install`** and **`npm i node`**
 
-**5.** start the bot with **`node index.js`**
+**5.** Install Discord Opus For Better Music Quality **`npm install @discordjs/opus`**
+
+**6.** start the bot with **`node index.js`**
+
 <br/>
 
 ### _Modify - config.js_
@@ -25,6 +28,7 @@ a discord music bot with many commands , buttons , 24/7 , autoresume ,etc
 {
   TOKEN: "BOT_TOKEN",
   PREFIX: "BOT_PREFIX",
+  mongodb : "MONGO_URL"
 }
 ```
 

@@ -1,5 +1,9 @@
 "use strict";
-const { EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const {
+  EmbedBuilder,
+  PermissionFlagsBits,
+  ButtonInteraction,
+} = require("discord.js");
 const JUGNU = require("./Client");
 const { Song, SearchResultVideo } = require("distube");
 let voiceMap = new Map();
@@ -521,24 +525,24 @@ module.exports = async (client) => {
               ) {
                 send(
                   interaction,
-                  `** ${client.config.emoji.ERROR} You Need to Join __My__ Voice Channel **`
+                  ` ${client.config.emoji.ERROR} You Need to Join __My__ Voice Channel `
                 );
               } else if (!queue) {
                 send(
                   interaction,
-                  `** ${client.config.emoji.ERROR} i am Not Playing Right Now **`
+                  ` ${client.config.emoji.ERROR} i am Not Playing Right Now `
                 );
               } else if (!queue.autoplay) {
                 queue.toggleAutoplay();
                 send(
                   interaction,
-                  `** ${client.config.emoji.SUCCESS} Autoplay Enabled !! **`
+                  ` ${client.config.emoji.SUCCESS} Autoplay Enabled !! `
                 );
               } else {
                 queue.toggleAutoplay();
                 send(
                   interaction,
-                  `** ${client.config.emoji.SUCCESS} Autoplay is Disabled !!**.`
+                  ` ${client.config.emoji.SUCCESS} Autoplay is Disabled !!.`
                 );
               }
             }
@@ -548,7 +552,7 @@ module.exports = async (client) => {
               if (!channel) {
                 send(
                   interaction,
-                  `** ${client.config.emoji.ERROR} You Need to Join Voice Channel**`
+                  ` ${client.config.emoji.ERROR} You Need to Join Voice Channel`
                 );
               } else if (
                 interaction.guild.members.me.voice.channel &&
@@ -556,18 +560,18 @@ module.exports = async (client) => {
               ) {
                 send(
                   interaction,
-                  `** ${client.config.emoji.ERROR} You Need to Join __My__ Voice Channel **`
+                  ` ${client.config.emoji.ERROR} You Need to Join __My__ Voice Channel `
                 );
               } else if (!queue) {
                 send(
                   interaction,
-                  `** ${client.config.emoji.ERROR} i am Not Playing Right Now **`
+                  ` ${client.config.emoji.ERROR} i am Not Playing Right Now `
                 );
               } else {
                 await queue.skip().catch((e) => {});
                 send(
                   interaction,
-                  `**${client.config.emoji.SUCCESS} Skip for Next Song**.`
+                  `${client.config.emoji.SUCCESS} Skip for Next Song.`
                 );
               }
             }
@@ -577,7 +581,7 @@ module.exports = async (client) => {
               if (!channel) {
                 send(
                   interaction,
-                  `** ${client.config.emoji.ERROR} You Need to Join Voice Channel**`
+                  ` ${client.config.emoji.ERROR} You Need to Join Voice Channel`
                 );
               } else if (
                 interaction.guild.members.me.voice.channel &&
@@ -585,18 +589,18 @@ module.exports = async (client) => {
               ) {
                 send(
                   interaction,
-                  `** ${client.config.emoji.ERROR} You Need to Join __My__ Voice Channel **`
+                  ` ${client.config.emoji.ERROR} You Need to Join __My__ Voice Channel `
                 );
               } else if (!queue) {
                 send(
                   interaction,
-                  `** ${client.config.emoji.ERROR} i am Not Playing Right Now **`
+                  ` ${client.config.emoji.ERROR} i am Not Playing Right Now `
                 );
               } else {
                 await queue.stop().catch((e) => {});
                 send(
                   interaction,
-                  `** ${client.config.emoji.SUCCESS} Song Stoped and Left Channel !!**.`
+                  ` ${client.config.emoji.SUCCESS} Song Stoped and Left Channel !!.`
                 );
               }
             }
@@ -606,7 +610,7 @@ module.exports = async (client) => {
               if (!channel) {
                 send(
                   interaction,
-                  `** ${client.config.emoji.ERROR} You Need to Join Voice Channel**`
+                  ` ${client.config.emoji.ERROR} You Need to Join Voice Channel`
                 );
               } else if (
                 interaction.guild.members.me.voice.channel &&
@@ -614,24 +618,24 @@ module.exports = async (client) => {
               ) {
                 send(
                   interaction,
-                  `** ${client.config.emoji.ERROR} You Need to Join __My__ Voice Channel **`
+                  ` ${client.config.emoji.ERROR} You Need to Join __My__ Voice Channel `
                 );
               } else if (!queue) {
                 send(
                   interaction,
-                  `** ${client.config.emoji.ERROR} i am Not Playing Right Now **`
+                  ` ${client.config.emoji.ERROR} i am Not Playing Right Now `
                 );
               } else if (queue.paused) {
                 await queue.resume();
                 send(
                   interaction,
-                  `** ${client.config.emoji.SUCCESS} Queue Resumed!! **`
+                  ` ${client.config.emoji.SUCCESS} Queue Resumed!! `
                 );
               } else if (!queue.paused) {
                 await queue.pause();
                 send(
                   interaction,
-                  `** ${client.config.emoji.SUCCESS} Queue Paused !! **`
+                  ` ${client.config.emoji.SUCCESS} Queue Paused !! `
                 );
               }
             }
@@ -641,7 +645,7 @@ module.exports = async (client) => {
               if (!channel) {
                 send(
                   interaction,
-                  `** ${client.config.emoji.ERROR} You Need to Join Voice Channel**`
+                  `${client.config.emoji.ERROR} You Need to Join Voice Channel`
                 );
               } else if (
                 interaction.guild.members.me.voice.channel &&
@@ -649,30 +653,30 @@ module.exports = async (client) => {
               ) {
                 send(
                   interaction,
-                  `** ${client.config.emoji.ERROR} You Need to Join __My__ Voice Channel **`
+                  `${client.config.emoji.ERROR} You Need to Join __My__ Voice Channel`
                 );
               } else if (!queue) {
                 send(
                   interaction,
-                  `** ${client.config.emoji.ERROR} i am Not Playing Right Now **`
+                  `${client.config.emoji.ERROR} i am Not Playing Right Now`
                 );
               } else if (queue.repeatMode === 0) {
                 await queue.setRepeatMode(1);
                 send(
                   interaction,
-                  `** ${client.config.emoji.SUCCESS} Song Loop On !! **`
+                  `${client.config.emoji.SUCCESS} Song Loop On !!`
                 );
               } else if (queue.repeatMode === 1) {
                 await queue.setRepeatMode(2);
                 send(
                   interaction,
-                  `** ${client.config.emoji.SUCCESS} Queue Loop On !! **`
+                  `${client.config.emoji.SUCCESS} Queue Loop On !!`
                 );
               } else if (queue.repeatMode === 2) {
                 await queue.setRepeatMode(0);
                 send(
                   interaction,
-                  `** ${client.config.emoji.SUCCESS} Loop Off !! **`
+                  ` ${client.config.emoji.SUCCESS} Loop Off !!`
                 );
               }
             }
@@ -745,16 +749,21 @@ module.exports = async (client) => {
     });
   } catch (e) {}
 
+  /**
+   *
+   * @param {ButtonInteraction} interaction
+   * @param {*} string
+   * @returns
+   */
   async function send(interaction, string) {
     interaction
       .followUp({
         embeds: [
           new EmbedBuilder()
             .setColor(client.config.embed.color)
-            .setTitle(`${string.substring(0, 3000)}`)
+            .setDescription(`${string.substring(0, 3000)}`)
             .setFooter(client.getFooter(interaction.user)),
         ],
-        // ephemeral: true,
       })
       .then((msg) => {
         setTimeout(() => {

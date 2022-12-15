@@ -3,6 +3,7 @@ const {
   Collection,
   GatewayIntentBits,
   Partials,
+  User,
 } = require("discord.js");
 const fs = require("fs");
 const Distube = require("distube").default;
@@ -31,7 +32,6 @@ class JUGNU extends Client {
         Partials.User,
       ],
       intents: [
-        ,
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.GuildVoiceStates,
@@ -49,20 +49,6 @@ class JUGNU extends Client {
     this.scategories = fs.readdirSync("./Commands/Slash");
     this.temp = new Collection();
     this.config = require("../settings/config");
-    this.getFooter = function (user) {
-      let obj = {
-        text: `Requested By ${user.tag}`,
-        iconURL: user.displayAvatarURL({ dynamic: true }),
-      };
-      if (options.embedFooter) {
-        return obj;
-      } else {
-        return {
-          text: " ",
-          iconURL: " ",
-        };
-      }
-    };
     this.distube = new Distube(this, {
       leaveOnEmpty: false,
       leaveOnFinish: false,
@@ -89,6 +75,25 @@ class JUGNU extends Client {
       require(`./${handler}`)(this);
     });
     this.login(token);
+  }
+  /**
+   *
+   * @param {User} user
+   * @returns
+   */
+  getFooter(user) {
+    let obj = {
+      text: `Requested By ${user.tag}`,
+      iconURL: user.displayAvatarURL(),
+    };
+    if (options.embedFooter) {
+      return obj;
+    } else {
+      return {
+        text: " ",
+        iconURL: " ",
+      };
+    }
   }
 }
 

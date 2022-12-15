@@ -125,7 +125,7 @@ module.exports = async (client) => {
         require(`../events/${event}`);
         eventCount++;
       });
-    console.log(`${eventCount} event loaded`);
+    console.log(`${eventCount} Events Loaded`);
   } catch (e) {
     console.log(e);
   }

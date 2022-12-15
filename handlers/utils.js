@@ -4,6 +4,7 @@ const {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
+  PermissionFlagsBits,
 } = require("discord.js");
 const { Queue } = require("distube");
 
@@ -43,33 +44,38 @@ module.exports = async (client) => {
    *
    * @param {Queue} queue
    */
-  client.buttons = (enable) => {
+  client.buttons = (state) => {
     let raw = new ActionRowBuilder().addComponents([
       new ButtonBuilder()
         .setStyle(ButtonStyle.Secondary)
         .setCustomId("skip")
         .setLabel("Skip")
-        .setDisabled(enable),
+        .setEmoji(client.config.emoji.skip)
+        .setDisabled(state),
       new ButtonBuilder()
-        .setStyle(ButtonStyle.Success)
+        .setStyle(ButtonStyle.Secondary)
         .setCustomId("pauseresume")
-        .setLabel("Pause & Resume")
-        .setDisabled(enable),
+        .setLabel("P/R")
+        .setEmoji(client.config.emoji.pause_resume)
+        .setDisabled(state),
       new ButtonBuilder()
-        .setStyle(ButtonStyle.Primary)
+        .setStyle(ButtonStyle.Secondary)
         .setCustomId("loop")
         .setLabel("Loop")
-        .setDisabled(enable),
+        .setEmoji(client.config.emoji.loop)
+        .setDisabled(state),
       new ButtonBuilder()
-        .setStyle(ButtonStyle.Danger)
+        .setStyle(ButtonStyle.Secondary)
         .setCustomId("stop")
         .setLabel("Stop")
-        .setDisabled(enable),
+        .setEmoji(client.config.emoji.stop)
+        .setDisabled(state),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Secondary)
         .setCustomId("autoplay")
         .setLabel("Autoplay")
-        .setDisabled(enable),
+        .setEmoji(client.config.emoji.autoplay)
+        .setDisabled(state),
     ]);
     return raw;
   };
@@ -139,21 +145,21 @@ module.exports = async (client) => {
           })
           .addFields([
             {
-              name : `**\` N. \` *${
+              name: `**\` N. \` *${
                 tracks.length > maxTracks
                   ? tracks.length - maxTracks
                   : tracks.length
               } other Tracks ...***`,
-              value : `\u200b`
+              value: `\u200b`,
             },
             {
-              name : `**\` 0. \` __CURRENT TRACK__**`,
-              value : `**${queue.songs[0].name.substring(0, 35)}** - \`${
+              name: `**\` 0. \` __CURRENT TRACK__**`,
+              value: `**${queue.songs[0].name.substring(0, 35)}** - \`${
                 queue.songs[0].isLive
                   ? `LIVE STREAM`
                   : queue.songs[0].formattedDuration.split(` | `)[0]
-              }\` \`${queue.songs[0].user.tag}\``
-            }
+              }\` \`${queue.songs[0].user.tag}\``,
+            },
           ])
           .setColor(client.config.embed.color)
           .setDescription(desc)
@@ -177,13 +183,13 @@ module.exports = async (client) => {
   client.queueembed = (guild) => {
     let embed = new EmbedBuilder()
       .setColor(client.config.embed.color)
-      .setTitle(`${guild.name} || Queue`)
-      .setDescription(`\n\n ** There are \`0\` Songs in Queue ** \n\n`)
-      .setThumbnail(guild.iconURL({ dynamic: true }))
-      .setFooter({
-        text: guild.name,
-        iconURL: guild.iconURL({ dynamic: true }),
-      });
+      .setTitle(`Jugnu | Queue`);
+    // .setDescription(`\n\n ** There are \`0\` Songss in Queue ** \n\n`)
+    // .setThumbnail(guild.iconURL({ dynamic: true }))
+    // .setFooter({
+    //   text: guild.name,
+    //   iconURL: guild.iconURL({ dynamic: true }),
+    // });
     return embed;
   };
 
@@ -194,7 +200,11 @@ module.exports = async (client) => {
   client.playembed = (guild) => {
     let embed = new EmbedBuilder()
       .setColor(client.config.embed.color)
-      .setTitle(`Join a Voice Channel and Type Song Link/Name to Play`)
+      // .setTitle(`Join a Voice Channel and Type Song Link/Name to Play`)
+      .setAuthor({
+        name: `Join a Voice Channel and Type Song Link/Name to Play`,
+        iconURL: client.user.displayAvatarURL(),
+      })
       .setDescription(
         ` [Invite Now](${client.config.links.inviteURL}) • [Support Server](${client.config.links.DiscordServer}) • [Vote Now](${client.config.links.VoteURL})`
       )
@@ -281,18 +291,20 @@ module.exports = async (client) => {
         new EmbedBuilder()
           .setColor(client.config.embed.color)
           .setAuthor({
-            name: `Queue for ${guild.name}  -  [ ${queue.songs.length} Tracks ]`,
+            name: `Jugnu Queue  -  [ ${queue.songs.length} Tracks ]`,
             iconURL: guild.iconURL({ dynamic: true }),
           })
           .setDescription(string.substring(0, 2048))
-          .addFields([{
-            name : `**\` 0. \` __CURRENT TRACK__**`,
-            value : `**${currentSong.name.substring(0, 35)}** - \`${
-              currentSong.isLive
-                ? `LIVE STREAM`
-                : currentSong.formattedDuration.split(` | `)[0]
-            }\` \`${currentSong.user.tag}\``
-          }])
+          .addFields([
+            {
+              name: `**\` 0. \` __CURRENT TRACK__**`,
+              value: `**${currentSong.name.substring(0, 35)}** - \`${
+                currentSong.isLive
+                  ? `LIVE STREAM`
+                  : currentSong.formattedDuration.split(` | `)[0]
+              }\` \`${currentSong.user.tag}\``,
+            },
+          ])
           .setFooter({
             text: guild.name,
             iconURL: guild.iconURL({ dynamic: true }),
@@ -353,11 +365,10 @@ module.exports = async (client) => {
   client.joinVoiceChannel = async (guild) => {
     let db = await client.music?.get(`${guild.id}.vc`);
     if (!db?.enable) return;
-    if (!guild.members.me.permissions.has("CONNECT")) return;
+    if (!guild.members.me.permissions.has(PermissionFlagsBits.Connect)) return;
     let voiceChannel = guild.channels.cache.get(db.channel);
     setTimeout(() => {
       client.distube.voices.join(voiceChannel);
     }, 2000);
   };
-  
 };
