@@ -39,6 +39,9 @@ module.exports = {
       string.push(lyrics);
     }
 
+    if (!lyrics)
+      return client.embed(message, `No Lyrics Found For \`${songname}\``);
+
     let embeds = string.map((str) => {
       return new EmbedBuilder()
         .setColor(client.config.embed.color)
