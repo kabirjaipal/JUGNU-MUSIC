@@ -16,15 +16,11 @@ a discord music bot with many commands , buttons , 24/7 , autoresume ,etc
 
 **4.** Fill in everything in **`settings/config.js`**
 
-<<<<<<< main
 **5.** after Fill everything in config Type in shall **`npm install`** and **`npm i node`**
 
 **6.** Install Discord Opus For Better Music Quality **`npm install @discordjs/opus`**
 
 **7.** start the bot with **`node index.js`**
-
-> > > > > > > main
-> > > > > > > <br/>
 
 ### _Modify - config.js_
 
