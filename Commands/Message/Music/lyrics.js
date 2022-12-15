@@ -28,7 +28,8 @@ module.exports = {
   run: async (client, message, args, prefix, queue) => {
     // Code
     let song = queue.songs[0];
-    const { lyrics, title } = await findLyrics(song.name);
+    let songname = song.name.substring(0, 20);
+    const { lyrics } = await findLyrics(songname);
 
     let string = [];
     if (lyrics.length > 3000) {
@@ -38,19 +39,13 @@ module.exports = {
       string.push(lyrics);
     }
 
-    console.log("String");
-    console.log(string);
-
     let embeds = string.map((str) => {
       return new EmbedBuilder()
         .setColor(client.config.embed.color)
-        .setAuthor({ name: `Lyrics Of ${title}`, iconURL: song.thumbnail })
-        .setDescription(`${str}`)
+        .setAuthor({ name: `Lyrics Of ${songname}`, iconURL: song.thumbnail })
+        .setDescription(`${str || `No Lyrics Found For \`${songname}\``}`)
         .setFooter(client.getFooter(song.user));
     });
-
-    console.log("Embeds");
-    console.log(embeds);
 
     swap_pages(message, embeds);
   },
