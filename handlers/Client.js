@@ -4,6 +4,8 @@ const {
   GatewayIntentBits,
   Partials,
   User,
+  EmbedBuilder,
+  Options,
 } = require("discord.js");
 const fs = require("fs");
 const Distube = require("distube").default;
@@ -15,16 +17,6 @@ const { filters, options } = require("../settings/config");
 class JUGNU extends Client {
   constructor() {
     super({
-      messageCacheLifetime: 60,
-      fetchAllMembers: false,
-      messageCacheMaxSize: 10,
-      restTimeOffset: 0,
-      restWsBridgetimeout: 100,
-      shards: "auto",
-      allowedMentions: {
-        parse: ["roles", "users", "everyone"],
-        repliedUser: false,
-      },
       partials: [
         Partials.Channel,
         Partials.GuildMember,
@@ -38,6 +30,46 @@ class JUGNU extends Client {
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMembers,
       ],
+      shards: "auto",
+      makeCache: Options.cacheWithLimits({
+        ApplicationCommandManager: {
+          maxSize: 0,
+        },
+        BaseGuildEmojiManager: {
+          maxSize: 0,
+        },
+        GuildBanManager: {
+          maxSize: 0,
+        },
+        GuildStickerManager: {
+          maxSize: 0,
+        },
+        GuildScheduledEventManager: {
+          maxSize: 0,
+        },
+        ReactionUserManager: {
+          maxSize: 0,
+        },
+        PresenceManager: {
+          maxSize: 0,
+        },
+        GuildInviteManager: {
+          maxSize: 0,
+        },
+        ReactionManager: {
+          maxSize: 0,
+        },
+        MessageManager: {
+          maxSize: 0,
+        },
+      }),
+      failIfNotExists: false,
+      allowedMentions: {
+        parse: ["everyone", "roles", "users"],
+        users: [],
+        roles: [],
+        repliedUser: false,
+      },
     });
 
     this.events = new Collection();
@@ -45,6 +77,7 @@ class JUGNU extends Client {
     this.mcommands = new Collection();
     this.commands = new Collection();
     this.aliases = new Collection();
+    this.shuffleData = new Collection();
     this.mcategories = fs.readdirSync("./Commands/Message");
     this.scategories = fs.readdirSync("./Commands/Slash");
     this.temp = new Collection();
@@ -93,6 +126,33 @@ class JUGNU extends Client {
         text: " ",
         iconURL: " ",
       };
+    }
+  }
+
+  embed(interaction, data) {
+    let user = interaction.user ? interaction.user : interaction.author;
+    if (interaction.deferred) {
+      interaction
+        .followUp({
+          embeds: [
+            new EmbedBuilder()
+              .setColor(this.config.embed.color)
+              .setDescription(`>>> ${data.substring(0, 3000)}`)
+              .setFooter(this.getFooter(user)),
+          ],
+        })
+        .catch((e) => {});
+    } else {
+      interaction
+        .reply({
+          embeds: [
+            new EmbedBuilder()
+              .setColor(this.config.embed.color)
+              .setDescription(`>>> ${data.substring(0, 3000)}`)
+              .setFooter(this.getFooter(user)),
+          ],
+        })
+        .catch((e) => {});
     }
   }
 }

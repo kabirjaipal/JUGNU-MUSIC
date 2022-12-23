@@ -85,9 +85,9 @@ module.exports = async (client) => {
     console.log(`${client.commands.size} Slash Commands Loaded`);
 
     client.on("ready", async () => {
-      await client.application.commands.set(allCommands);
-      // let guild = client.guilds.cache.get(client.config.guildID);
-      // if (guild) await guild.commands.set(allCommands);
+      // await client.application.commands.set([]);
+      let guild = client.guilds.cache.get(client.config.guildID);
+      if (guild) await guild.commands.set(allCommands);
     });
   } catch (e) {
     console.log(e);

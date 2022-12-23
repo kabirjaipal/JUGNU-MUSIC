@@ -295,6 +295,31 @@ function toPascalCase(string) {
     .join("");
 }
 
+function msToDuration(ms) {
+  let seconds = Math.floor(ms / 1000);
+  let minutes = Math.floor(seconds / 60);
+  let hours = Math.floor(minutes / 60);
+  let days = Math.floor(hours / 24);
+  let months = Math.floor(days / 30);
+  let years = Math.floor(days / 365);
+
+  seconds %= 60;
+  minutes %= 60;
+  hours %= 24;
+  days %= 24;
+  months %= 12;
+
+  // to string
+  years = years ? `${years} Years ` : "";
+  months = months ? `${months} Months ` : "";
+  days = days ? `${days} Days ` : "";
+  hours = hours ? `${hours} Hours ` : "";
+  minutes = minutes ? `${minutes} Minutes ` : "";
+  seconds = seconds ? `${seconds} Seconds ` : "";
+
+  return years + months + days + hours + minutes + seconds;
+}
+
 module.exports = {
   cooldown,
   check_dj,
@@ -303,4 +328,5 @@ module.exports = {
   shuffle,
   createBar,
   toPascalCase,
+  msToDuration,
 };

@@ -32,6 +32,17 @@ a discord music bot with many commands , buttons , 24/7 , autoresume ,etc
 }
 ```
 
+### _Modify - .env_
+
+** Rename `.env.example` to `.env.` and configure it **
+
+```env
+TOKEN=
+MONGO_URL=
+PREFIX=
+GUILD_ID=
+```
+
 ## Music Bot Features
 
 - Easy to use Music Bot

@@ -761,7 +761,7 @@ module.exports = async (client) => {
         embeds: [
           new EmbedBuilder()
             .setColor(client.config.embed.color)
-            .setDescription(`${string.substring(0, 3000)}`)
+            .setDescription(`> ${string.substring(0, 3000)}`)
             .setFooter(client.getFooter(interaction.user)),
         ],
       })

@@ -14,32 +14,6 @@ const { Queue } = require("distube");
  */
 module.exports = async (client) => {
   // code
-  client.embed = (interaction, data) => {
-    let user = interaction.user ? interaction.user : interaction.author;
-    if (interaction.deferred) {
-      interaction
-        .followUp({
-          embeds: [
-            new EmbedBuilder()
-              .setColor(client.config.embed.color)
-              .setDescription(` ${data.substring(0, 3000)}`)
-              .setFooter(client.getFooter(user)),
-          ],
-        })
-        .catch((e) => {});
-    } else {
-      interaction
-        .reply({
-          embeds: [
-            new EmbedBuilder()
-              .setColor(client.config.embed.color)
-              .setDescription(` ${data.substring(0, 3000)}`)
-              .setFooter(client.getFooter(user)),
-          ],
-        })
-        .catch((e) => {});
-    }
-  };
   /**
    *
    * @param {Queue} queue
