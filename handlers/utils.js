@@ -180,7 +180,7 @@ module.exports = async (client) => {
         iconURL: client.user.displayAvatarURL(),
       })
       .setDescription(
-        ` [Invite Now](${client.config.links.inviteURL}) • [Support Server](${client.config.links.DiscordServer}) • [Vote Now](${client.config.links.VoteURL})`
+        ` [Invite Now](${client.config.links.inviteURL}) • [Support Server](${client.config.links.DiscordServer}) • [Website](${client.config.links.Website})`
       )
       .setImage(
         guild.banner
@@ -189,7 +189,7 @@ module.exports = async (client) => {
       )
       .setFooter({
         text: guild.name,
-        iconURL: guild.iconURL({ dynamic: true }),
+        iconURL: guild.iconURL(),
       });
 
     return embed;
