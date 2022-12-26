@@ -56,7 +56,7 @@ async function check_dj(client, member, song = null) {
   //get the adminroles
   let roleid = await client.music.get(`${member.guild.id}.djrole`);
   //if no dj roles return false, so that it continues
-  var isdj = false;
+  let isdj = false;
   if (!roleid) return false;
   //if the role does not exist, then skip this current loop run
   if (!member.guild.roles.cache.get(roleid)) {
@@ -71,7 +71,7 @@ async function check_dj(client, member, song = null) {
     !member.permissions.has(PermissionFlagsBits.Administrator) &&
     song?.user.id !== member.id
   ) {
-    return `<@${roleid}>`;
+    return true;
   } else {
     return false;
   }
@@ -320,6 +320,18 @@ function msToDuration(ms) {
   return years + months + days + hours + minutes + seconds;
 }
 
+async function skip(queue) {
+  if (queue.songs.length <= 1) {
+    if (!queue.autoplay) {
+      await queue.stop().catch((e) => null);
+    } else {
+      await queue.skip().catch((e) => null);
+    }
+  } else {
+    await queue.skip().catch((e) => null);
+  }
+}
+
 module.exports = {
   cooldown,
   check_dj,
@@ -329,4 +341,5 @@ module.exports = {
   createBar,
   toPascalCase,
   msToDuration,
+  skip,
 };

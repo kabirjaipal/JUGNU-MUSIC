@@ -11,8 +11,9 @@ const fs = require("fs");
 const Distube = require("distube").default;
 const { SpotifyPlugin } = require("@distube/spotify");
 const { SoundCloudPlugin } = require("@distube/soundcloud");
-const { YtDlpPlugin } = require("@distube/yt-dlp");
+const { DeezerPlugin } = require("@distube/deezer");
 const { filters, options } = require("../settings/config");
+const { YtDlpPlugin } = require("@distube/yt-dlp");
 
 class JUGNU extends Client {
   constructor() {
@@ -92,6 +93,7 @@ class JUGNU extends Client {
           parallel: true,
         }),
         new SoundCloudPlugin(),
+        new DeezerPlugin(),
         new YtDlpPlugin({
           update: false,
         }),

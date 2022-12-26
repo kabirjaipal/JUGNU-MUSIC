@@ -6,6 +6,7 @@ const {
 } = require("discord.js");
 const JUGNU = require("./Client");
 const { Song, SearchResultVideo } = require("distube");
+const { check_dj, skip } = require("./functions");
 let voiceMap = new Map();
 
 /**
@@ -510,12 +511,17 @@ module.exports = async (client) => {
         let voiceMember = interaction.guild.members.cache.get(member.id);
         let channel = voiceMember.voice.channel;
         let queue = client.distube.getQueue(interaction.guildId);
+        let checkDJ = await check_dj(
+          client,
+          interaction.member,
+          queue?.songs[0]
+        );
 
         switch (customId) {
           case "autoplay":
             {
               if (!channel) {
-                send(
+                return send(
                   interaction,
                   `** ${client.config.emoji.ERROR} You Need to Join Voice Channel**`
                 );
@@ -523,24 +529,29 @@ module.exports = async (client) => {
                 interaction.guild.members.me.voice.channel &&
                 !interaction.guild.members.me.voice.channel.equals(channel)
               ) {
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.ERROR} You Need to Join __My__ Voice Channel `
                 );
               } else if (!queue) {
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.ERROR} i am Not Playing Right Now `
                 );
+              } else if (checkDJ) {
+                return send(
+                  interaction,
+                  `${client.config.emoji.SUCCESS} You are not DJ and also you are not song requester..`
+                );
               } else if (!queue.autoplay) {
                 queue.toggleAutoplay();
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.SUCCESS} Autoplay Enabled !! `
                 );
               } else {
                 queue.toggleAutoplay();
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.SUCCESS} Autoplay is Disabled !!.`
                 );
@@ -550,7 +561,7 @@ module.exports = async (client) => {
           case "skip":
             {
               if (!channel) {
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.ERROR} You Need to Join Voice Channel`
                 );
@@ -558,20 +569,25 @@ module.exports = async (client) => {
                 interaction.guild.members.me.voice.channel &&
                 !interaction.guild.members.me.voice.channel.equals(channel)
               ) {
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.ERROR} You Need to Join __My__ Voice Channel `
                 );
               } else if (!queue) {
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.ERROR} i am Not Playing Right Now `
                 );
-              } else {
-                await queue.skip().catch((e) => {});
-                send(
+              } else if (checkDJ) {
+                return send(
                   interaction,
-                  `${client.config.emoji.SUCCESS} Skip for Next Song.`
+                  `${client.config.emoji.SUCCESS} You are not DJ and also you are not song requester..`
+                );
+              } else {
+                await skip(queue);
+                return send(
+                  interaction,
+                  `${client.config.emoji.SUCCESS}  Song Skipped !!`
                 );
               }
             }
@@ -579,7 +595,7 @@ module.exports = async (client) => {
           case "stop":
             {
               if (!channel) {
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.ERROR} You Need to Join Voice Channel`
                 );
@@ -587,18 +603,23 @@ module.exports = async (client) => {
                 interaction.guild.members.me.voice.channel &&
                 !interaction.guild.members.me.voice.channel.equals(channel)
               ) {
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.ERROR} You Need to Join __My__ Voice Channel `
                 );
               } else if (!queue) {
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.ERROR} i am Not Playing Right Now `
                 );
+              } else if (checkDJ) {
+                return send(
+                  interaction,
+                  `${client.config.emoji.SUCCESS} You are not DJ and also you are not song requester..`
+                );
               } else {
                 await queue.stop().catch((e) => {});
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.SUCCESS} Song Stoped and Left Channel !!.`
                 );
@@ -608,7 +629,7 @@ module.exports = async (client) => {
           case "pauseresume":
             {
               if (!channel) {
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.ERROR} You Need to Join Voice Channel`
                 );
@@ -616,24 +637,29 @@ module.exports = async (client) => {
                 interaction.guild.members.me.voice.channel &&
                 !interaction.guild.members.me.voice.channel.equals(channel)
               ) {
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.ERROR} You Need to Join __My__ Voice Channel `
                 );
               } else if (!queue) {
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.ERROR} i am Not Playing Right Now `
                 );
+              } else if (checkDJ) {
+                return send(
+                  interaction,
+                  `${client.config.emoji.SUCCESS} You are not DJ and also you are not song requester..`
+                );
               } else if (queue.paused) {
                 await queue.resume();
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.SUCCESS} Queue Resumed!! `
                 );
               } else if (!queue.paused) {
                 await queue.pause();
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.SUCCESS} Queue Paused !! `
                 );
@@ -643,7 +669,7 @@ module.exports = async (client) => {
           case "loop":
             {
               if (!channel) {
-                send(
+                return send(
                   interaction,
                   `${client.config.emoji.ERROR} You Need to Join Voice Channel`
                 );
@@ -651,30 +677,35 @@ module.exports = async (client) => {
                 interaction.guild.members.me.voice.channel &&
                 !interaction.guild.members.me.voice.channel.equals(channel)
               ) {
-                send(
+                return send(
                   interaction,
                   `${client.config.emoji.ERROR} You Need to Join __My__ Voice Channel`
                 );
               } else if (!queue) {
-                send(
+                return send(
                   interaction,
                   `${client.config.emoji.ERROR} i am Not Playing Right Now`
                 );
+              } else if (checkDJ) {
+                return send(
+                  interaction,
+                  `${client.config.emoji.SUCCESS} You are not DJ and also you are not song requester..`
+                );
               } else if (queue.repeatMode === 0) {
                 await queue.setRepeatMode(1);
-                send(
+                return send(
                   interaction,
                   `${client.config.emoji.SUCCESS} Song Loop On !!`
                 );
               } else if (queue.repeatMode === 1) {
                 await queue.setRepeatMode(2);
-                send(
+                return send(
                   interaction,
                   `${client.config.emoji.SUCCESS} Queue Loop On !!`
                 );
               } else if (queue.repeatMode === 2) {
                 await queue.setRepeatMode(0);
-                send(
+                return send(
                   interaction,
                   ` ${client.config.emoji.SUCCESS} Loop Off !!`
                 );
@@ -764,12 +795,13 @@ module.exports = async (client) => {
             .setDescription(`> ${string.substring(0, 3000)}`)
             .setFooter(client.getFooter(interaction.user)),
         ],
+        ephemeral: true,
       })
-      .then((msg) => {
-        setTimeout(() => {
-          msg.delete().catch((e) => null);
-        }, 1000);
-      })
+      // .then((msg) => {
+      //   setTimeout(() => {
+      //     msg.delete().catch((e) => null);
+      //   }, 1000);
+      // })
       .catch((e) => null);
   }
 };
