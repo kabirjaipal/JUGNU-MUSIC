@@ -48,17 +48,34 @@ module.exports = {
         break;
       case "disable":
         {
-            await client.music.set(`${message.guild.id}.djrole`, null);
-            client.embed(
-              message,
-              `${client.config.emoji.SUCCESS} DJ System Disabled`
-            );
+          await client.music.set(`${message.guild.id}.djrole`, null);
+          client.embed(
+            message,
+            `${client.config.emoji.SUCCESS} DJ System Disabled`
+          );
+        }
+        break;
+      case "cmds":
+        {
+          const djcommands = client.mcommands
+            .filter((cmd) => cmd?.djOnly)
+            .map((cmd) => cmd.name)
+            .join(", ");
+
+          client.embed(
+            message,
+            `**DJ Commands** \n \`\`\`js\n${djcommands}\`\`\``
+          );
         }
         break;
 
-      default:{
-          client.embed(message,`** ${client.config.emoji.ERROR} Wrong Usage **  \n\n \`${prefix}dj enable <@role>\` \n\n \`${prefix}dj disable\` `)
-      }
+      default:
+        {
+          client.embed(
+            message,
+            `** ${client.config.emoji.ERROR} Wrong Usage **  \n\n \`${prefix}dj enable <@role>\` \n\n \`${prefix}dj disable\`  \n\n \`${prefix}dj cmds\` `
+          );
+        }
         break;
     }
   },

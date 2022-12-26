@@ -1,6 +1,7 @@
 const { CommandInteraction } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
+const { skip } = require("../../../handlers/functions");
 
 module.exports = {
   name: "skip",
@@ -24,11 +25,10 @@ module.exports = {
    */
   run: async (client, interaction, args, queue) => {
     // Code
-      await queue.skip().catch(e => null)
-      client.embed(
-        interaction,
-        `${client.config.emoji.SUCCESS}  Song Skipped !!`
-      );
-    
+    await skip(queue);
+    client.embed(
+      interaction,
+      `${client.config.emoji.SUCCESS}  Song Skipped !!`
+    );
   },
 };

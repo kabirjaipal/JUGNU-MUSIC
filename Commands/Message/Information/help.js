@@ -111,7 +111,6 @@ module.exports = {
                     .setTitle(
                       `${emoji[directory]} ${directory} Commands ${emoji[directory]}`
                     )
-                    // .setThumbnail(message.guild.iconURL({ dynamic: true }))
                     .setDescription(
                       `>>> ${client.mcommands
                         .filter((cmd) => cmd.category === directory)

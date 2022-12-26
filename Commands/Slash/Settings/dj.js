@@ -36,6 +36,11 @@ module.exports = {
       description: `disable dj system in your server`,
       type: ApplicationCommandOptionType.Subcommand,
     },
+    {
+      name: "commands",
+      description: `show all dj slash commands`,
+      type: ApplicationCommandOptionType.Subcommand,
+    },
   ],
 
   /**
@@ -65,6 +70,19 @@ module.exports = {
           client.embed(
             interaction,
             `${client.config.emoji.SUCCESS} DJ System Disabled`
+          );
+        }
+        break;
+      case "commands":
+        {
+          const djcommands = client.commands
+            .filter((cmd) => cmd?.djOnly)
+            .map((cmd) => cmd.name)
+            .join(", ");
+
+          client.embed(
+            interaction,
+            `**DJ Commands** \n \`\`\`js\n${djcommands}\`\`\``
           );
         }
         break;
