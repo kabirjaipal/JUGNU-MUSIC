@@ -28,7 +28,7 @@ module.exports = {
   run: async (client, message, args, prefix, queue) => {
     // Code
     let song = queue.songs[0];
-    let songname = song.name.substring(0, 20);
+    let songname = song.name.substring(0, 100);
     const { lyrics } = await findLyrics(songname);
 
     let string = [];
