@@ -55,10 +55,7 @@ module.exports = {
               },
               {
                 name: `📁 Users`,
-                value: `\`${client.guilds.cache.reduce(
-                  (acc, guild) => acc + guild.members.memberCount,
-                  0
-                )} \``,
+                value: `\`${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)} \``,
                 inline: true,
               },
               {
