@@ -92,9 +92,6 @@ async function databasing(guildID, userID) {
     },
     autoresume: false,
   });
-  await client.queue.ensure(userID, {
-    TEMPLATEQUEUEINFORMATION: ["queue", "sadasd"],
-  });
 }
 
 async function swap_pages(interaction, embeds) {

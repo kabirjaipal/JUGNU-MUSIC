@@ -98,10 +98,11 @@ module.exports = async (client) => {
     // events
     client.distube.on("playSong", async (queue, song) => {
       let data = await client.music.get(`${queue.textChannel.guildId}.music`);
-      if (!data) return;
-      await client.updatequeue(queue);
-      await client.updateplayer(queue);
-      if (data.channel === queue.textChannel.id) return;
+      if (data) {
+        await client.updatequeue(queue);
+        await client.updateplayer(queue);
+        if (data.channel === queue.textChannel.id) return;
+      }
       queue.textChannel
         .send({
           embeds: [
@@ -136,10 +137,10 @@ module.exports = async (client) => {
 
     client.distube.on("addSong", async (queue, song) => {
       let data = await client.music.get(`${queue.textChannel.guildId}.music`);
-      if (!data) return;
-      await client.updatequeue(queue);
-      if (data.channel === queue.textChannel.id) return;
-
+      if (data) {
+        await client.updatequeue(queue);
+        if (data.channel === queue.textChannel.id) return;
+      }
       queue.textChannel
         .send({
           embeds: [
@@ -181,9 +182,11 @@ module.exports = async (client) => {
 
     client.distube.on("addList", async (queue, playlist) => {
       let data = await client.music.get(`${queue.textChannel.guildId}.music`);
-      if (!data) return;
-      await client.updatequeue(queue);
-      if (data.channel === queue.textChannel.id) return;
+      if (data) {
+        await client.updatequeue(queue);
+        if (data.channel === queue.textChannel.id) return;
+      }
+
       queue.textChannel
         .send({
           embeds: [
@@ -232,8 +235,9 @@ module.exports = async (client) => {
         await client.joinVoiceChannel(queue.textChannel.guild);
       }
       let data = await client.music.get(`${queue.textChannel.guildId}.music`);
-      if (!data) return;
-      if (data.channel === queue.textChannel.id) return;
+      if (data) {
+        if (data.channel === queue.textChannel.id) return;
+      }
       queue.textChannel
         .send({
           embeds: [
@@ -314,10 +318,7 @@ module.exports = async (client) => {
 
     client.distube.on("initQueue", async (queue) => {
       voiceMap.set(queue.textChannel.guildId, queue.voiceChannel.id);
-
-      queue.volume = 100;
-      queue.filters.add("bassboost6");
-
+      queue.volume = client.config.options.defaultVolume;
       /**
        * Autoresume Code
        */

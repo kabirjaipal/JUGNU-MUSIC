@@ -3,6 +3,7 @@ const {
   ApplicationCommandOptionType,
 } = require("discord.js");
 const { readdirSync } = require("fs");
+const { slash } = require("../settings/config");
 const JUGNU = require("./Client");
 
 /**
@@ -83,11 +84,13 @@ module.exports = async (client) => {
       }
     });
     console.log(`${client.commands.size} Slash Commands Loaded`);
-
     client.on("ready", async () => {
-       await client.application.commands.set(allCommands);
-      // let guild = client.guilds.cache.get(client.config.guildID);
-      // if (guild) await guild.commands.set(allCommands);
+      if (slash.global) {
+        await client.application.commands.set(allCommands);
+      } else {
+        let guild = client.guilds.cache.get(slash.guildID);
+        if (guild) await guild.commands.set(allCommands);
+      }
     });
   } catch (e) {
     console.log(e);

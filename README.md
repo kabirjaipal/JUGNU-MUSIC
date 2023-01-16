@@ -6,10 +6,6 @@ I'm a Discord Bot Developer and here is mine Discord Music Bot
 
 a discord music bot with many commands , buttons , 24/7 , autoresume ,etc
 
-## Youtube Video Tutorial
-
- [Click To Watch](https://youtu.be/wrAkzOjjs-w)
-
 ## **Installation | How to use the Bot**
 
 **1.** Install Latest LTS [NodeJS](https://nodejs.org/en/)

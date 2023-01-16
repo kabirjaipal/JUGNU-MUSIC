@@ -23,7 +23,6 @@ module.exports = {
     autoplay: "♾",
   },
   // others
-  guildID: process.env.GUILD_ID || "GUILD_ID", // for slash command
   mongodb: process.env.MONGO_URL || "MONGO_URL",
   filters: {
     clear: "dynaudnorm=f=200",
@@ -82,6 +81,7 @@ module.exports = {
   options: {
     embedFooter: true,
     nowplayingMsg: true,
+    defaultVolume: 69,
   },
   numberEmojis: [
     `0️⃣`,
@@ -96,4 +96,8 @@ module.exports = {
     `9️⃣`,
     `🔟`,
   ],
+  slash: {
+    global: true,
+    guildID: process.env.GUILD_ID || "SERVER_ID", // for slash command
+  },
 };

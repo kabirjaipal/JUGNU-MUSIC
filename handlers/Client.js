@@ -32,38 +32,6 @@ class JUGNU extends Client {
         GatewayIntentBits.GuildMembers,
       ],
       shards: "auto",
-      makeCache: Options.cacheWithLimits({
-        ApplicationCommandManager: {
-          maxSize: 0,
-        },
-        BaseGuildEmojiManager: {
-          maxSize: 0,
-        },
-        GuildBanManager: {
-          maxSize: 0,
-        },
-        GuildStickerManager: {
-          maxSize: 0,
-        },
-        GuildScheduledEventManager: {
-          maxSize: 0,
-        },
-        ReactionUserManager: {
-          maxSize: 0,
-        },
-        PresenceManager: {
-          maxSize: 0,
-        },
-        GuildInviteManager: {
-          maxSize: 0,
-        },
-        ReactionManager: {
-          maxSize: 0,
-        },
-        MessageManager: {
-          maxSize: 0,
-        },
-      }),
       failIfNotExists: false,
       allowedMentions: {
         parse: ["everyone", "roles", "users"],

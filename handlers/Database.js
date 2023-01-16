@@ -20,16 +20,6 @@ module.exports = async (client) => {
       dbName: client.user.username.replace(" ", ""),
     },
   });
-  // queue
-  client.queue = new Josh({
-    name: "queue",
-    provider: provider,
-    providerOptions: {
-      url: mongodb,
-      collection: "queue",
-      dbName: client.user.username.replace(" ", ""),
-    },
-  });
   // autoresume
   client.autoresume = new Josh({
     name: "autoresume",
