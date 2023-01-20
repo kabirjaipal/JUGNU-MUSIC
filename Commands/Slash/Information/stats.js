@@ -3,6 +3,7 @@ const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 let os = require("os");
 let cpuStat = require("cpu-stat");
+const { msToDuration } = require("../../../handlers/functions");
 
 module.exports = {
   name: "stats",
@@ -49,16 +50,14 @@ module.exports = {
               },
               {
                 name: `⌚️ Uptime`,
-                value: `<t:${Math.floor(
-                  Date.now() / 1000 - client.uptime / 1000
-                )}:R>`,
+                // value: `<t:${Math.floor(
+                //   Date.now() / 1000 - client.uptime / 1000
+                // )}:R>`,
+                value: `\`${msToDuration(client.uptime)}\``,
               },
               {
                 name: `📁 Users`,
-                value: `\`${client.guilds.cache.reduce(
-                  (acc, guild) => acc + guild.members.memberCount,
-                  0
-                )} \``,
+                value: `\`${client.guilds.cache.size} \``,
                 inline: true,
               },
               {
