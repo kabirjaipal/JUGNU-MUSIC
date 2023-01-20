@@ -285,6 +285,7 @@ function createBar(total, current, size = 25, line = "▬", slider = "🔷") {
 }
 
 function toPascalCase(string) {
+  if (!string) return;
   const words = string?.match(/[a-z]+/gi);
   if (!words) return "";
   return words
