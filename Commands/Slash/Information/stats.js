@@ -57,7 +57,7 @@ module.exports = {
               },
               {
                 name: `📁 Users`,
-                value: `\`${client.guilds.cache.size} \``,
+                value: `\`${client.users.cache.size} \``,
                 inline: true,
               },
               {
