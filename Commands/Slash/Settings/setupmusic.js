@@ -1,15 +1,20 @@
-const { CommandInteraction, ChannelType } = require("discord.js");
+const {
+  CommandInteraction,
+  ChannelType,
+  PermissionFlagsBits,
+  ApplicationCommandType,
+} = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
   name: "setupmusic",
   description: `setup music channel in server`,
-  userPermissions: ["MANAGE_CHANNELS"],
-  botPermissions: ["MANAGE_CHANNELS"],
+  userPermissions: PermissionFlagsBits.ManageChannels,
+  botPermissions: PermissionFlagsBits.ManageChannels,
   category: "Settings",
   cooldown: 5,
-  type: "CHAT_INPUT",
+  type: ApplicationCommandType.ChatInput,
   inVoiceChannel: false,
   inSameVoiceChannel: false,
   Player: false,

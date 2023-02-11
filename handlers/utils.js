@@ -5,6 +5,8 @@ const {
   ButtonBuilder,
   ButtonStyle,
   PermissionFlagsBits,
+  ComponentType,
+  Message,
 } = require("discord.js");
 const { Queue } = require("distube");
 
@@ -344,5 +346,123 @@ module.exports = async (client) => {
     setTimeout(() => {
       client.distube.voices.join(voiceChannel);
     }, 2000);
+  };
+  /**
+   *
+   * @param {Message} message
+   */
+  client.handleHelpSystem = async (message) => {
+    // code
+    const send = message?.deferred
+      ? message.followUp.bind(message)
+      : message.reply.bind(message);
+    const user = message.member.user;
+    // for commands
+    const commands = message?.author ? client.mcommands : client.commands;
+    // for categories
+    const categories = message?.author
+      ? client.mcategories
+      : client.scategories;
+
+    const emoji = {
+      Information: "🔰",
+      Music: "🎵",
+      Settings: "⚙️",
+    };
+
+    let allcommands = client.mcommands.size;
+    let allguilds = client.guilds.cache.size;
+    let botuptime = `<t:${Math.floor(
+      Date.now() / 1000 - client.uptime / 1000
+    )}:R>`;
+    let buttons = [
+      new ButtonBuilder()
+        .setCustomId("home")
+        .setStyle(ButtonStyle.Success)
+        .setEmoji("🏘️"),
+      categories
+        .map((cat) => {
+          return new ButtonBuilder()
+            .setCustomId(cat)
+            .setStyle(ButtonStyle.Secondary)
+            .setEmoji(emoji[cat]);
+        })
+        .flat(Infinity),
+    ].flat(Infinity);
+    let row = new ActionRowBuilder().addComponents(buttons);
+
+    let help_embed = new EmbedBuilder()
+      .setColor(client.config.embed.color)
+      .setAuthor({
+        name: client.user.tag,
+        iconURL: client.user.displayAvatarURL({ dynamic: true }),
+      })
+      .setThumbnail(message.guild.iconURL({ dynamic: true }))
+      .setDescription(
+        `** An advanced  Music System with Audio Filtering A unique Music Request System and way much more! **`
+      )
+      .addFields([
+        {
+          name: `Stats`,
+          value: `>>> ** :gear: \`${allcommands}\` Commands \n :file_folder: \`${allguilds}\` Guilds \n ⌚️ ${botuptime} Uptime \n 🏓 \`${client.ws.ping}\` Ping \n  Made by [\` Fire Bird \`](https://discord.gg/PcUVWApWN3) **`,
+        },
+      ])
+      .setFooter(client.getFooter(user));
+
+    let main_msg = await send({
+      embeds: [help_embed],
+      components: [row],
+    });
+
+    let filter = async (i) => {
+      if (i.user.id === user.id) {
+        return true;
+      } else {
+        await i.deferReply().catch((e) => {});
+        i.followUp({
+          content: `Not Your Interaction !!`,
+          ephemeral: true,
+        });
+        return false;
+      }
+    };
+    let colector = await main_msg.createMessageComponentCollector({
+      filter: filter,
+      componentType: ComponentType.Button,
+    });
+    colector.on("collect", async (i) => {
+      if (i.isButton()) {
+        await i.deferUpdate().catch((e) => {});
+        let directory = i.customId;
+        if (directory == "home") {
+          main_msg.edit({ embeds: [help_embed] }).catch((e) => {});
+        } else {
+          main_msg
+            .edit({
+              embeds: [
+                new EmbedBuilder()
+                  .setColor(client.config.embed.color)
+                  .setTitle(
+                    `${emoji[directory]} ${directory} Commands ${emoji[directory]}`
+                  )
+                  .setDescription(
+                    `>>> ${commands
+                      .filter((cmd) => cmd.category === directory)
+                      .map((cmd) => `\`${cmd.name}\``)
+                      .join(",  ")}`
+                  )
+                  .setThumbnail(client.user.displayAvatarURL())
+                  .setFooter(client.getFooter(user)),
+              ],
+            })
+            .catch((e) => null);
+        }
+      }
+    });
+
+    colector.on("end", async (c, i) => {
+      row.components.forEach((c) => c.setDisabled(true));
+      main_msg.edit({ components: [row] }).catch((e) => {});
+    });
   };
 };

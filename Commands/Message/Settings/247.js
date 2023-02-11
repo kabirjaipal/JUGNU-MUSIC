@@ -1,4 +1,4 @@
-const { Message } = require("discord.js");
+const { Message, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
@@ -6,8 +6,8 @@ module.exports = {
   name: "247",
   aliases: ["24vc"],
   description: `toggle 24/7 system on/off`,
-  userPermissions: ["MANAGE_GUILD"],
-  botPermissions: ["MANAGE_GUILD"],
+  userPermissions: PermissionFlagsBits.ManageGuild,
+  botPermissions: PermissionFlagsBits.ManageGuild,
   category: "Settings",
   cooldown: 5,
   inVoiceChannel: true,

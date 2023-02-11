@@ -1,4 +1,4 @@
-const { Message } = require("discord.js");
+const { Message, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 const { links } = require("../../../settings/config");
@@ -7,8 +7,8 @@ module.exports = {
   name: "invite",
   aliases: ["inv", "addme"],
   description: `Get My Invite Link For Add me !!`,
-  userPermissions: ["SEND_MESSAGES"],
-  botPermissions: ["EMBED_LINKS"],
+  userPermissions: PermissionFlagsBits.SendMessages,
+  botPermissions: PermissionFlagsBits.EmbedLinks,
   category: "Information",
   cooldown: 5,
   inVoiceChannel: false,

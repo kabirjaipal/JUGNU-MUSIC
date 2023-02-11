@@ -1,15 +1,20 @@
-const { CommandInteraction, EmbedBuilder } = require("discord.js");
+const {
+  CommandInteraction,
+  EmbedBuilder,
+  ApplicationCommandType,
+  PermissionFlagsBits,
+} = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
   name: "nowplaying",
   description: `see which song playing current song`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: PermissionFlagsBits.Connect,
+  botPermissions: PermissionFlagsBits.Connect,
   category: "Music",
   cooldown: 5,
-  type: "CHAT_INPUT",
+  type: ApplicationCommandType.ChatInput,
   inVoiceChannel: false,
   inSameVoiceChannel: false,
   Player: true,

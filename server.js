@@ -4,8 +4,8 @@ const cors = require("cors");
 const { version } = require("discord.js");
 const app = express();
 const port = process.env.PORT || 3000;
-const os = require("os");
-const { msToDuration } = require("./handlers/functions");
+const os = require("systeminformation");
+const { msToDuration, formatBytes } = require("./handlers/functions");
 
 app.use(cors());
 app.use(express.json());
@@ -33,9 +33,9 @@ app.get("/commands", (req, res) => {
   res.send(commands);
 });
 
-app.get("/about", (req, res) => {
-  let TotalRam = Math.floor(os.totalmem() / (1024 * 1024));
-  let FreeRam = Math.floor(os.freemem() / (1024 * 1024));
+app.get("/about", async (req, res) => {
+  let memory = await os.mem();
+  let cpu = await os.cpu();
 
   let options = {
     guildsCount: client.guilds.cache.size,
@@ -45,10 +45,10 @@ app.get("/about", (req, res) => {
     DJSVersion: `v${version}`,
     NodeVersion: `${process.version}`,
     ping: `${client.ws.ping}ms`,
-    cpu: os.cpus().map((i) => `${i.model}`)[0],
+    cpu: cpu.brand,
     ram: {
-      total: `${TotalRam}MB`,
-      usage: `${TotalRam - FreeRam}MB`,
+      total: formatBytes(memory.total),
+      usage: formatBytes(memory.used),
     },
   };
   res.send(options);

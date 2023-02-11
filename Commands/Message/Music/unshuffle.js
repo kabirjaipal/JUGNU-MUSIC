@@ -1,4 +1,4 @@
-const { Message } = require("discord.js");
+const { Message, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
@@ -6,8 +6,8 @@ module.exports = {
   name: "unshuffle",
   aliases: ["unsfl"],
   description: `unshuffle current shuffled queue`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: PermissionFlagsBits.Connect,
+  botPermissions: PermissionFlagsBits.Connect,
   category: "Music",
   cooldown: 5,
   inVoiceChannel: true,

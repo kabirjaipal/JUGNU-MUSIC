@@ -1,4 +1,4 @@
-const { Message } = require("discord.js");
+const { Message, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
@@ -6,8 +6,8 @@ module.exports = {
   name: "playtop",
   aliases: ["pt", "ptop"],
   description: `play top songs by Name/Link`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: PermissionFlagsBits.Connect,
+  botPermissions: PermissionFlagsBits.Connect,
   category: "Music",
   cooldown: 5,
   inVoiceChannel: true,
@@ -37,7 +37,7 @@ module.exports = {
         member: message.member,
         textChannel: message.channel,
         message: message,
-        unshift : true
+        unshift: true,
       });
     }
   },

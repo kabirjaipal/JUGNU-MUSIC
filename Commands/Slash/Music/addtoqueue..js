@@ -1,9 +1,12 @@
-const { ContextMenuInteraction } = require("discord.js");
+const {
+  ContextMenuInteraction,
+  ApplicationCommandType,
+} = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 
 module.exports = {
   name: "addtoqueue",
-  type: "MESSAGE",
+  type: ApplicationCommandType.Message,
 
   /**
    *

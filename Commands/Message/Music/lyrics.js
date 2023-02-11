@@ -1,4 +1,4 @@
-const { Message, EmbedBuilder } = require("discord.js");
+const { Message, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 const findLyrics = require("simple-find-lyrics");
@@ -8,8 +8,8 @@ module.exports = {
   name: "lyrics",
   aliases: ["lr"],
   description: `Find Lyrics Of Current Song`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: PermissionFlagsBits.Connect,
+  botPermissions: PermissionFlagsBits.Connect,
   category: "Music",
   cooldown: 5,
   inVoiceChannel: false,

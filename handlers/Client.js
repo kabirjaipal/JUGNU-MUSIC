@@ -70,6 +70,13 @@ class JUGNU extends Client {
       savePreviousSongs: true,
       searchSongs: 0,
       customFilters: filters,
+      ytdlOptions: {
+        highWaterMark: 1024 * 1024 * 64,
+        quality: "highestaudio",
+        format: "audioonly",
+        liveBuffer: 60000,
+        dlChunkSize: 1024 * 1024 * 4,
+      },
     });
   }
 
@@ -86,7 +93,7 @@ class JUGNU extends Client {
    */
   getFooter(user) {
     let obj = {
-      text: `Requested By ${user.tag}`,
+      text: `Requested By ${user.username}`,
       iconURL: user.displayAvatarURL(),
     };
     if (options.embedFooter) {

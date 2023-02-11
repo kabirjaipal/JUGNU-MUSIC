@@ -1,4 +1,4 @@
-const { Message } = require("discord.js");
+const { Message, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 const { PREFIX } = require("../../../settings/config");
@@ -7,8 +7,8 @@ module.exports = {
   name: "prefix",
   aliases: ["prefix", "setprefix"],
   description: `change prefix of current server`,
-  userPermissions: ["MANAGE_GUILD"],
-  botPermissions: ["MANAGE_GUILD"],
+  userPermissions: PermissionFlagsBits.ManageGuild,
+  botPermissions: PermissionFlagsBits.ManageGuild,
   category: "Settings",
   cooldown: 5,
   inVoiceChannel: false,
@@ -39,19 +39,19 @@ module.exports = {
           } else {
             await client.music.set(`${message.guildId}.prefix`, nPrefix);
             client.embed(
-                message,
-                `${client.config.emoji.SUCCESS} Prefix Updated to \`${nPrefix}\``
-              );
+              message,
+              `${client.config.emoji.SUCCESS} Prefix Updated to \`${nPrefix}\``
+            );
           }
         }
         break;
       case "reset":
         {
-            await client.music.set(`${message.guildId}.prefix`, PREFIX);
-            client.embed(
-                message,
-                `${client.config.emoji.SUCCESS} Prefix Updated to \`${PREFIX}\``
-              );
+          await client.music.set(`${message.guildId}.prefix`, PREFIX);
+          client.embed(
+            message,
+            `${client.config.emoji.SUCCESS} Prefix Updated to \`${PREFIX}\``
+          );
         }
         break;
 

@@ -7,14 +7,15 @@ const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
-  name: "reset",
-  description: `reset bot to default settings`,
+  name: "autoresume",
+  description: `setup autoresume in your server`,
   userPermissions: PermissionFlagsBits.ManageGuild,
   botPermissions: PermissionFlagsBits.EmbedLinks,
   category: "Settings",
   cooldown: 5,
   type: ApplicationCommandType.ChatInput,
-  inVoiceChannel: true,
+  cooldown: 5,
+  inVoiceChannel: false,
   inSameVoiceChannel: true,
   Player: false,
   djOnly: false,
@@ -28,7 +29,19 @@ module.exports = {
    */
   run: async (client, interaction, args, queue) => {
     // Code
-    await client.music.delete(interaction.guildId);
-    client.embed(interaction, `${client.config.emoji.SUCCESS} Reseted Done !!`);
+    let data = await client.music.get(`${interaction.guild.id}.autoresume`);
+    if (data === true) {
+      await client.music.set(`${interaction.guild.id}.autoresume`, false);
+      client.embed(
+        interaction,
+        `** ${client.config.emoji.ERROR} Autoresume System Disabled **`
+      );
+    } else {
+      await client.music.set(`${interaction.guild.id}.autoresume`, true);
+      client.embed(
+        interaction,
+        `** ${client.config.emoji.SUCCESS} Autoresume System Enabled **`
+      );
+    }
   },
 };

@@ -1,4 +1,4 @@
-const { Message } = require("discord.js");
+const { Message, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 const { skip } = require("../../../handlers/functions");
@@ -7,8 +7,8 @@ module.exports = {
   name: "skip",
   aliases: ["s", "skp"],
   description: `skip to next song in queue`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: PermissionFlagsBits.Connect,
+  botPermissions: PermissionFlagsBits.Connect,
   category: "Music",
   cooldown: 5,
   inVoiceChannel: true,

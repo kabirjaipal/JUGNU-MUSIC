@@ -1,4 +1,4 @@
-const { Message } = require("discord.js");
+const { Message, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
@@ -6,8 +6,8 @@ module.exports = {
   name: "volume",
   aliases: ["vol"],
   description: `change volume of current queue`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: PermissionFlagsBits.Connect,
+  botPermissions: PermissionFlagsBits.Connect,
   category: "Music",
   cooldown: 5,
   inVoiceChannel: true,
@@ -27,7 +27,10 @@ module.exports = {
     // Code
     let volume = Number(args[0]);
     if (!volume) {
-      return client.embed(message, `${client.config.emoji.ERROR} Please Provide Volume %`);
+      return client.embed(
+        message,
+        `${client.config.emoji.ERROR} Please Provide Volume %`
+      );
     } else if (volume > 250) {
       return client.embed(
         message,

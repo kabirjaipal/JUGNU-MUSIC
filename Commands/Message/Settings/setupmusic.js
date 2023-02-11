@@ -1,4 +1,4 @@
-const { Message, ChannelType } = require("discord.js");
+const { Message, ChannelType, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
@@ -6,8 +6,8 @@ module.exports = {
   name: "setupmusic",
   aliases: ["setmusic", "setup"],
   description: `setup music channel in server`,
-  userPermissions: ["MANAGE_CHANNELS"],
-  botPermissions: ["MANAGE_CHANNELS"],
+  userPermissions: PermissionFlagsBits.ManageGuild,
+  botPermissions: PermissionFlagsBits.ManageChannels,
   category: "Settings",
   cooldown: 5,
   inVoiceChannel: false,

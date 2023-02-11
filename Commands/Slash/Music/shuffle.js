@@ -1,15 +1,20 @@
-const { CommandInteraction } = require("discord.js");
+const {
+  CommandInteraction,
+  PermissionFlagsBits,
+  ApplicationCommandType,
+  ApplicationCommandOptionType,
+} = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
   name: "shuffle",
   description: `toggle shuffle/unshuffle queue`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: PermissionFlagsBits.Connect,
+  botPermissions: PermissionFlagsBits.Connect,
   category: "Music",
   cooldown: 5,
-  type: "CHAT_INPUT",
+  type: ApplicationCommandType.ChatInput,
   inVoiceChannel: true,
   inSameVoiceChannel: true,
   Player: true,
@@ -18,7 +23,7 @@ module.exports = {
     {
       name: "mode",
       description: `Choose Shuffle/Unshuffle Queue`,
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       required: true,
       choices: [
         {

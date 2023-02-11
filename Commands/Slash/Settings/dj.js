@@ -1,6 +1,8 @@
 const {
   CommandInteraction,
   ApplicationCommandOptionType,
+  PermissionFlagsBits,
+  ApplicationCommandType,
 } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
@@ -8,11 +10,11 @@ const { Queue } = require("distube");
 module.exports = {
   name: "dj",
   description: `DJ System`,
-  userPermissions: ["MANAGE_GUILD"],
-  botPermissions: ["MANAGE_GUILD"],
+  userPermissions: PermissionFlagsBits.ManageGuild,
+  botPermissions: PermissionFlagsBits.ManageGuild,
   category: "Settings",
   cooldown: 5,
-  type: "CHAT_INPUT",
+  type: ApplicationCommandType.ChatInput,
   inVoiceChannel: false,
   inSameVoiceChannel: false,
   Player: false,
@@ -21,7 +23,7 @@ module.exports = {
     {
       name: "enable",
       description: `enable dj system in your server`,
-      type: "SUB_COMMAND",
+      type: ApplicationCommandOptionType.Subcommand,
       options: [
         {
           name: "role",

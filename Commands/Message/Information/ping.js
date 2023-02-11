@@ -1,4 +1,4 @@
-const { Message } = require("discord.js");
+const { Message, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
@@ -6,8 +6,8 @@ module.exports = {
   name: "ping",
   aliases: ["latancy"],
   description: `get ping of bot`,
-  userPermissions: ["SEND_MESSAGES"],
-  botPermissions: ["EMBED_LINKS"],
+  userPermissions: PermissionFlagsBits.SendMessages,
+  botPermissions: PermissionFlagsBits.EmbedLinks,
   category: "Information",
   cooldown: 5,
   inVoiceChannel: false,

@@ -1,4 +1,4 @@
-const { Message } = require("discord.js");
+const { Message, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
@@ -6,8 +6,8 @@ module.exports = {
   name: "reset",
   aliases: ["reset"],
   description: `reset to default settings`,
-  userPermissions: ["MANAGE_GUILD"],
-  botPermissions: ["MANAGE_GUILD"],
+  userPermissions: PermissionFlagsBits.ManageGuild,
+  botPermissions: PermissionFlagsBits.ManageGuild,
   category: "Settings",
   cooldown: 5,
   inVoiceChannel: false,
@@ -25,7 +25,7 @@ module.exports = {
    */
   run: async (client, message, args, prefix, queue) => {
     // Code
-    await client.music.delete(message.guildId)
-    client.embed(message,`${client.config.emoji.SUCCESS} Reseted Done !!`)
+    await client.music.delete(message.guildId);
+    client.embed(message, `${client.config.emoji.SUCCESS} Reseted Done !!`);
   },
 };

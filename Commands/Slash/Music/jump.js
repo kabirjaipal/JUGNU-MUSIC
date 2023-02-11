@@ -1,15 +1,20 @@
-const { CommandInteraction } = require("discord.js");
+const {
+  CommandInteraction,
+  PermissionFlagsBits,
+  ApplicationCommandType,
+  ApplicationCommandOptionType,
+} = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
   name: "jump",
   description: `jump to a song in queue`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: PermissionFlagsBits.Connect,
+  botPermissions: PermissionFlagsBits.Connect,
   category: "Music",
   cooldown: 5,
-  type: "CHAT_INPUT",
+  type: ApplicationCommandType.ChatInput,
   inVoiceChannel: true,
   inSameVoiceChannel: true,
   Player: true,
@@ -18,7 +23,7 @@ module.exports = {
     {
       name: "index",
       description: `Song index in Queue`,
-      type: "NUMBER",
+      type: ApplicationCommandOptionType.Number,
       required: true,
     },
   ],
@@ -32,7 +37,7 @@ module.exports = {
   run: async (client, interaction, args, queue) => {
     // Code
     let index = interaction.options.getNumber("index");
-    let song = queue.songs[index]
+    let song = queue.songs[index];
     if (index > queue.songs.length - 1 || index < 0) {
       return client.embed(
         interaction,

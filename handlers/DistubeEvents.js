@@ -65,7 +65,6 @@ module.exports = async (client) => {
           track.source
         );
       };
-
       await client.distube.play(voiceChannel, tracks[0].url, {
         member: guild.members.cache.get(tracks[0].memberId) || guild.members.me,
         textChannel: textChannel,

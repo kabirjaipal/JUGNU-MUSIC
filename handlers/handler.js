@@ -22,60 +22,6 @@ module.exports = async (client) => {
       for (const cmd of commands) {
         const command = require(`../Commands/Slash/${dir}/${cmd}`);
         if (command.name) {
-          switch (command.type) {
-            case "CHAT_INPUT":
-              {
-                command.type = ApplicationCommandType.ChatInput;
-              }
-              break;
-            case "MESSAGE":
-              {
-                command.type = ApplicationCommandType.Message;
-              }
-              break;
-            case "USER":
-              {
-                command.type = ApplicationCommandType.User;
-              }
-              break;
-
-            default:
-              break;
-          }
-          if (command.options) {
-            command.options.forEach((option) => {
-              switch (option.type) {
-                case "STRING":
-                  {
-                    option.type = ApplicationCommandOptionType.String;
-                  }
-                  break;
-                case "NUMBER":
-                  {
-                    option.type = ApplicationCommandOptionType.Number;
-                  }
-                  break;
-                case "ROLE":
-                  {
-                    option.type = ApplicationCommandOptionType.Role;
-                  }
-                  break;
-                case "SUB_COMMAND":
-                  {
-                    option.type = ApplicationCommandOptionType.Subcommand;
-                  }
-                  break;
-                case "SUB_COMMAND_GROUP":
-                  {
-                    option.type = ApplicationCommandOptionType.SubcommandGroup;
-                  }
-                  break;
-
-                default:
-                  break;
-              }
-            });
-          }
           client.commands.set(command.name, command);
           allCommands.push(command);
         } else {
@@ -90,6 +36,7 @@ module.exports = async (client) => {
       } else {
         let guild = client.guilds.cache.get(slash.guildID);
         if (guild) await guild.commands.set(allCommands);
+        await client.application.commands.set([]);
       }
     });
   } catch (e) {

@@ -1,15 +1,20 @@
-const { CommandInteraction } = require("discord.js");
+const {
+  CommandInteraction,
+  PermissionFlagsBits,
+  ApplicationCommandType,
+  ApplicationCommandOptionType,
+} = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
   name: "move",
   description: `move a song in current queue`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: PermissionFlagsBits.Connect,
+  botPermissions: PermissionFlagsBits.Connect,
   category: "Music",
   cooldown: 5,
-  type: "CHAT_INPUT",
+  type: ApplicationCommandType.ChatInput,
   inVoiceChannel: true,
   inSameVoiceChannel: true,
   Player: true,
@@ -18,13 +23,13 @@ module.exports = {
     {
       name: "trackindex",
       description: `Song Index`,
-      type: "NUMBER",
+      type: ApplicationCommandOptionType.Number,
       required: true,
     },
     {
       name: "targetindex",
       description: `Target Song Index`,
-      type: "NUMBER",
+      type: ApplicationCommandOptionType.Number,
       required: true,
     },
   ],

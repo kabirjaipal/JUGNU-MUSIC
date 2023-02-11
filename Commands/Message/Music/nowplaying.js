@@ -1,4 +1,4 @@
-const { Message, EmbedBuilder } = require("discord.js");
+const { Message, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
@@ -6,8 +6,8 @@ module.exports = {
   name: "nowplaying",
   aliases: ["np"],
   description: `see what is playing now`,
-  userPermissions: ["CONNECT"],
-  botPermissions: ["CONNECT"],
+  userPermissions: PermissionFlagsBits.Connect,
+  botPermissions: PermissionFlagsBits.Connect,
   category: "Music",
   cooldown: 5,
   inVoiceChannel: false,
@@ -26,7 +26,7 @@ module.exports = {
   run: async (client, message, args, prefix, queue) => {
     // Code
     let song = queue.songs[0];
-    
+
     message.reply({
       embeds: [
         new EmbedBuilder()

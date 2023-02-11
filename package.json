@@ -4,7 +4,8 @@
   "description": "I'm a Discord Bot Developer and here is mine Discord Music Bot",
   "main": "index.js",
   "scripts": {
-    "start": "npm run node && node index.js",
+    "start": "node index.js",
+    "replit": "npm run node && node index.js",
     "node": "npm i --save-dev node@latest && npm config set prefix=$(pwd)/node_modules/node && export PATH=$(pwd)/node_modules/node/bin:$PATH"
   },
   "repository": {
@@ -25,16 +26,17 @@
     "@distube/spotify": "^1.5.1",
     "@distube/yt-dlp": "^1.1.3",
     "@joshdb/core": "^1.2.7",
-    "@joshdb/json": "^1.0.5",
     "@joshdb/mongo": "^1.1.6",
+    "@joshdb/sqlite": "^1.1.9",
     "cors": "^2.8.5",
-    "cpu-stat": "^2.0.1",
     "discord.js": "^14.7.1",
     "distube": "^4.0.4",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "ffmpeg-static": "^5.1.0",
     "libsodium-wrappers": "^0.7.10",
     "opusscript": "^0.0.8",
-    "simple-find-lyrics": "^0.0.1"
+    "simple-find-lyrics": "^0.0.1",
+    "systeminformation": "^5.17.9"
   }
 }

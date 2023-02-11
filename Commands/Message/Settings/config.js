@@ -1,4 +1,4 @@
-const { Message, EmbedBuilder } = require("discord.js");
+const { Message, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
@@ -6,8 +6,8 @@ module.exports = {
   name: "config",
   aliases: ["cnf"],
   description: `see config of current server`,
-  userPermissions: [],
-  botPermissions: [],
+  userPermissions: PermissionFlagsBits.SendMessages,
+  botPermissions: PermissionFlagsBits.EmbedLinks,
   category: "Settings",
   cooldown: 5,
   inVoiceChannel: false,

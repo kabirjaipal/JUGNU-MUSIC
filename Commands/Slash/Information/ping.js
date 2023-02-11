@@ -1,15 +1,19 @@
-const { CommandInteraction } = require("discord.js");
+const {
+  CommandInteraction,
+  PermissionFlagsBits,
+  ApplicationCommandType,
+} = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
   name: "ping",
   description: `get ping of bot`,
-  userPermissions: ["SEND_MESSAGES"],
-  botPermissions: ["EMBED_LINKS"],
+  userPermissions: PermissionFlagsBits.SendMessages,
+  botPermissions: PermissionFlagsBits.EmbedLinks,
   category: "Information",
   cooldown: 5,
-  type: "CHAT_INPUT",
+  type: ApplicationCommandType.ChatInput,
   inVoiceChannel: false,
   inSameVoiceChannel: false,
   Player: false,

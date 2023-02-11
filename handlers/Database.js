@@ -1,9 +1,8 @@
+const { Client } = require("discord.js");
 const { mongodb } = require("../settings/config");
 const Josh = require("@joshdb/core");
-// enable it if using mongo db
-// const provider = require("@joshdb/mongo");
-const { Client } = require("discord.js");
-const provider = require("@joshdb/json");
+// const provider = require("@joshdb/mongo"); // for mongodb database
+const provider = require("@joshdb/sqlite"); // for sqlite database
 
 /**
  *
@@ -38,7 +37,9 @@ module.exports = async (client) => {
     if (!music) return;
     let requestchannel = guild.channels.cache.get(music?.music.channel);
     if (requestchannel) {
-      await requestchannel.delete(`reset setting`).catch((e) => null);
+      await requestchannel
+        .delete(`Deleting ${client.user.username} Request Channel`)
+        .catch((e) => null);
     }
     await client.music.delete(guild.id);
   });

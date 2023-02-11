@@ -1,21 +1,15 @@
 const client = require("../index");
-const {
-  cooldown,
-  check_dj,
-  databasing,
-  toPascalCase,
-} = require("../handlers/functions");
+const { cooldown, check_dj, databasing } = require("../handlers/functions");
 const { emoji } = require("../settings/config");
 const {
   ApplicationCommandOptionType,
-  PermissionFlagsBits,
-  InteractionType,
+  PermissionsBitField,
 } = require("discord.js");
 
 client.on("interactionCreate", async (interaction) => {
   // Slash Command Handling
   if (interaction.isCommand()) {
-    await interaction.deferReply({ ephemeral: false }).catch((e) => {});
+    await interaction.deferReply().catch((e) => {});
     await databasing(interaction.guildId, interaction.user.id);
     const cmd = client.commands.get(interaction.commandName);
     if (!cmd)
@@ -44,21 +38,21 @@ client.on("interactionCreate", async (interaction) => {
       let checkDJ = await check_dj(client, interaction.member, queue?.songs[0]);
       if (
         !interaction.member.permissions.has(
-          PermissionFlagsBits[toPascalCase(cmd.userPermissions[0])] || []
+          PermissionsBitField.resolve(cmd.userPermissions)
         )
       ) {
         return client.embed(
           interaction,
-          `You Don't Have \`${cmd.userPermissions}\` Permission to Use \`${cmd.name}\` Command!!`
+          `You Don't Have Permission to Use \`${cmd.name}\` Command!!`
         );
       } else if (
         !interaction.guild.members.me.permissions.has(
-          PermissionFlagsBits[toPascalCase(cmd.botPermissions[0])] || []
+          PermissionsBitField.resolve(cmd.botPermissions)
         )
       ) {
         return client.embed(
           interaction,
-          `I Don't Have \`${cmd.botPermissions}\` Permission to Use \`${cmd.name}\` Command!!`
+          `I Don't Have Permission to Run \`${cmd.name}\` Command!!`
         );
       } else if (cooldown(interaction, cmd)) {
         return client.embed(
@@ -100,5 +94,14 @@ client.on("interactionCreate", async (interaction) => {
     await interaction.deferReply({ ephemeral: true }).catch((e) => {});
     const command = client.commands.get(interaction.commandName);
     if (command) command.run(client, interaction);
+  }
+
+  // button handling
+  if (interaction.isButton()) {
+    await interaction.deferUpdate().catch((e) => {});
+  }
+  // menu handling
+  if (interaction.isAnySelectMenu()) {
+    await interaction.deferUpdate().catch((e) => {});
   }
 });

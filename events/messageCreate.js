@@ -1,12 +1,7 @@
-const {
-  cooldown,
-  check_dj,
-  databasing,
-  toPascalCase,
-} = require("../handlers/functions");
+const { cooldown, check_dj, databasing } = require("../handlers/functions");
 const client = require("..");
 const { PREFIX: botPrefix, emoji } = require("../settings/config");
-const { PermissionFlagsBits } = require("discord.js");
+const { PermissionsBitField, EmbedBuilder } = require("discord.js");
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot || !message.guild || !message.id) return;
@@ -22,10 +17,15 @@ client.on("messageCreate", async (message) => {
   const cmd = args.shift().toLowerCase();
   if (cmd.length === 0) {
     if (nprefix.includes(client.user.id)) {
-      client.embed(
-        message,
-        ` ${emoji.SUCCESS} To See My All Commands Type  \`/help\` or \`${prefix}help\``
-      );
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setColor(client.config.embed.color)
+            .setDescription(
+              ` ${emoji.SUCCESS} To See My All Commands Type  \`/help\` or \`${prefix}help\``
+            ),
+        ],
+      });
     }
   }
   const command =
@@ -40,21 +40,21 @@ client.on("messageCreate", async (message) => {
 
     if (
       !message.member.permissions.has(
-        PermissionFlagsBits[toPascalCase(command.userPermissions[0])] || []
+        PermissionsBitField.resolve(command.userPermissions)
       )
     ) {
       return client.embed(
         message,
-        `You Don't Have \`${command.userPermissions}\` Permission to Use \`${command.name}\` Command!!`
+        `You Don't Have Permission to Use \`${command.name}\` Command!!`
       );
     } else if (
       !message.guild.members.me.permissions.has(
-        PermissionFlagsBits[toPascalCase(command.botPermissions[0])] || []
+        PermissionsBitField.resolve(command.botPermissions)
       )
     ) {
       return client.embed(
         message,
-        `I Don't Have \`${command.botPermissions}\` Permission to Use \`${command.name}\` Command!!`
+        `I Don't Have Permission to Run \`${command.name}\` Command!!`
       );
     } else if (cooldown(message, command)) {
       return client.embed(

@@ -92,6 +92,17 @@ async function databasing(guildID, userID) {
     },
     autoresume: false,
   });
+  await client.autoresume.ensure(guildID, {
+    guild: guildID,
+    voiceChannel: null,
+    textChannel: null,
+    songs: [],
+    volume: client.config.options.defaultVolume,
+    repeatMode: 0,
+    playing: null,
+    currentTime: null,
+    autoplay: null,
+  });
 }
 
 async function swap_pages(interaction, embeds) {
@@ -284,15 +295,6 @@ function createBar(total, current, size = 25, line = "▬", slider = "🔷") {
   }
 }
 
-function toPascalCase(string) {
-  if (!string) return;
-  const words = string?.match(/[a-z]+/gi);
-  if (!words) return "";
-  return words
-    .map((word) => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase())
-    .join("");
-}
-
 function msToDuration(ms) {
   let seconds = Math.floor(ms / 1000);
   let minutes = Math.floor(seconds / 60);
@@ -330,6 +332,18 @@ async function skip(queue) {
   }
 }
 
+function formatBytes(x) {
+  const units = ["bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  let l = 0,
+    n = parseInt(x, 10) || 0;
+
+  while (n >= 1024 && ++l) {
+    n = n / 1024;
+  }
+
+  return n.toFixed(n < 10 && l > 0 ? 1 : 0) + " " + units[l];
+}
+
 module.exports = {
   cooldown,
   check_dj,
@@ -337,7 +351,7 @@ module.exports = {
   swap_pages,
   shuffle,
   createBar,
-  toPascalCase,
   msToDuration,
   skip,
+  formatBytes,
 };
