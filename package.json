@@ -4,9 +4,7 @@
   "description": "I'm a Discord Bot Developer and here is mine Discord Music Bot",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "replit": "npm run node && node index.js",
-    "node": "npm i --save-dev node@latest && npm config set prefix=$(pwd)/node_modules/node && export PATH=$(pwd)/node_modules/node/bin:$PATH"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
