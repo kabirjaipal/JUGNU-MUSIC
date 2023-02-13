@@ -418,11 +418,16 @@ module.exports = async (client) => {
       if (i.user.id === user.id) {
         return true;
       } else {
-        await i.deferReply().catch((e) => {});
-        i.followUp({
-          content: `Not Your Interaction !!`,
-          ephemeral: true,
-        });
+        await i
+          .deferReply()
+          .then(() => {
+            i.followUp({
+              content: `Not Your Interaction !!`,
+              ephemeral: true,
+            });
+          })
+          .catch((e) => {});
+
         return false;
       }
     };
