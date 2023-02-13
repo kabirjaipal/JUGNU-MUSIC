@@ -25,10 +25,22 @@ app.get("/home", (req, res) => {
 
 app.get("/commands", (req, res) => {
   const commands = {
-    mcommands: client.mcommands,
-    mcategories: client.mcategories,
-    scommands: client.commands,
-    scategories: client.scategories,
+    mcommands: client.mcommands.map((cmd) => {
+      return {
+        name: cmd.name,
+        description: cmd.description,
+        category: cmd.category,
+      };
+    }),
+    mcategories: client.mcategories.map((cat) => cat),
+    scommands: client.commands.map((cmd) => {
+      return {
+        name: cmd.name,
+        description: cmd.description,
+        category: cmd.category,
+      };
+    }),
+    scategories: client.scategories.map((cat) => cat),
   };
   res.send(commands);
 });
