@@ -5,8 +5,8 @@ const {
   ButtonBuilder,
   ButtonStyle,
   PermissionFlagsBits,
-  ComponentType,
   Message,
+  CommandInteraction,
 } = require("discord.js");
 const { Queue } = require("distube");
 
@@ -349,20 +349,20 @@ module.exports = async (client) => {
   };
   /**
    *
-   * @param {Message} message
+   * @param {CommandInteraction} interaction
    */
-  client.handleHelpSystem = async (message) => {
+  client.handleHelpSystem = async (interaction) => {
     // code
-    const send = message?.deferred
-      ? message.followUp.bind(message)
-      : message.reply.bind(message);
-    const user = message.member.user;
+    const send = interaction?.deferred
+      ? interaction.followUp.bind(interaction)
+      : interaction.reply.bind(interaction);
+    const user = interaction.member.user;
     // for commands
-    const commands = message?.author ? client.mcommands : client.commands;
+    const commands = interaction?.user ? client.commands : client.mcommands;
     // for categories
-    const categories = message?.author
-      ? client.mcategories
-      : client.scategories;
+    const categories = interaction?.user
+      ? client.scategories
+      : client.mcategories;
 
     const emoji = {
       Information: "🔰",
@@ -397,7 +397,7 @@ module.exports = async (client) => {
         name: client.user.tag,
         iconURL: client.user.displayAvatarURL({ dynamic: true }),
       })
-      .setThumbnail(message.guild.iconURL({ dynamic: true }))
+      .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
       .setDescription(
         `** An advanced  Music System with Audio Filtering A unique Music Request System and way much more! **`
       )
@@ -412,6 +412,7 @@ module.exports = async (client) => {
     let main_msg = await send({
       embeds: [help_embed],
       components: [row],
+      ephemeral: true,
     });
 
     let filter = async (i) => {
@@ -433,12 +434,13 @@ module.exports = async (client) => {
     };
     let colector = await main_msg.createMessageComponentCollector({
       filter: filter,
-      componentType: ComponentType.Button,
     });
+
     colector.on("collect", async (i) => {
       if (i.isButton()) {
         await i.deferUpdate().catch((e) => {});
         let directory = i.customId;
+        console.log("CustomId", directory);
         if (directory == "home") {
           main_msg.edit({ embeds: [help_embed] }).catch((e) => {});
         } else {
@@ -468,6 +470,53 @@ module.exports = async (client) => {
     colector.on("end", async (c, i) => {
       row.components.forEach((c) => c.setDisabled(true));
       main_msg.edit({ components: [row] }).catch((e) => {});
+    });
+  };
+  /**
+   *
+   * @param {CommandInteraction} interaction
+   */
+  client.HelpCommand = async (interaction) => {
+    const send = interaction?.deferred
+      ? interaction.followUp.bind(interaction)
+      : interaction.reply.bind(interaction);
+    const user = interaction.member.user;
+    // for commands
+    const commands = interaction?.user ? client.commands : client.mcommands;
+    // for categories
+    const categories = interaction?.user
+      ? client.scategories
+      : client.mcategories;
+
+    const emoji = {
+      Information: "🔰",
+      Music: "🎵",
+      Settings: "⚙️",
+    };
+
+    let allCommands = categories.map((cat) => {
+      let cmds = commands
+        .filter((cmd) => cmd.category == cat)
+        .map((cmd) => `\`${cmd.name}\``)
+        .join(" ' ");
+
+      return {
+        name: `${emoji[cat]} ${cat}`,
+        value: cmds,
+      };
+    });
+
+    let help_embed = new EmbedBuilder()
+      .setColor(client.config.embed.color)
+      .setAuthor({
+        name: `My Commands`,
+        iconURL: client.user.displayAvatarURL({ dynamic: true }),
+      })
+      .addFields(allCommands)
+      .setFooter(client.getFooter(user));
+
+    send({
+      embeds: [help_embed],
     });
   };
 };
