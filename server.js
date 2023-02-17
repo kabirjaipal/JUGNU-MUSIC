@@ -24,22 +24,17 @@ app.get("/home", (req, res) => {
 });
 
 app.get("/commands", (req, res) => {
+  function cmdData(cmd) {
+    return {
+      name: cmd.name,
+      description: cmd.description,
+      category: cmd.category,
+    };
+  }
   const commands = {
-    mcommands: client.mcommands.map((cmd) => {
-      return {
-        name: cmd.name,
-        description: cmd.description,
-        category: cmd.category,
-      };
-    }),
+    mcommands: client.mcommands.map((cmd) => cmdData(cmd)),
     mcategories: client.mcategories.map((cat) => cat),
-    scommands: client.commands.map((cmd) => {
-      return {
-        name: cmd.name,
-        description: cmd.description,
-        category: cmd.category,
-      };
-    }),
+    scommands: client.commands.map((cmd) => cmdData(cmd)),
     scategories: client.scategories.map((cat) => cat),
   };
   res.send(commands);
