@@ -5,7 +5,7 @@ const {
   EmbedBuilder,
   PermissionFlagsBits,
 } = require("discord.js");
-const JUGNU = require("../../../handlers/Client");
+const BAUL = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
 
   /**
    *
-   * @param {JUGNU} client
+   * @param {BAUL} client
    * @param {Message} message
    * @param {String[]} args
    * @param {String} prefix

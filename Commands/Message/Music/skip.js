@@ -1,5 +1,5 @@
 const { Message, PermissionFlagsBits } = require("discord.js");
-const JUGNU = require("../../../handlers/Client");
+const BAUL = require("../../../handlers/Client");
 const { Queue } = require("distube");
 const { skip } = require("../../../handlers/functions");
 
@@ -18,7 +18,7 @@ module.exports = {
 
   /**
    *
-   * @param {JUGNU} client
+   * @param {BAUL} client
    * @param {Message} message
    * @param {String[]} args
    * @param {String} prefix

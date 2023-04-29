@@ -4,7 +4,7 @@ const {
   ApplicationCommandType,
   ApplicationCommandOptionType,
 } = require("discord.js");
-const JUGNU = require("../../../handlers/Client");
+const BAUL = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
   ],
   /**
    *
-   * @param {JUGNU} client
+   * @param {BAUL} client
    * @param {CommandInteraction} interaction
    * @param {String[]} args
    * @param {Queue} queue

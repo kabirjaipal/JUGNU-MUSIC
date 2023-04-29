@@ -2,7 +2,7 @@ const {
   ContextMenuInteraction,
   ApplicationCommandType,
 } = require("discord.js");
-const JUGNU = require("../../../handlers/Client");
+const BAUL = require("../../../handlers/Client");
 
 module.exports = {
   name: "addtoqueue",
@@ -10,7 +10,7 @@ module.exports = {
 
   /**
    *
-   * @param {JUGNU} client
+   * @param {BAUL} client
    * @param {ContextMenuInteraction} interaction
    */
   run: async (client, interaction) => {

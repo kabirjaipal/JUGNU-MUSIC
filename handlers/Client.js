@@ -9,13 +9,10 @@ const {
 } = require("discord.js");
 const fs = require("fs");
 const Distube = require("distube").default;
-const { SpotifyPlugin } = require("@distube/spotify");
-const { SoundCloudPlugin } = require("@distube/soundcloud");
-const { DeezerPlugin } = require("@distube/deezer");
 const { filters, options } = require("../settings/config");
 const { YtDlpPlugin } = require("@distube/yt-dlp");
 
-class JUGNU extends Client {
+class BAUL extends Client {
   constructor() {
     super({
       partials: [
@@ -134,4 +131,4 @@ class JUGNU extends Client {
   }
 }
 
-module.exports = JUGNU;
+module.exports = BAUL;

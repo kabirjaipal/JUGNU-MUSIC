@@ -1,4 +1,4 @@
-const JUGNU = require("./Client");
+const BAUL = require("./Client");
 const {
   EmbedBuilder,
   ActionRowBuilder,
@@ -12,7 +12,7 @@ const { Queue } = require("distube");
 
 /**
  *
- * @param {JUGNU} client
+ * @param {BAUL} client
  */
 module.exports = async (client) => {
   // code
@@ -159,7 +159,7 @@ module.exports = async (client) => {
   client.queueembed = (guild) => {
     let embed = new EmbedBuilder()
       .setColor(client.config.embed.color)
-      .setTitle(`Jugnu | Queue`);
+      .setTitle(`BAUL | Queue`);
     // .setDescription(`\n\n ** There are \`0\` Songss in Queue ** \n\n`)
     // .setThumbnail(guild.iconURL({ dynamic: true }))
     // .setFooter({
@@ -267,7 +267,7 @@ module.exports = async (client) => {
         new EmbedBuilder()
           .setColor(client.config.embed.color)
           .setAuthor({
-            name: `Jugnu Queue  -  [ ${queue.songs.length} Tracks ]`,
+            name: `BAUL Queue  -  [ ${queue.songs.length} Tracks ]`,
             iconURL: guild.iconURL({ dynamic: true }),
           })
           .setDescription(string.substring(0, 2048))

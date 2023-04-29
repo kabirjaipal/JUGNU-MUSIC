@@ -4,14 +4,14 @@ const {
   PermissionFlagsBits,
   ButtonInteraction,
 } = require("discord.js");
-const JUGNU = require("./Client");
+const BAUL = require("./Client");
 const { Song, SearchResultVideo } = require("distube");
 const { check_dj, skip } = require("./functions");
 let voiceMap = new Map();
 
 /**
  *
- * @param {JUGNU} client
+ * @param {BAUL} client
  */
 module.exports = async (client) => {
   client.distube.setMaxListeners(0);

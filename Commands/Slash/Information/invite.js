@@ -3,7 +3,7 @@ const {
   ApplicationCommandType,
   PermissionFlagsBits,
 } = require("discord.js");
-const JUGNU = require("../../../handlers/Client");
+const BAUL = require("../../../handlers/Client");
 const { Queue } = require("distube");
 const { links } = require("../../../settings/config");
 
@@ -22,7 +22,7 @@ module.exports = {
 
   /**
    *
-   * @param {JUGNU} client
+   * @param {BAUL} client
    * @param {CommandInteraction} interaction
    * @param {String[]} args
    * @param {Queue} queue

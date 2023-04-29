@@ -1,5 +1,5 @@
 {
-  "name": "jugnu-music",
+  "name": "BAUL-music",
   "version": "1.0.0",
   "description": "I'm a Discord Bot Developer and here is mine Discord Music Bot",
   "main": "index.js",
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kabirsingh2004/JUGNU-MUSIC.git"
+    "url": "git+https://github.com/kabirsingh2004/BAUL-MUSIC.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kabirsingh2004/JUGNU-MUSIC/issues"
+    "url": "https://github.com/kabirsingh2004/BAUL-MUSIC/issues"
   },
-  "homepage": "https://github.com/kabirsingh2004/JUGNU-MUSIC#readme",
+  "homepage": "https://github.com/kabirsingh2004/BAUL-MUSIC#readme",
   "dependencies": {
     "@discordjs/voice": "^0.15.0",
     "@distube/deezer": "^1.0.0",
