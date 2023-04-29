@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kabirsingh2004/BAUL-MUSIC.git"
+    "url": "git+https://github.com/AnirbanBiswasGamer/Baul-Music-Bot-.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kabirsingh2004/BAUL-MUSIC/issues"
+    "url": "https://github.com/AnirbanBiswasGamer/Baul-Music-Bot-/issues"
   },
-  "homepage": "https://github.com/kabirsingh2004/BAUL-MUSIC#readme",
+  "homepage": "https://github.com/AnirbanBiswasGamer/Baul-Music-Bot-#readme",
   "dependencies": {
     "@discordjs/voice": "^0.15.0",
     "@distube/deezer": "^1.0.0",
