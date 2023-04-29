@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "I'm just a random guy modifing jugnu bot. Making it litewait and easy to use.",
   "main": "index.js",
-}
+
   "scripts": {
     "start": "node index.js"
   },
