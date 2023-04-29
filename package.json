@@ -35,7 +35,7 @@
     "ffmpeg-static": "^5.1.0",
     "libsodium-wrappers": "^0.7.11",
     "opusscript": "^0.0.8",
-    "simple-find-lyrics": "^0.0.1",
+    "simple-find-lyrics": "^0.1.0",
     "systeminformation": "^5.17.12",
     "tweetnacl": "^1.0.3"
   }
