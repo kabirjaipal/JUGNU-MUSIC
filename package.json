@@ -1,7 +1,7 @@
 {
-  "name": "BAUL-music",
-  "version": "1.0.0",
-  "description": "I'm a Discord Bot Developer and here is mine Discord Music Bot",
+  "name": "Baul-Music-Bot-",
+  "version": "0.0.1",
+  "description": "I'm just a random guy modifing jugnu bot. Making it litewait and easy to use.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
