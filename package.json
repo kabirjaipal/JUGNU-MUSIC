@@ -19,9 +19,9 @@
   },
   "homepage": "https://github.com/AnirbanBiswasGamer/Baul-Music-Bot-#readme",
   "dependencies": {
-    "@discordjs/voice": "^0.15.0",
+    "@discordjs/voice": "^0.16.0",
     "@distube/deezer": "^1.0.0",
-    "@distube/soundcloud": "^1.3.0",
+    "@distube/soundcloud": "^1.3.2",
     "@distube/spotify": "^1.5.1",
     "@distube/yt-dlp": "^1.1.3",
     "@joshdb/core": "^1.2.7",
