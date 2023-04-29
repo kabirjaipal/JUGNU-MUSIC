@@ -3,7 +3,7 @@ const client = require("./index");
 const cors = require("cors");
 const { version } = require("discord.js");
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 6903;
 const os = require("systeminformation");
 const { msToDuration, formatBytes } = require("./handlers/functions");
 
@@ -69,5 +69,5 @@ app.get("/contact", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Listing at http://localhost:${port}`);
+  console.log(`Listing at http://n1.spectral.host:${port}`);
 });

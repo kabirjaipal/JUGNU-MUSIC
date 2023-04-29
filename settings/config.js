@@ -2,9 +2,9 @@ module.exports = {
   TOKEN: process.env.TOKEN || "BOT_TOKEN",
   PREFIX: process.env.PREFIX || "BOT_PREFIX",
   embed: {
-    color: process.env.color || "#220f80",
-    wrongcolor: process.env.wrongcolor || "#8a0808",
-    footertext: "Coded By Kabir Singh | Tech Boy Development",
+    color: process.env.color || "#FEFF00",
+    wrongcolor: process.env.wrongcolor || "#DC2121",
+    footertext: "Playing | বাংলার গান",
   },
   emoji: {
     ERROR: "❌",
@@ -74,14 +74,14 @@ module.exports = {
     inviteURL:
       process.env.inviteURL ||
       `https://discord.com/api/oauth2/authorize?client_id=BOTID&permissions=8&scope=bot%20applications.commands`,
-    DiscordServer: process.env.DiscordServer || `https://discord.gg/FuKfAREn9f`,
-    VoteURL: process.env.VoteURL || `https://discord.gg/FuKfAREn9f`,
-    Website: `https://jugnu.netlify.app/`,
+    DiscordServer: process.env.DiscordServer || `https://discord.gg/HwJEjFrSZ5`,
+    VoteURL: process.env.VoteURL || `https://discord.gg/HwJEjFrSZ5`,
+    Website: ``,
   },
   options: {
     embedFooter: true,
     nowplayingMsg: true,
-    defaultVolume: 69,
+    defaultVolume: 100,
   },
   numberEmojis: [
     `0️⃣`,
