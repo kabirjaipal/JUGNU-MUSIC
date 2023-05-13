@@ -5,6 +5,7 @@ const { version } = require("discord.js");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT;
+const ip = process.env.IP;
 const os = require("systeminformation");
 const { msToDuration, formatBytes } = require("./handlers/functions");
 
@@ -77,5 +78,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Listening at http://placeholder.com:${port}`);
+  console.log(`Bot Site at http://${ip}:${port}`);
 });
