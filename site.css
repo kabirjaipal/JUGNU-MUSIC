@@ -1,0 +1,17 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 3rem;
+  }
+  
+  #uptime {
+    font-size: 6rem;
+  }
+  
