@@ -3,7 +3,7 @@ const client = require("./index");
 const cors = require("cors");
 const { version } = require("discord.js");
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 6903;
 const os = require("systeminformation");
 const { msToDuration, formatBytes } = require("./handlers/functions");
 
@@ -14,10 +14,6 @@ app.use(
     extended: true,
   })
 );
-
-app.get("/", (req, res) => {
-  res.send(`Hello World`);
-});
 
 app.get("/home", (req, res) => {
   res.send(client.user);
@@ -68,6 +64,17 @@ app.get("/contact", (req, res) => {
   res.send(options);
 });
 
+// Display bot uptime in HTML format
+app.get("/", (req, res) => {
+  let totalSeconds = client.uptime / 1000;
+  let days = Math.floor(totalSeconds / 86400);
+  let hours = Math.floor(totalSeconds / 3600) % 24;
+  let minutes = Math.floor(totalSeconds / 60) % 60;
+  let seconds = Math.floor(totalSeconds) % 60;
+  let uptime = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  res.send(`<h1>Bot Uptime: ${uptime}</h1>`);
+});
+
 app.listen(port, () => {
-  console.log(`Listing at http://localhost:${port}`);
+  console.log(`Listening at http://server.spectral.host:${port}`);
 });
