@@ -1,21 +1,24 @@
+<!-- uptime.html -->
 <!DOCTYPE html>
 <html lang="en">
+  <link rel="stylesheet" href="site.css">
   <head>
-    <script src="/site.js"></script>
-
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bot Uptime</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Bot Uptime: <span id="uptime"></span></h1>
+    <h1>Bot Uptime:</h1>
+    <div id="uptime"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-      // Retrieve the bot uptime from the server and display it in the HTML page
-      fetch("/uptime")
-.then((response) => response.json())
-.then((data) => {
-  document.getElementById("uptime").textContent = data.uptime;
-});
+      $(function() {
+        setInterval(function() {
+          $.getJSON("/uptime", function(data) {
+            $("#uptime").text(data.uptime);
+          });
+        }, 1000);
+      });
     </script>
   </body>
 </html>
