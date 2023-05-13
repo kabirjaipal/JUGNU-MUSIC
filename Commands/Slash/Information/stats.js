@@ -50,10 +50,6 @@ module.exports = {
           )
           .addFields([
             {
-              name: `⏳ Memory Usage`,
-              value: `\`${UsageRam}\` / \`${TotalRam}\``,
-            },
-            {
               name: `⌚️ Uptime`,
               // value: `<t:${Math.floor(
               //   Date.now() / 1000 - client.uptime / 1000
@@ -89,25 +85,6 @@ module.exports = {
               name: `🏓 Ping`,
               value: `\`${client.ws.ping}ms\``,
               inline: true,
-            },
-            {
-              name: `🤖 CPU usage`,
-              value: `\`${Math.floor(cpuUsage)}%\``,
-              inline: true,
-            },
-            {
-              name: `🤖 Arch`,
-              value: `\`${osInfo.arch}\``,
-              inline: true,
-            },
-            {
-              name: `💻 Platform`,
-              value: `\`\`${osInfo.platform}\`\``,
-              inline: true,
-            },
-            {
-              name: `🤖 CPU`,
-              value: `\`\`\`fix\n${cpu.brand}\`\`\``,
             },
           ])
           .setFooter(client.getFooter(interaction.user)),
