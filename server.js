@@ -2,8 +2,9 @@ const express = require("express");
 const client = require("./index");
 const cors = require("cors");
 const { version } = require("discord.js");
+require("dotenv").config();
 const app = express();
-const port = process.env.PORT || 6903;
+const port = process.env.PORT;
 const os = require("systeminformation");
 const { msToDuration, formatBytes } = require("./handlers/functions");
 
