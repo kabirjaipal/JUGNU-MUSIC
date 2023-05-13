@@ -76,5 +76,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Listening at http://server.spectral.host:${port}`);
+  console.log(`Listening at http://placeholder.com:${port}`);
 });
