@@ -8,6 +8,7 @@ const port = process.env.PORT;
 const ip = process.env.IP;
 const os = require("systeminformation");
 const { msToDuration, formatBytes } = require("./handlers/functions");
+const fs = require("fs");
 
 app.use(cors());
 app.use(express.json());
@@ -66,16 +67,28 @@ app.get("/contact", (req, res) => {
   res.send(options);
 });
 
-// Display bot uptime in HTML format
+// Serve the uptime HTML file
 app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/uptime.html");
+});
+
+// Get the bot uptime as JSON data
+app.get("/uptime", (req, res) => {
   let totalSeconds = client.uptime / 1000;
   let days = Math.floor(totalSeconds / 86400);
   let hours = Math.floor(totalSeconds / 3600) % 24;
   let minutes = Math.floor(totalSeconds / 60) % 60;
   let seconds = Math.floor(totalSeconds) % 60;
   let uptime = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-  res.send(`<h1>Bot Uptime: ${uptime}</h1>`);
+  res.json({ uptime });
 });
+
+// Error handler
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send("Something went wrong!");
+});
+
 
 app.listen(port, () => {
   console.log(`Bot Site at http://${ip}:${port}`);

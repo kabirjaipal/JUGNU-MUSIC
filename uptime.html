@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bot Uptime</title>
+  </head>
+  <body>
+    <h1>Bot Uptime: <span id="uptime"></span></h1>
+    <script>
+      // Retrieve the bot uptime from the server and display it in the HTML page
+      fetch("/uptime")
+        .then((response) => response.json())
+        .then((data) => {
+          document.getElementById("uptime").textContent = data.uptime;
+        });
+    </script>
+  </body>
+</html>
