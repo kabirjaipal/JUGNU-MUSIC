@@ -2,8 +2,8 @@ module.exports = {
   TOKEN: process.env.TOKEN || "BOT_TOKEN",
   PREFIX: process.env.PREFIX || "BOT_PREFIX",
   embed: {
-    color: process.env.color || "#FEFF00",
-    wrongcolor: process.env.wrongcolor || "#DC2121",
+    EMBEDCOLOR: process.env.EMBEDCOLOR || "EMBED_COLOR",
+    WRONGCOLOR: process.env.WRONGCOLOR || "EMBED_WRONG_COLOR",
     footertext: "Playing | বাংলার গান",
   },
   emoji: {
