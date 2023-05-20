@@ -8,7 +8,7 @@ const { Queue } = require("distube");
 
 module.exports = {
   name: "ping",
-  description: `get ping of bot`,
+  description: "Get the ping of the bot",
   userPermissions: PermissionFlagsBits.SendMessages,
   botPermissions: PermissionFlagsBits.EmbedLinks,
   category: "Information",
@@ -27,7 +27,19 @@ module.exports = {
    * @param {Queue} queue
    */
   run: async (client, interaction, args, queue) => {
-    // Code
-    client.embed(interaction, `Ping :: \`${client.ws.ping}\``);
+    // Calculate the API latency
+    const apiLatency = Math.round(client.ws.ping);
+
+    // Get the current timestamp
+    const timestamp = Date.now();
+
+    // Calculate the overall latency
+    const overallLatency = timestamp - interaction.createdTimestamp;
+
+    // Send the response with the ping information
+    client.embed(
+      interaction,
+      `API Latency: \`${apiLatency}ms\`\nOverall Latency: \`${overallLatency}ms\``
+    );
   },
 };
