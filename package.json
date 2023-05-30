@@ -27,6 +27,7 @@
     "@joshdb/core": "^1.2.7",
     "@joshdb/mongo": "^1.1.6",
     "@joshdb/sqlite": "^1.1.9",
+    "@distube/ytdl-core": "^4.11.10",
     "cors": "^2.8.5",
     "discord.js": "^14.11.0",
     "distube": "^4.0.4",
