@@ -1,4 +1,4 @@
-# Hi, I'm Kabir! 👋
+# Hi, i'am D3NJ1 👋
 
 I'm a Discord Bot Developer and here is mine Discord Music Bot
 
@@ -65,10 +65,6 @@ GUILD_ID=
 ## Music Bot Dashboard Setup
 
 [Click Here](https://github.com/kabirsingh2004/JUGNU-Dashboard/blob/main/README.md)
-
-## Feedback
-
-If you have any feedback, please reach out to us at [Discord Server](https://discord.gg/FuKfAREn9f)
 
 ## License
 
