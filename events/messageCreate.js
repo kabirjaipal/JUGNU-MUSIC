@@ -1,10 +1,10 @@
 const { cooldown, check_dj, databasing } = require("../handlers/functions");
 const client = require("..");
 const { PREFIX: botPrefix, emoji } = require("../settings/config");
-const { PermissionsBitField, EmbedBuilder } = require("discord.js");
+const { Permissions, MessageEmbed } = require("discord.js");
 
 client.on("messageCreate", async (message) => {
-  if (message.author.bot || !message.guild || !message.id) return;
+  if (message.author.bot || !message.guild || !message.content) return;
   await databasing(message.guildId, message.author.id);
   let settings = await client.music.get(message.guild.id);
   let prefix = settings?.prefix || botPrefix;
@@ -19,7 +19,7 @@ client.on("messageCreate", async (message) => {
     if (nprefix.includes(client.user.id)) {
       return message.reply({
         embeds: [
-          new EmbedBuilder()
+          new MessageEmbed()
             .setColor(client.config.embed.color)
             .setDescription(
               ` ${emoji.SUCCESS} To See My All Commands Type  \`/help\` or \`${prefix}help\``
@@ -35,12 +35,12 @@ client.on("messageCreate", async (message) => {
   if (command) {
     let queue = client.distube.getQueue(message.guild.id);
     let voiceChannel = message.member.voice.channel;
-    let botChannel = message.guild.members.me.voice.channel;
+    let botChannel = message.guild.members.cache.get(client.user.id).voice.channel;
     let checkDJ = await check_dj(client, message.member, queue?.songs[0]);
 
     if (
       !message.member.permissions.has(
-        PermissionsBitField.resolve(command.userPermissions)
+        command.userPermissions.reduce((prev, curr) => prev | Permissions[curr], 0)
       )
     ) {
       return client.embed(
@@ -48,8 +48,8 @@ client.on("messageCreate", async (message) => {
         `You Don't Have Permission to Use \`${command.name}\` Command!!`
       );
     } else if (
-      !message.guild.members.me.permissions.has(
-        PermissionsBitField.resolve(command.botPermissions)
+      !message.guild.members.cache.get(client.user.id).permissions.has(
+        command.botPermissions.reduce((prev, curr) => prev | Permissions[curr], 0)
       )
     ) {
       return client.embed(
@@ -72,7 +72,7 @@ client.on("messageCreate", async (message) => {
     } else if (
       command.inSameVoiceChannel &&
       botChannel &&
-      !botChannel?.equals(voiceChannel)
+      !botChannel.equals(voiceChannel)
     ) {
       return client.embed(
         message,
@@ -83,7 +83,7 @@ client.on("messageCreate", async (message) => {
     } else if (command.djOnly && checkDJ) {
       return client.embed(
         message,
-        `${emoji.ERROR} You are not DJ and also you are not song requester..`
+        `${emoji.ERROR} You are not DJ and also you are not the song requester.`
       );
     } else {
       command.run(client, message, args, nprefix, queue);
