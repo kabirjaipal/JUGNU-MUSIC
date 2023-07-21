@@ -2,11 +2,15 @@ const express = require("express");
 const client = require("./index");
 const cors = require("cors");
 const { version } = require("discord.js");
-const app = express();
-const port = process.env.PORT || 3000;
 const os = require("systeminformation");
 const { msToDuration, formatBytes } = require("./handlers/functions");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(
@@ -14,16 +18,38 @@ app.use(
     extended: true,
   })
 );
+app.use(helmet()); // Add security headers
 
-app.get("/", (req, res) => {
+app.set('trust proxy', 1)
+
+
+
+// Rate limiting
+const createAccountLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 5 create account requests per `window` (here, per hour)
+  message:
+    'Too many API Calls, please try again after Some time',
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
+
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something went wrong!");
+});
+
+app.get("/", createAccountLimiter, (req, res) => {
   res.send(`Hello World`);
 });
 
-app.get("/home", (req, res) => {
+app.get("/home", createAccountLimiter, (req, res) => {
   res.send(client.user);
 });
 
-app.get("/commands", (req, res) => {
+app.get("/commands", createAccountLimiter, (req, res) => {
   function cmdData(cmd) {
     return {
       name: cmd.name,
@@ -40,7 +66,7 @@ app.get("/commands", (req, res) => {
   res.send(commands);
 });
 
-app.get("/about", async (req, res) => {
+app.get("/about", createAccountLimiter, async (req, res) => {
   let memory = await os.mem();
   let cpu = await os.cpu();
 
@@ -61,7 +87,7 @@ app.get("/about", async (req, res) => {
   res.send(options);
 });
 
-app.get("/contact", (req, res) => {
+app.get("/contact", createAccountLimiter, (req, res) => {
   let options = {
     user: client.user,
   };
@@ -69,5 +95,5 @@ app.get("/contact", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Listing at http://localhost:${port}`);
+  console.log(`Listening at http://localhost:${port}`);
 });
