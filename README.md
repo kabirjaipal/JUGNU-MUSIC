@@ -1,4 +1,4 @@
-# Kabir's Discord Music Bot 👋
+# Hi, I'm Kabir! 👋
 
 I'm Kabir, a Discord Bot Developer, and here is my advanced Discord Music Bot.
 
