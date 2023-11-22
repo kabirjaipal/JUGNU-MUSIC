@@ -31,25 +31,19 @@ PREFIX=
 GUILD_ID=
 ```
 
-**4.** Update Node Version. Copy and paste the following in the shell:
-
-```sh
-npm i --save-dev node@latest && npm config set prefix=$(pwd)/node_modules/node && export PATH=$(pwd)/node_modules/node/bin:$PATH
-```
-
-**5.** Fill everything in the config, then type in:
+**4.** Fill everything in the config, then type in:
 
 ```sh
 npm install
 ```
 
-**6.** Install additional packages:
+**5.** Install additional packages:
 
 ```sh
 npm install @discordjs/opus zlib-sync@latest erlpack@latest
 ```
 
-**7.** Start the bot with:
+**6.** Start the bot with:
 
 ```sh
 node index.js
@@ -82,7 +76,7 @@ If you have any feedback or need assistance, please join our [Discord Server](ht
 
 This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
 
-# Thanks For Using Music Bot! Please Give it a Star and give credit
+### Thanks For Using Music Bot! Please Give it a Star and give credit
 
 Your support is appreciated! 🌟
 
