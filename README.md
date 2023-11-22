@@ -1,18 +1,14 @@
-# Hi, I'm Kabir! 👋
+# Kabir's Discord Music Bot 👋
 
-I'm a Discord Bot Developer and here is mine Discord Music Bot
-
-# Advance Discord Music Bot
-
-a discord music bot with many commands , buttons , 24/7 , autoresume ,etc
+I'm Kabir, a Discord Bot Developer, and here is my advanced Discord Music Bot.
 
 ## **Installation | How to use the Bot**
 
-**1.** Install Latest LTS [NodeJS](https://nodejs.org/en/)
+**1.** Install the latest LTS [NodeJS](https://nodejs.org/en/).
 
-**2.** Download this repo and unzip it | or git clone it
+**2.** Download this repo and unzip it or use `git clone`.
 
-**3.** Fill in everything in **`settings/config.js`**
+**3.** Fill in everything in **`settings/config.js`**.
 
 ### _Modify - config.js_
 
@@ -35,43 +31,58 @@ PREFIX=
 GUILD_ID=
 ```
 
-**4.** Now Let's Update Node Version. copy and paste in shell **`npm i --save-dev node@latest && npm config set prefix=$(pwd)/node_modules/node && export PATH=$(pwd)/node_modules/node/bin:$PATH`**
+**4.** Update Node Version. Copy and paste the following in the shell:
 
-**5.** after Fill everything in config Type in shall **`npm install`**
+```sh
+npm i --save-dev node@latest && npm config set prefix=$(pwd)/node_modules/node && export PATH=$(pwd)/node_modules/node/bin:$PATH
+```
 
-**6.** now we need to install to additional packages **.** <br/>
+**5.** Fill everything in the config, then type in:
 
-1.  `npm install @discordjs/opus` - for better audio quality **.** <br/>
-2.  `npm install zlib-sync@latest` - for WebSocket data compression and inflation **.** <br/>
-3.  `npm install erlpack@latest` - for significantly faster WebSocket **.** <br/>
+```sh
+npm install
+```
 
-**7.** start the bot with **`node index.js`**
+**6.** Install additional packages:
+
+```sh
+npm install @discordjs/opus zlib-sync@latest erlpack@latest
+```
+
+**7.** Start the bot with:
+
+```sh
+node index.js
+```
 
 ## Music Bot Features
 
-- Easy to use Music Bot
-- Support Youtube , Spotify , Soundcloud , etc 700+ websites
+- Easy-to-use Music Bot
+- Supports Youtube, Spotify, Soundcloud, and 700+ other websites
 - Slash commands support
 - Dashboard support
 - Message commands support
-- Stable & up to date with discord.js v14
-- Support 24/7 in voice channel
-- Support autoresume system
-- Support music request channel system
-- Support more filters
-- Support dj system
-- Work on replit and others vps
+- Stable & up-to-date with discord.js v14
+- 24/7 voice channel support
+- Autoresume system
+- Music request channel system
+- Additional filters
+- DJ system
+- Works on Replit and other VPS
 
 ## Music Bot Dashboard Setup
 
 [Click Here](https://github.com/kabirsingh2004/JUGNU-Dashboard/blob/main/README.md)
 
-## Feedback
+## Feedback & Support
 
-If you have any feedback, please reach out to us at [Discord Server](https://discord.gg/FuKfAREn9f)
+If you have any feedback or need assistance, please join our [Discord Server](https://discord.gg/FuKfAREn9f).
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
 
-# Thanks For Using Music bot Please Give a Star and please give me credit
+# Thanks For Using Music Bot! Please Give it a Star and give credit
+
+Your support is appreciated! 🌟
+
