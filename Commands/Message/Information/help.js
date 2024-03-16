@@ -25,7 +25,7 @@ module.exports = {
    */
   run: async (client, message, args, prefix, queue) => {
     // Code
-    // await client.handleHelpSystem(message);
-    await client.HelpCommand(message);
+    await client.handleHelpSystem(message);
+    // await client.HelpCommand(message);
   },
 };

@@ -1,4 +1,4 @@
-const { Message, PermissionFlagsBits } = require("discord.js");
+const { Message, PermissionFlagsBits, Colors } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
 
@@ -25,6 +25,13 @@ module.exports = {
    */
   run: async (client, message, args, prefix, queue) => {
     // Code
-    client.embed(message, `Ping :: \`${client.ws.ping}\``);
+    return message.reply({
+      embeds: [
+        {
+          description: `Pong \`${client.ws.ping}\``,
+          color: Colors.Blurple,
+        },
+      ],
+    });
   },
 };

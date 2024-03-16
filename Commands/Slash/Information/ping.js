@@ -2,6 +2,7 @@ const {
   CommandInteraction,
   PermissionFlagsBits,
   ApplicationCommandType,
+  Colors,
 } = require("discord.js");
 const JUGNU = require("../../../handlers/Client");
 const { Queue } = require("distube");
@@ -28,6 +29,14 @@ module.exports = {
    */
   run: async (client, interaction, args, queue) => {
     // Code
-    client.embed(interaction, `Ping :: \`${client.ws.ping}\``);
+    return await interaction.followUp({
+      embeds: [
+        {
+          description: `Pong \`${client.ws.ping}\``,
+          color: Colors.Blurple,
+        },
+      ],
+      ephemeral: true,
+    });
   },
 };
