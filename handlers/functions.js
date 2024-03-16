@@ -344,6 +344,16 @@ function formatBytes(x) {
   return n.toFixed(n < 10 && l > 0 ? 1 : 0) + " " + units[l];
 }
 
+function getPermissionName(permissionValue) {
+  const permissionList = Object.entries(PermissionFlagsBits);
+  for (const [permissionName, permissionBit] of permissionList) {
+    if (permissionValue === permissionBit) {
+      return permissionName;
+    }
+  }
+  return null; // Permission not found
+}
+
 module.exports = {
   cooldown,
   check_dj,
@@ -354,4 +364,5 @@ module.exports = {
   msToDuration,
   skip,
   formatBytes,
+  getPermissionName,
 };

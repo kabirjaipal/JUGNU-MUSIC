@@ -6,9 +6,11 @@ I'm Kabir, a Discord Bot Developer, and here is my advanced Discord Music Bot.
 
 **1.** Install the latest LTS [NodeJS](https://nodejs.org/en/).
 
-**2.** Download this repo and unzip it or use `git clone`.
+**2.** Install the latest [Python](https://www.python.org/downloads/)
 
-**3.** Fill in everything in **`settings/config.js`**.
+**3.** Download this repo and unzip it or use `git clone`.
+
+**4.** Fill in everything in **`settings/config.js`**.
 
 ### _Modify - config.js_
 
@@ -79,4 +81,3 @@ This project is licensed under the [MIT License](https://choosealicense.com/lice
 ### Thanks For Using Music Bot! Please Give it a Star and give credit
 
 Your support is appreciated! 🌟
-

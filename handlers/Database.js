@@ -1,46 +1,54 @@
-const { Client } = require("discord.js");
 const { mongodb } = require("../settings/config");
 const Josh = require("@joshdb/core");
-// const provider = require("@joshdb/mongo"); // for mongodb database
-const provider = require("@joshdb/sqlite"); // for sqlite database
+// const provider = require("@joshdb/json"); // Use JSON database provider
+const JUGNU = require("./Client");
+const provider = require("@joshdb/mongo"); // Use MongoDB database provider
 
 /**
- *
- * @param {Client} client
+ * Initialize Josh database for music and autoresume
+ * @param {JUGNU} client - Discord client instance
  */
 module.exports = async (client) => {
-  // music
+  // Initialize music and autoresume databases
+  const dbName = client.user.username.replace(" ", "");
+  const dbOptions = {
+    url: mongodb,
+    collection: "music", // Collection name for music
+    dbName: dbName,
+  };
+
   client.music = new Josh({
     name: "music",
-    provider: provider,
-    providerOptions: {
-      url: mongodb,
-      collection: "music",
-      dbName: client.user.username.replace(" ", ""),
-    },
+    provider,
+    providerOptions: dbOptions,
   });
-  // autoresume
   client.autoresume = new Josh({
     name: "autoresume",
-    provider: provider,
-    providerOptions: {
-      url: mongodb,
-      collection: "autoresume",
-      dbName: client.user.username.replace(" ", ""),
-    },
+    provider,
+    providerOptions: dbOptions,
   });
 
-  // delete data if guild left
+  // Handle guild deletion event
   client.on("guildDelete", async (guild) => {
-    if (!guild) return;
-    let music = await client.music.get(guild.id);
-    if (!music) return;
-    let requestchannel = guild.channels.cache.get(music?.music.channel);
-    if (requestchannel) {
-      await requestchannel
-        .delete(`Deleting ${client.user.username} Request Channel`)
-        .catch((e) => null);
+    try {
+      if (!guild) return;
+
+      // Get music data for the guild
+      const musicData = await client.music.get(guild.id);
+      if (!musicData) return;
+
+      // Delete request channel if exists
+      const requestChannel = guild.channels.cache.get(musicData.music.channel);
+      if (requestChannel) {
+        await requestChannel.delete(
+          `Deleting ${client.user.username} Request Channel`
+        );
+      }
+
+      // Delete music data for the guild
+      await client.music.delete(guild.id);
+    } catch (error) {
+      console.error("Error handling guildDelete event:", error);
     }
-    await client.music.delete(guild.id);
   });
 };

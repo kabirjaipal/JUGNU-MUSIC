@@ -25,31 +25,31 @@ module.exports = async (client) => {
       new ButtonBuilder()
         .setStyle(ButtonStyle.Secondary)
         .setCustomId("skip")
-        .setLabel("Skip")
+        // .setLabel("Skip")
         .setEmoji(client.config.emoji.skip)
         .setDisabled(state),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Secondary)
         .setCustomId("pauseresume")
-        .setLabel("P/R")
+        // .setLabel("P/R")
         .setEmoji(client.config.emoji.pause_resume)
         .setDisabled(state),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Secondary)
         .setCustomId("loop")
-        .setLabel("Loop")
+        // .setLabel("Loop")
         .setEmoji(client.config.emoji.loop)
         .setDisabled(state),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Secondary)
         .setCustomId("stop")
-        .setLabel("Stop")
+        // .setLabel("Stop")
         .setEmoji(client.config.emoji.stop)
         .setDisabled(state),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Secondary)
         .setCustomId("autoplay")
-        .setLabel("Autoplay")
+        // .setLabel("Autoplay")
         .setEmoji(client.config.emoji.autoplay)
         .setDisabled(state),
     ]);
@@ -440,7 +440,6 @@ module.exports = async (client) => {
       if (i.isButton()) {
         await i.deferUpdate().catch((e) => {});
         let directory = i.customId;
-        console.log("CustomId", directory);
         if (directory == "home") {
           main_msg.edit({ embeds: [help_embed] }).catch((e) => {});
         } else {

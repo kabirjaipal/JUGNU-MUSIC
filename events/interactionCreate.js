@@ -1,9 +1,16 @@
 const client = require("../index");
-const { cooldown, check_dj, databasing } = require("../handlers/functions");
+const {
+  cooldown,
+  check_dj,
+  databasing,
+  getPermissionName,
+} = require("../handlers/functions");
 const { emoji } = require("../settings/config");
 const {
   ApplicationCommandOptionType,
   PermissionsBitField,
+  BitField,
+  PermissionFlagsBits,
 } = require("discord.js");
 
 client.on("interactionCreate", async (interaction) => {
@@ -26,9 +33,6 @@ client.on("interactionCreate", async (interaction) => {
         });
       } else if (option.value) args.push(option.value);
     }
-    interaction.member = interaction.guild.members.cache.get(
-      interaction.user.id
-    );
 
     if (cmd) {
       // checking user perms
@@ -41,18 +45,20 @@ client.on("interactionCreate", async (interaction) => {
           PermissionsBitField.resolve(cmd.userPermissions)
         )
       ) {
+        const needPerms = getPermissionName(cmd.userPermissions);
         return client.embed(
           interaction,
-          `You Don't Have Permission to Use \`${cmd.name}\` Command!!`
+          `You Don't Have \`${needPerms}\` Permission to Use \`${cmd.name}\` Command!!`
         );
       } else if (
         !interaction.guild.members.me.permissions.has(
           PermissionsBitField.resolve(cmd.botPermissions)
         )
       ) {
+        const needPerms = getPermissionName(cmd.botPermissions);
         return client.embed(
           interaction,
-          `I Don't Have Permission to Run \`${cmd.name}\` Command!!`
+          `I Don't Have \`${needPerms}\` Permission to Run \`${cmd.name}\` Command!!`
         );
       } else if (cooldown(interaction, cmd)) {
         return client.embed(

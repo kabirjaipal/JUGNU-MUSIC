@@ -1,4 +1,9 @@
-const { cooldown, check_dj, databasing } = require("../handlers/functions");
+const {
+  cooldown,
+  check_dj,
+  databasing,
+  getPermissionName,
+} = require("../handlers/functions");
 const client = require("..");
 const { PREFIX: botPrefix, emoji } = require("../settings/config");
 const { PermissionsBitField, EmbedBuilder } = require("discord.js");
@@ -43,18 +48,20 @@ client.on("messageCreate", async (message) => {
         PermissionsBitField.resolve(command.userPermissions)
       )
     ) {
+      const needPerms = getPermissionName(command.userPermissions);
       return client.embed(
         message,
-        `You Don't Have Permission to Use \`${command.name}\` Command!!`
+        `You Don't Have \`${needPerms}\` Permission to Use \`${command.name}\` Command!!`
       );
     } else if (
       !message.guild.members.me.permissions.has(
         PermissionsBitField.resolve(command.botPermissions)
       )
     ) {
+      const needPerms = getPermissionName(command.botPermissions);
       return client.embed(
         message,
-        `I Don't Have Permission to Run \`${command.name}\` Command!!`
+        `I Don't Have \`${needPerms}\` Permission to Run \`${command.name}\` Command!!`
       );
     } else if (cooldown(message, command)) {
       return client.embed(

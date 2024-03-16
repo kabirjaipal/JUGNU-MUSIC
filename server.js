@@ -1,11 +1,9 @@
-const express = require("express");
+const express = require("express")
 const client = require("./index");
 const cors = require("cors");
 const { version } = require("discord.js");
 const os = require("systeminformation");
 const { msToDuration, formatBytes } = require("./handlers/functions");
-const helmet = require("helmet");
-const rateLimit = require("express-rate-limit");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,22 +16,6 @@ app.use(
     extended: true,
   })
 );
-app.use(helmet()); // Add security headers
-
-app.set('trust proxy', 1)
-
-
-
-// Rate limiting
-const createAccountLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 5 create account requests per `window` (here, per hour)
-  message:
-    'Too many API Calls, please try again after Some time',
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-})
-
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -41,15 +23,15 @@ app.use((err, req, res, next) => {
   res.status(500).send("Something went wrong!");
 });
 
-app.get("/", createAccountLimiter, (req, res) => {
+app.get("/", (req, res) => {
   res.send(`Hello World`);
 });
 
-app.get("/home", createAccountLimiter, (req, res) => {
+app.get("/home", (req, res) => {
   res.send(client.user);
 });
 
-app.get("/commands", createAccountLimiter, (req, res) => {
+app.get("/commands", (req, res) => {
   function cmdData(cmd) {
     return {
       name: cmd.name,
@@ -63,10 +45,11 @@ app.get("/commands", createAccountLimiter, (req, res) => {
     scommands: client.commands.map((cmd) => cmdData(cmd)),
     scategories: client.scategories.map((cat) => cat),
   };
+
   res.send(commands);
 });
 
-app.get("/about", createAccountLimiter, async (req, res) => {
+app.get("/about", async (req, res) => {
   let memory = await os.mem();
   let cpu = await os.cpu();
 
@@ -84,10 +67,11 @@ app.get("/about", createAccountLimiter, async (req, res) => {
       usage: formatBytes(memory.used),
     },
   };
+
   res.send(options);
 });
 
-app.get("/contact", createAccountLimiter, (req, res) => {
+app.get("/contact", (req, res) => {
   let options = {
     user: client.user,
   };
