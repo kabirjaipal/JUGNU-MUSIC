@@ -40,7 +40,7 @@ module.exports = {
         message: message,
       });
 
-      await message.delete().catch((err) => console.log(err));
+      await message.delete().catch((err) => {});
     }
   },
 };

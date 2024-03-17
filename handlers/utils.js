@@ -6,6 +6,7 @@ const {
   ButtonStyle,
   PermissionFlagsBits,
   CommandInteraction,
+  ChannelType,
 } = require("discord.js");
 const { Queue } = require("distube");
 
@@ -65,7 +66,7 @@ module.exports = async (client) => {
     if (!playembed) return;
 
     if (client.config.options.nowplayingMsg) {
-      playembed.delete().catch(console.error);
+      playembed.delete().catch(() => {});
     } else {
       const embeds = playembed?.embeds?.[0];
       if (embeds) {
@@ -109,7 +110,6 @@ module.exports = async (client) => {
           .join(`\n`)
       );
     }
-    let limit = quelist.length <= 5 ? quelist.length : 5;
     let embeds = [];
     for (let i = 0; i < quelist.length; i++) {
       let desc = String(quelist[i]).substring(0, 2048);
@@ -174,20 +174,19 @@ module.exports = async (client) => {
    * @param {Guild} guild
    */
   client.playembed = (guild) => {
-    let embed = new EmbedBuilder()
+    const embed = new EmbedBuilder()
       .setColor(client.config.embed.color)
-      // .setTitle(`Join a Voice Channel and Type Song Link/Name to Play`)
       .setAuthor({
-        name: `Join a Voice Channel and Type Song Link/Name to Play`,
+        name: "Join a Voice Channel and Type Song Link/Name to Play",
         iconURL: client.user.displayAvatarURL(),
       })
       .setDescription(
-        ` [Invite Now](${client.config.links.inviteURL}) • [Support Server](${client.config.links.DiscordServer}) • [Website](${client.config.links.Website})`
+        `[Invite Now](${client.config.links.inviteURL}) • [Support Server](${client.config.links.DiscordServer}) • [Website](${client.config.links.Website})`
       )
       .setImage(
         guild.banner
           ? guild.bannerURL({ size: 4096 })
-          : `http://cdn.wallpaperinhd.net/wp-content/uploads/2018/11/02/Music-Background-Wallpaper-025.jpg`
+          : "http://cdn.wallpaperinhd.net/wp-content/uploads/2018/11/02/Music-Background-Wallpaper-025.jpg"
       )
       .setFooter({
         text: guild.name,
@@ -204,32 +203,31 @@ module.exports = async (client) => {
    * @returns
    */
   client.updateembed = async (client, guild) => {
-    let data = await client.music.get(`${guild.id}.music`);
-    if (!data) return;
-    let musicchannel = guild.channels.cache.get(data.channel);
-    if (!musicchannel) return;
-    // play msg
-    let playmsg = musicchannel.messages.cache.get(data.pmsg);
-    if (!playmsg) {
-      playmsg = await musicchannel.messages.fetch(data.pmsg).catch((e) => {});
-    }
-    // queue message
-    let queuemsg = musicchannel.messages.cache.get(data.qmsg);
-    if (!queuemsg) {
-      queuemsg = await musicchannel.messages.fetch(data.qmsg).catch((e) => {});
-    }
-    if (!queuemsg || !playmsg) return;
-    await playmsg
-      .edit({
+    try {
+      const data = await client.music.get(`${guild.id}.music`);
+      if (!data) return;
+
+      const musicchannel = guild.channels.cache.get(data.channel);
+      if (!musicchannel) return;
+
+      const playmsg = await musicchannel.messages
+        .fetch(data.pmsg)
+        .catch(console.error);
+      const queuemsg = await musicchannel.messages
+        .fetch(data.qmsg)
+        .catch(console.error);
+
+      if (!playmsg || !queuemsg) return;
+
+      await playmsg.edit({
         embeds: [client.playembed(guild)],
         components: [client.buttons(true)],
-      })
-      .then(async (msg) => {
-        await queuemsg
-          .edit({ embeds: [client.queueembed(guild)] })
-          .catch((e) => {});
-      })
-      .catch((e) => {});
+      });
+
+      await queuemsg.edit({ embeds: [client.queueembed(guild)] });
+    } catch (error) {
+      console.error("Error updating embed:", error);
+    }
   };
 
   // update queue
@@ -239,55 +237,65 @@ module.exports = async (client) => {
    * @returns
    */
   client.updatequeue = async (queue) => {
-    let guild = client.guilds.cache.get(queue.textChannel.guildId);
-    if (!guild) return;
-    let data = await client.music.get(`${guild.id}.music`);
-    if (!data) return;
-    let musicchannel = guild.channels.cache.get(data.channel);
-    if (!musicchannel) return;
-    let queueembed = musicchannel.messages.cache.get(data.qmsg);
-    if (!queueembed) {
-      queueembed = await musicchannel.messages
+    try {
+      const guild = client.guilds.cache.get(queue.textChannel.guildId);
+      if (!guild) return;
+
+      const data = await client.music.get(`${guild.id}.music`);
+      if (!data) return;
+
+      const musicchannel = guild.channels.cache.get(data.channel);
+      if (!musicchannel) return;
+
+      let queueembed = await musicchannel.messages
         .fetch(data.qmsg)
-        .catch((e) => {});
+        .catch(console.error);
+      if (!queueembed) return;
+
+      const currentSong = queue.songs[0];
+      const queueString = queue.songs
+        .slice(1, 10)
+        .map(
+          (track, index) =>
+            `\`${index + 1}.\` **${track.name.substring(0, 35)}** - ${
+              track.isLive
+                ? "LIVE STREAM"
+                : track.formattedDuration.split(" | ")[0]
+            } - \`${track.user.tag}\``
+        )
+        .reverse()
+        .join("\n");
+
+      await queueembed.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setColor(client.config.embed.color)
+            .setAuthor({
+              name: `Jugnu Queue - [${queue.songs.length} Tracks]`,
+              iconURL: guild.iconURL({ dynamic: true }),
+            })
+            .setDescription(queueString.substring(0, 2048))
+            .addFields([
+              {
+                name: `**\`0.\` __CURRENT TRACK__**`,
+                value: `**${currentSong.name.substring(0, 35)}** - ${
+                  currentSong.isLive
+                    ? "LIVE STREAM"
+                    : currentSong.formattedDuration.split(" | ")[0]
+                } - \`${currentSong.user.tag}\``,
+              },
+            ])
+            .setFooter({
+              text: guild.name,
+              iconURL: guild.iconURL({ dynamic: true }),
+            }),
+        ],
+      });
+    } catch (error) {
+      console.error("Error updating queue:", error);
     }
-    if (!queueembed) return;
-    let currentSong = queue.songs[0];
-    let string = queue.songs
-      ?.filter((t, i) => i < 10)
-      ?.map((track, index) => {
-        return `\` ${index + 1}. \` ** ${track.name.substring(0, 35)}** - \`${
-          track.isLive ? `LIVE STREAM` : track.formattedDuration.split(` | `)[0]
-        }\` \`${track.user.tag}\``;
-      })
-      ?.reverse()
-      .join("\n");
-    queueembed.edit({
-      embeds: [
-        new EmbedBuilder()
-          .setColor(client.config.embed.color)
-          .setAuthor({
-            name: `Jugnu Queue  -  [ ${queue.songs.length} Tracks ]`,
-            iconURL: guild.iconURL({ dynamic: true }),
-          })
-          .setDescription(string.substring(0, 2048))
-          .addFields([
-            {
-              name: `**\` 0. \` __CURRENT TRACK__**`,
-              value: `**${currentSong.name.substring(0, 35)}** - \`${
-                currentSong.isLive
-                  ? `LIVE STREAM`
-                  : currentSong.formattedDuration.split(` | `)[0]
-              }\` \`${currentSong.user.tag}\``,
-            },
-          ])
-          .setFooter({
-            text: guild.name,
-            iconURL: guild.iconURL({ dynamic: true }),
-          }),
-      ],
-    });
   };
+
   // update player
   /**
    *
@@ -295,68 +303,79 @@ module.exports = async (client) => {
    * @returns
    */
   client.updateplayer = async (queue) => {
-    let guild = client.guilds.cache.get(queue.textChannel.guildId);
-    if (!guild) return;
+    try {
+      const guild = client.guilds.cache.get(queue.textChannel.guildId);
+      if (!guild) return;
 
-    let data = await client.music.get(`${guild.id}.music`);
-    if (!data) return;
+      const data = await client.music.get(`${guild.id}.music`);
+      if (!data) return;
 
-    let musicchannel = guild.channels.cache.get(data.channel);
-    if (!musicchannel) return;
+      const musicchannel = guild.channels.cache.get(data.channel);
+      if (!musicchannel) return;
 
-    let playembed = musicchannel.messages.cache.get(data.pmsg);
-    if (!playembed) {
-      playembed = await musicchannel.messages.fetch(data.pmsg).catch((e) => {});
+      let playembed = await musicchannel.messages
+        .fetch(data.pmsg)
+        .catch(console.error);
+      if (!playembed || !playembed.id) return;
+
+      const track = queue.songs[0];
+      if (!track || !track.name) {
+        queue.stop();
+        return;
+      }
+
+      await playembed.edit({
+        embeds: [
+          new EmbedBuilder()
+            .setColor(client.config.embed.color)
+            .setImage(track.thumbnail)
+            .setTitle(track.name)
+            .setURL(track.url)
+            .addFields([
+              {
+                name: "**Requested By**",
+                value: `\`${track.user.tag}\``,
+                inline: true,
+              },
+              {
+                name: "**Author**",
+                value: `\`${track.uploader.name || "😏"}\``,
+                inline: true,
+              },
+              {
+                name: "**Duration**",
+                value: `\`${track.formattedDuration}\``,
+                inline: true,
+              },
+            ])
+            .setFooter(client.getFooter(track.user)),
+        ],
+        components: [client.buttons(false)],
+      });
+    } catch (error) {
+      console.error("Error updating player:", error);
     }
-
-    if (!playembed || !playembed.id) return;
-
-    let track = queue.songs[0];
-
-    if (!track.name) queue.stop();
-
-    playembed.edit({
-      embeds: [
-        new EmbedBuilder()
-          .setColor(client.config.embed.color)
-          .setImage(track.thumbnail)
-          .setTitle(track?.name)
-          .setURL(track.url)
-          .addFields([
-            {
-              name: `** Requested By **`,
-              value: `\`${track.user.tag}\``,
-              inline: true,
-            },
-            {
-              name: `** Author **`,
-              value: `\`${track.uploader.name || "😏"}\``,
-              inline: true,
-            },
-            {
-              name: `** Duration **`,
-              value: `\`${track.formattedDuration}\``,
-              inline: true,
-            },
-          ])
-          .setFooter(client.getFooter(track.user)),
-      ],
-      components: [client.buttons(false)],
-    });
   };
 
   client.joinVoiceChannel = async (guild) => {
-    let db = await client.music?.get(`${guild.id}.vc`);
-    if (!db?.enable) return;
+    try {
+      const db = await client.music?.get(`${guild.id}.vc`);
+      if (!db || !db.enable) return;
 
-    if (!guild.members.me.permissions.has(PermissionFlagsBits.Connect)) return;
+      if (!guild.me.permissions.has(PermissionFlagsBits.Connect)) return;
 
-    const voiceChannel = guild.channels.cache.get(db.channel);
+      const voiceChannel = guild.channels.cache.get(db.channel);
+      if (!voiceChannel || voiceChannel.type !== ChannelType.GuildVoice) return;
 
-    setTimeout(() => {
-      client.distube.voices.join(voiceChannel);
-    }, 2000);
+      // Delay joining the voice channel by 2 seconds to ensure stability
+      setTimeout(() => {
+        client.distube.voices.join(voiceChannel);
+      }, 2000);
+    } catch (error) {
+      console.error("Error joining voice channel:", error);
+    }
   };
+
   /**
    *
    * @param {CommandInteraction} interaction
