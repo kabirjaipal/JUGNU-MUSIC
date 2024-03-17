@@ -77,10 +77,10 @@ const filters = {
 };
 
 const links = {
-    inviteURL: `https://discord.com/api/oauth2/authorize?client_id=BOTID&permissions=8&scope=bot%20applications.commands`,
-    DiscordServer: `https://discord.gg/FuKfAREn9f`,
-    VoteURL: `https://discord.gg/FuKfAREn9f`,
-    Website: `https://jugnu.netlify.app/`,
+  inviteURL: `https://discord.com/api/oauth2/authorize?client_id=BOTID&permissions=8&scope=bot%20applications.commands`,
+  DiscordServer: `https://discord.gg/FuKfAREn9f`,
+  VoteURL: `https://discord.gg/FuKfAREn9f`,
+  Website: `https://jugnu.netlify.app/`,
 };
 
 const options = {

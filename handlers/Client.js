@@ -95,7 +95,13 @@ class JUGNU extends Client {
   }
 
   start(token) {
-    ["handler", "DistubeEvents", "utils"].forEach((handler) => {
+    [
+      "handler",
+      "DistubeEvents",
+      "RequestChannel",
+      "DistubeHandler",
+      "utils",
+    ].forEach((handler) => {
       require(`./${handler}`)(this);
     });
     this.login(token);

@@ -5,7 +5,6 @@ const {
   ButtonBuilder,
   ButtonStyle,
   PermissionFlagsBits,
-  Message,
   CommandInteraction,
 } = require("discord.js");
 const { Queue } = require("distube");
@@ -57,20 +56,21 @@ module.exports = async (client) => {
   };
 
   client.editPlayerMessage = async (channel) => {
-    let ID = client.temp.get(channel.guild.id);
+    const ID = client.temp.get(channel.guild.id);
     if (!ID) return;
-    let playembed = channel.messages.cache.get(ID);
-    if (!playembed) {
-      playembed = await channel.messages.fetch(ID).catch((e) => {});
-    }
+
+    let playembed =
+      channel.messages.cache.get(ID) ||
+      (await channel.messages.fetch(ID).catch(console.error));
     if (!playembed) return;
-    if (client.config.options.nowplayingMsg == true) {
-      playembed.delete().catch((e) => {});
+
+    if (client.config.options.nowplayingMsg) {
+      playembed.delete().catch(console.error);
     } else {
-      let embeds = playembed?.embeds ? playembed?.embeds[0] : null;
+      const embeds = playembed?.embeds?.[0];
       if (embeds) {
         playembed
-          ?.edit({
+          .edit({
             embeds: [
               embeds.setFooter({
                 text: `⛔️ SONG & QUEUE ENDED!`,
@@ -79,7 +79,7 @@ module.exports = async (client) => {
             ],
             components: [client.buttons(true)],
           })
-          .catch((e) => {});
+          .catch(console.error);
       }
     }
   };
@@ -297,17 +297,24 @@ module.exports = async (client) => {
   client.updateplayer = async (queue) => {
     let guild = client.guilds.cache.get(queue.textChannel.guildId);
     if (!guild) return;
+
     let data = await client.music.get(`${guild.id}.music`);
     if (!data) return;
+
     let musicchannel = guild.channels.cache.get(data.channel);
     if (!musicchannel) return;
+
     let playembed = musicchannel.messages.cache.get(data.pmsg);
     if (!playembed) {
       playembed = await musicchannel.messages.fetch(data.pmsg).catch((e) => {});
     }
+
     if (!playembed || !playembed.id) return;
+
     let track = queue.songs[0];
+
     if (!track.name) queue.stop();
+
     playembed.edit({
       embeds: [
         new EmbedBuilder()
@@ -341,8 +348,11 @@ module.exports = async (client) => {
   client.joinVoiceChannel = async (guild) => {
     let db = await client.music?.get(`${guild.id}.vc`);
     if (!db?.enable) return;
+
     if (!guild.members.me.permissions.has(PermissionFlagsBits.Connect)) return;
-    let voiceChannel = guild.channels.cache.get(db.channel);
+
+    const voiceChannel = guild.channels.cache.get(db.channel);
+
     setTimeout(() => {
       client.distube.voices.join(voiceChannel);
     }, 2000);

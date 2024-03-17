@@ -25,19 +25,22 @@ module.exports = {
    */
   run: async (client, message, args, prefix, queue) => {
     // Code
-    let song = args.join(" ");
+    const song = args.join(" ");
+
     if (!song) {
       return client.embed(
         message,
-        `${client.config.emoji.ERROR} You Need Provide Song Name/Link`
+        `${client.config.emoji.ERROR} Please provide a song name or link.`
       );
     } else {
       let { channel } = message.member.voice;
-      client.distube.play(channel, song, {
+      await client.distube.play(channel, song, {
         member: message.member,
         textChannel: message.channel,
         message: message,
       });
+
+      await message.delete().catch((err) => console.log(err));
     }
   },
 };

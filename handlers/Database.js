@@ -1,8 +1,8 @@
 const { mongodb } = require("../settings/config");
 const Josh = require("@joshdb/core");
-// const provider = require("@joshdb/json"); // Use JSON database provider
+const provider = require("@joshdb/json"); // Use JSON database provider
 const JUGNU = require("./Client");
-const provider = require("@joshdb/mongo"); // Use MongoDB database provider
+// const provider = require("@joshdb/mongo"); // Use MongoDB database provider
 
 /**
  * Initialize Josh database for music and autoresume

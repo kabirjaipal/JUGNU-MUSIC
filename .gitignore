@@ -1,0 +1,6 @@
+node_modules
+data
+.env
+.env.local
+package-lock.json
+yarn.lock
