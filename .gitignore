@@ -4,3 +4,4 @@ data
 .env.local
 package-lock.json
 yarn.lock
+test.js

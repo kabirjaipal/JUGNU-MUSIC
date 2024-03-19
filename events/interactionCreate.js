@@ -9,21 +9,21 @@ const { emoji } = require("../settings/config");
 const {
   ApplicationCommandOptionType,
   PermissionsBitField,
-  BitField,
-  PermissionFlagsBits,
 } = require("discord.js");
 
 client.on("interactionCreate", async (interaction) => {
+  await databasing(interaction.guildId, interaction.user.id);
+
   // Slash Command Handling
   if (interaction.isCommand()) {
     await interaction.deferReply().catch((e) => {});
-    await databasing(interaction.guildId, interaction.user.id);
     const cmd = client.commands.get(interaction.commandName);
-    if (!cmd)
+    if (!cmd) {
       return client.embed(
         interaction,
         `${emoji.ERROR} \`${interaction.commandName}\` Command Not Found `
       );
+    }
     const args = [];
     for (let option of interaction.options.data) {
       if (option.type === ApplicationCommandOptionType.Subcommand) {
@@ -90,7 +90,7 @@ client.on("interactionCreate", async (interaction) => {
           `${emoji.ERROR} You are not DJ and also you are not song requester..`
         );
       } else {
-        cmd.run(client, interaction, args, queue);
+        await cmd.run(client, interaction, args, queue);
       }
     }
   }

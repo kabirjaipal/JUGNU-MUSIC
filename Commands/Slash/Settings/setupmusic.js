@@ -33,6 +33,7 @@ module.exports = {
       `${interaction.guild.id}.music.channel`
     );
     let oldChannel = interaction.guild.channels.cache.get(channel);
+
     if (oldChannel) {
       return client.embed(
         interaction,
