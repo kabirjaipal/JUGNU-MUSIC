@@ -266,30 +266,33 @@ module.exports = async (client) => {
         .reverse()
         .join("\n");
 
+      const newQueueEmbed = new EmbedBuilder()
+        .setColor(client.config.embed.color)
+        .setAuthor({
+          name: `Jugnu Queue - [${queue.songs.length} Tracks]`,
+          iconURL: guild.iconURL({ dynamic: true }),
+        })
+        .addFields([
+          {
+            name: `**\`0.\` __CURRENT TRACK__**`,
+            value: `**${currentSong?.name.substring(0, 35)}** - ${
+              currentSong?.isLive
+                ? "LIVE STREAM"
+                : currentSong?.formattedDuration.split(" | ")[0]
+            } - \`${currentSong?.user.tag}\``,
+          },
+        ])
+        .setFooter({
+          text: guild.name,
+          iconURL: guild.iconURL({ dynamic: true }),
+        });
+
+      if (queueString.length > 0) {
+        newQueueEmbed.setDescription(queueString.substring(0, 2048) || "");
+      }
+
       await queueembed.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setColor(client.config.embed.color)
-            .setAuthor({
-              name: `Jugnu Queue - [${queue.songs.length} Tracks]`,
-              iconURL: guild.iconURL({ dynamic: true }),
-            })
-            .setDescription(queueString.substring(0, 2048))
-            .addFields([
-              {
-                name: `**\`0.\` __CURRENT TRACK__**`,
-                value: `**${currentSong.name.substring(0, 35)}** - ${
-                  currentSong.isLive
-                    ? "LIVE STREAM"
-                    : currentSong.formattedDuration.split(" | ")[0]
-                } - \`${currentSong.user.tag}\``,
-              },
-            ])
-            .setFooter({
-              text: guild.name,
-              iconURL: guild.iconURL({ dynamic: true }),
-            }),
-        ],
+        embeds: [newQueueEmbed],
       });
     } catch (error) {
       console.error("Error updating queue:", error);
@@ -320,7 +323,7 @@ module.exports = async (client) => {
 
       const track = queue.songs[0];
       if (!track || !track.name) {
-        queue.stop();
+        await queue.stop();
         return;
       }
 
@@ -381,46 +384,40 @@ module.exports = async (client) => {
    * @param {CommandInteraction} interaction
    */
   client.handleHelpSystem = async (interaction) => {
-    // code
     const send = interaction?.deferred
       ? interaction.followUp.bind(interaction)
       : interaction.reply.bind(interaction);
+
     const user = interaction.member.user;
-    // for commands
     const commands = interaction?.user ? client.commands : client.mcommands;
-    // for categories
     const categories = interaction?.user
       ? client.scategories
       : client.mcategories;
 
-    const emoji = {
-      Information: "🔰",
-      Music: "🎵",
-      Settings: "⚙️",
-    };
+    const emoji = { Information: "🔰", Music: "🎵", Settings: "⚙️" };
 
-    let allcommands = client.mcommands.size;
-    let allguilds = client.guilds.cache.size;
-    let botuptime = `<t:${Math.floor(
+    const allcommands = client.mcommands.size;
+    const allguilds = client.guilds.cache.size;
+    const botuptime = `<t:${Math.floor(
       Date.now() / 1000 - client.uptime / 1000
     )}:R>`;
-    let buttons = [
+    const buttons = [
       new ButtonBuilder()
         .setCustomId("home")
         .setStyle(ButtonStyle.Success)
         .setEmoji("🏘️"),
       categories
-        .map((cat) => {
-          return new ButtonBuilder()
+        .map((cat) =>
+          new ButtonBuilder()
             .setCustomId(cat)
             .setStyle(ButtonStyle.Secondary)
-            .setEmoji(emoji[cat]);
-        })
-        .flat(Infinity),
-    ].flat(Infinity);
-    let row = new ActionRowBuilder().addComponents(buttons);
+            .setEmoji(emoji[cat])
+        )
+        .flat(),
+    ].flat();
+    const row = new ActionRowBuilder().addComponents(buttons);
 
-    let help_embed = new EmbedBuilder()
+    const help_embed = new EmbedBuilder()
       .setColor(client.config.embed.color)
       .setAuthor({
         name: client.user.tag,
@@ -428,50 +425,43 @@ module.exports = async (client) => {
       })
       .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
       .setDescription(
-        `** An advanced  Music System with Audio Filtering A unique Music Request System and way much more! **`
+        `**An advanced Music System with Audio Filtering A unique Music Request System and much more!**`
       )
       .addFields([
         {
           name: `Stats`,
-          value: `>>> ** :gear: \`${allcommands}\` Commands \n :file_folder: \`${allguilds}\` Guilds \n ⌚️ ${botuptime} Uptime \n 🏓 \`${client.ws.ping}\` Ping \n  Made by [\` Fire Bird \`](https://discord.gg/PcUVWApWN3) **`,
+          value: `>>> **:gear: \`${allcommands}\` Commands\n:file_folder: \`${allguilds}\` Guilds\n⌚️ ${botuptime} Uptime\n🏓 \`${client.ws.ping}\` Ping\nMade by [\`Fire Bird\`](https://discord.gg/PcUVWApWN3)**`,
         },
       ])
       .setFooter(client.getFooter(user));
 
-    let main_msg = await send({
+    const main_msg = await send({
       embeds: [help_embed],
       components: [row],
       ephemeral: true,
     });
 
-    let filter = async (i) => {
-      if (i.user.id === user.id) {
-        return true;
-      } else {
-        await i
-          .deferReply()
-          .then(() => {
-            i.followUp({
-              content: `Not Your Interaction !!`,
-              ephemeral: true,
-            });
-          })
-          .catch((e) => {});
-
+    const filter = async (i) => {
+      if (i.user.id === user.id) return true;
+      else {
+        await i.deferReply().catch(() => {});
+        i.followUp({
+          content: `Not Your Interaction !!`,
+          ephemeral: true,
+        }).catch(() => {});
         return false;
       }
     };
-    let colector = await main_msg.createMessageComponentCollector({
-      filter: filter,
-    });
+
+    const colector = main_msg.createMessageComponentCollector({ filter });
 
     colector.on("collect", async (i) => {
       if (i.isButton()) {
-        await i.deferUpdate().catch((e) => {});
-        let directory = i.customId;
-        if (directory == "home") {
-          main_msg.edit({ embeds: [help_embed] }).catch((e) => {});
-        } else {
+        await i.deferUpdate().catch(() => {});
+        const directory = i.customId;
+        if (directory == "home")
+          main_msg.edit({ embeds: [help_embed] }).catch(() => {});
+        else {
           main_msg
             .edit({
               embeds: [
@@ -490,16 +480,17 @@ module.exports = async (client) => {
                   .setFooter(client.getFooter(user)),
               ],
             })
-            .catch((e) => null);
+            .catch(() => {});
         }
       }
     });
 
-    colector.on("end", async (c, i) => {
+    colector.on("end", async () => {
       row.components.forEach((c) => c.setDisabled(true));
-      main_msg.edit({ components: [row] }).catch((e) => {});
+      main_msg.edit({ components: [row] }).catch(() => {});
     });
   };
+
   /**
    *
    * @param {CommandInteraction} interaction

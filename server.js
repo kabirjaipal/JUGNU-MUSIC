@@ -1,4 +1,4 @@
-const express = require("express")
+const express = require("express");
 const client = require("./index");
 const cors = require("cors");
 const { version } = require("discord.js");

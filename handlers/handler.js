@@ -36,7 +36,6 @@ module.exports = async (client) => {
       } else {
         let guild = client.guilds.cache.get(slash.guildID);
         if (guild) await guild.commands.set(allCommands);
-        await client.application.commands.set([]);
       }
     });
   } catch (e) {

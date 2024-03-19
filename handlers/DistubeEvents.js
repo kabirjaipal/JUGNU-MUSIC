@@ -22,6 +22,7 @@ module.exports = async (client) => {
       await client.updateplayer(queue);
       if (data.channel === queue.textChannel.id) return;
     }
+
     queue.textChannel
       .send({
         embeds: [
@@ -216,6 +217,8 @@ module.exports = async (client) => {
 
   client.distube.on("finishSong", async (queue, song) => {
     await client.editPlayerMessage(queue.textChannel);
+    await client.updatequeue(queue);
+    await client.updateplayer(queue);
   });
 
   client.distube.on("finish", async (queue) => {
