@@ -1,7 +1,3 @@
-const {
-  ApplicationCommandType,
-  ApplicationCommandOptionType,
-} = require("discord.js");
 const { readdirSync } = require("fs");
 const { slash } = require("../settings/config");
 const JUGNU = require("./Client");
