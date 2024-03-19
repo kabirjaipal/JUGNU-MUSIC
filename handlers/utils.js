@@ -7,6 +7,7 @@ const {
   PermissionFlagsBits,
   CommandInteraction,
   ChannelType,
+  Guild,
 } = require("discord.js");
 const { Queue } = require("distube");
 
@@ -360,12 +361,18 @@ module.exports = async (client) => {
     }
   };
 
+  /**
+   *
+   * @param {Guild} guild
+   * @returns
+   */
   client.joinVoiceChannel = async (guild) => {
     try {
       const db = await client.music?.get(`${guild.id}.vc`);
       if (!db || !db.enable) return;
 
-      if (!guild.me.permissions.has(PermissionFlagsBits.Connect)) return;
+      if (!guild.members.me.permissions.has(PermissionFlagsBits.Connect))
+        return;
 
       const voiceChannel = guild.channels.cache.get(db.channel);
       if (!voiceChannel || voiceChannel.type !== ChannelType.GuildVoice) return;

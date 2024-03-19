@@ -29,7 +29,7 @@ module.exports = {
   run: async (client, interaction, args, queue) => {
     // Code
     let data = await client.music.get(`${interaction.guild.id}.vc`);
-    let mode = data.enable;
+    let mode = data?.enable;
     let channel = interaction.member.voice.channel;
 
     if (mode === true) {
