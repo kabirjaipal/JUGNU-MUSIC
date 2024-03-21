@@ -37,18 +37,36 @@ module.exports = {
    */
   run: async (client, interaction, args, queue) => {
     // Code
-    let songIndex = interaction.options.getNumber("trackindex");
-    if (songIndex === 0) {
-      return client.embed(
-        interaction,
-        `** ${client.config.emoji.ERROR} You can't Remove Current Song **`
-      );
-    } else {
-      let track = queue.songs[songIndex];
-      queue.songs.splice(track, track + 1);
+
+    try {
+      const songIndex = interaction.options.getNumber("trackindex");
+
+      if (
+        !songIndex ||
+        isNaN(songIndex) ||
+        songIndex < 1 ||
+        songIndex > queue.songs.length
+      ) {
+        return client.embed(interaction, "Please provide a valid song index.");
+      }
+
+      let removedTrack = queue.songs.splice(songIndex - 1, 1)[0];
+      if (!removedTrack) {
+        return client.embed(
+          interaction,
+          "Failed to remove the track from the queue."
+        );
+      }
+
       client.embed(
         interaction,
-        `${client.config.emoji.SUCCESS} Removed \`${track.name}\` Song From Queue !!`
+        `${client.config.emoji.SUCCESS} Removed \`${removedTrack.name}\` From the Queue !!`
+      );
+    } catch (error) {
+      console.error(error);
+      client.embed(
+        interaction,
+        `${client.config.emoji.ERROR} An error occurred: ${error.message}`
       );
     }
   },

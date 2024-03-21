@@ -9,7 +9,7 @@ const {
   ButtonStyle,
 } = require("discord.js");
 const client = require("../index");
-const { Song } = require("distube");
+const { Song, Queue } = require("distube");
 const JUGNU = require("./Client");
 
 /**
@@ -321,6 +321,10 @@ function msToDuration(ms) {
   return years + months + days + hours + minutes + seconds;
 }
 
+/**
+ *
+ * @param {Queue} queue
+ */
 async function skip(queue) {
   if (queue.songs.length <= 1) {
     if (!queue.autoplay) {

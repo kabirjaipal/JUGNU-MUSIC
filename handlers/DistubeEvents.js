@@ -8,8 +8,6 @@ const InitAutoResume = require("./InitAutoResume");
  * @param {JUGNU} client
  */
 module.exports = async (client) => {
-  client.distube.setMaxListeners(0);
-
   client.on("ready", async () => {
     setTimeout(async () => await AutoresumeHandler(client), 2 * client.ws.ping);
   });

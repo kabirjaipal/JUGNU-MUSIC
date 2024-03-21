@@ -24,28 +24,35 @@ module.exports = {
    * @param {Queue} queue
    */
   run: async (client, message, args, prefix, queue) => {
-    // Code
-    let songIndex = Number(args[0]);
-    if (!songIndex) {
-      return client.embed(
-        message,
-        `** ${
-          client.config.emoji.ERROR
-        } Please Provide Song Index Between \`0\`-\`${
-          queue.songs.length - 1
-        }\`**`
-      );
-    } else if (songIndex === 0) {
-      return client.embed(
-        message,
-        `** ${client.config.emoji.ERROR} You can't Remove Current Song **`
-      );
-    } else {
-      let track = queue.songs[songIndex];
-      queue.songs.splice(track, track + 1);
+    try {
+      let songIndex = Number(args[0]);
+
+      if (
+        !songIndex ||
+        isNaN(songIndex) ||
+        songIndex < 1 ||
+        songIndex > queue.songs.length
+      ) {
+        return client.embed(message, "Please provide a valid song index.");
+      }
+
+      let removedTrack = queue.songs.splice(songIndex - 1, 1)[0];
+      if (!removedTrack) {
+        return client.embed(
+          message,
+          "Failed to remove the track from the queue."
+        );
+      }
+
       client.embed(
         message,
-        `${client.config.emoji.SUCCESS} Removed \`${track.name}\` Song From Queue !!`
+        `${client.config.emoji.SUCCESS} Removed \`${removedTrack.name}\` From the Queue !!`
+      );
+    } catch (error) {
+      console.error(error);
+      client.embed(
+        message,
+        `${client.config.emoji.ERROR} An error occurred: ${error.message}`
       );
     }
   },
