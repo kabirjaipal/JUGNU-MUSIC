@@ -1,5 +1,8 @@
 const { ChannelType, Colors } = require("discord.js");
 const client = require("../index");
+const { msToDuration } = require("../handlers/functions");
+
+const leaveTimeout = client.config.options.leaveTimeout;
 
 client.on("voiceStateUpdate", async (oldState, newState) => {
   if (!newState.guild || newState.member.user.bot) return;
@@ -38,8 +41,9 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
         const msg = await textChannel.send({
           embeds: [
             {
-              description:
-                "I will leave the voice channel in 10 minutes if 24/7 mode is not enabled.",
+              description: `I will leave the voice channel in \`${msToDuration(
+                leaveTimeout
+              )}\` if 24/7 mode is not enabled.`,
               color: Colors.Red,
             },
           ],
@@ -58,7 +62,7 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
             ],
           });
           setTimeout(() => leaveMsg.delete().catch(() => {}), 3000);
-        }, client.config.options.leaveTimeout);
+        }, leaveTimeout);
 
         client.leaveTimeoutHandles.set(newState.guildId, leaveTimeoutHandle);
       }

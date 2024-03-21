@@ -90,6 +90,7 @@ client.on("interactionCreate", async (interaction) => {
           `${emoji.ERROR} You are not DJ and also you are not song requester..`
         );
       } else {
+        await interaction.deferReply().catch((e) => {});
         await cmd.run(client, interaction, args, queue);
       }
     }

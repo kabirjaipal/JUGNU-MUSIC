@@ -87,7 +87,7 @@ const options = {
   embedFooter: true,
   nowplayingMsg: true,
   defaultVolume: 90,
-  leaveTimeout: 10000, // 10 seconds
+  leaveTimeout: 300000, // 5 minutes
 };
 
 const numberEmojis = [
@@ -106,7 +106,7 @@ const numberEmojis = [
 
 const slashSettings = {
   global: false,
-  guildID: process.env.GUILD_ID || "GUILD_ID", // for slash command
+  guildIDS: ["IDS", "IDS"], // for slash command
 };
 
 module.exports = {

@@ -29,6 +29,7 @@ module.exports = {
    */
   run: async (client, interaction, args, queue) => {
     // Code
+    await interaction.deferReply({ ephemeral: true }).catch((e) => {});
     return await interaction.followUp({
       embeds: [
         {
@@ -36,7 +37,6 @@ module.exports = {
           color: Colors.Blurple,
         },
       ],
-      ephemeral: true,
     });
   },
 };

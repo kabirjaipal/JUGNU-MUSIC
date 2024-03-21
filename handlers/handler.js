@@ -26,14 +26,6 @@ module.exports = async (client) => {
       }
     });
     console.log(`${client.commands.size} Slash Commands Loaded`);
-    client.on("ready", async () => {
-      if (slash.global) {
-        await client.application.commands.set(allCommands);
-      } else {
-        let guild = client.guilds.cache.get(slash.guildID);
-        if (guild) await guild.commands.set([]);
-      }
-    });
   } catch (e) {
     console.log(e);
   }

@@ -10,6 +10,7 @@ const {
 } = require("discord.js");
 const client = require("../index");
 const { Song } = require("distube");
+const JUGNU = require("./Client");
 
 /**
  *
@@ -365,6 +366,43 @@ function arraysEqual(a, b) {
   return true;
 }
 
+/**
+ *
+ * @param {JUGNU} client
+ */
+async function registerSlashCommands(client) {
+  const { slash } = client.config;
+  const commands = client.commands.map((cmd) => {
+    return {
+      name: cmd.name,
+      description: cmd.description,
+      options: cmd.options,
+      type: cmd.type,
+    };
+  });
+
+  try {
+    if (slash.global) {
+      console.log("Started refreshing application (/) commands.");
+      await client.application.commands.set(commands);
+      console.log("Successfully reloaded application (/) commands.");
+    } else {
+      console.log("Started refreshing guild (/) commands.");
+      for (const guildID of slash.guildIDS) {
+        const guild = await client.guilds.fetch(guildID);
+        if (!guild) {
+          console.error(`Guild with ID ${guildID} not found.`);
+          continue;
+        }
+        await guild.commands.set(commands);
+      }
+      console.log("Successfully reloaded guild (/) commands.");
+    }
+  } catch (error) {
+    console.error("Error registering slash commands:", error);
+  }
+}
+
 module.exports = {
   cooldown,
   check_dj,
@@ -377,4 +415,5 @@ module.exports = {
   formatBytes,
   getPermissionName,
   arraysEqual,
+  registerSlashCommands,
 };
