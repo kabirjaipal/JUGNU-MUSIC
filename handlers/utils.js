@@ -273,7 +273,7 @@ module.exports = async (client) => {
         });
 
       if (queueString.length > 0) {
-        newQueueEmbed.setDescription(queueString.substring(0, 2048) || "");
+        newQueueEmbed.setDescription(queueString.substring(0, 2048) || null);
       }
 
       await queueembed.edit({
