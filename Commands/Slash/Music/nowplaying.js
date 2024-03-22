@@ -41,7 +41,7 @@ module.exports = {
             iconURL: song.thumbnail,
             url: song.url,
           })
-          .setDescription(`** [${song.name}](${song.streamURL}) **`)
+          .setDescription(`** [${client.getTitle(song)}](${song.streamURL}) **`)
           .addFields([
             {
               name: `** Duration **`,

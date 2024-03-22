@@ -9,7 +9,7 @@ const {
   ChannelType,
   Guild,
 } = require("discord.js");
-const { Queue } = require("distube");
+const { Queue, Song } = require("distube");
 
 /**
  *
@@ -92,17 +92,18 @@ module.exports = async (client) => {
    * @returns
    */
   client.getQueueEmbeds = async (queue) => {
-    let guild = client.guilds.cache.get(queue.textChannel.guildId);
-    let quelist = [];
-    var maxTracks = 10; //tracks / Queue Page
-    let tracks = queue.songs;
+    const guild = client.guilds.cache.get(queue.textChannel.guildId);
+    const maxTracks = 10; // Tracks per Queue Page
+    const tracks = queue.songs.slice(1); // Make a shallow copy and remove the first song
+
+    const quelist = [];
     for (let i = 0; i < tracks.length; i += maxTracks) {
-      let songs = tracks.slice(i, i + maxTracks);
+      const songs = tracks.slice(i, i + maxTracks);
       quelist.push(
         songs
           .map(
             (track, index) =>
-              `\` ${i + ++index}. \` ** ${track.name.substring(0, 35)}** - \`${
+              `\` ${i + index + 1}. \` ** ${client.getTitle(track)}** - \`${
                 track.isLive
                   ? `LIVE STREAM`
                   : track.formattedDuration.split(` | `)[0]
@@ -111,33 +112,16 @@ module.exports = async (client) => {
           .join(`\n`)
       );
     }
-    let embeds = [];
+
+    const embeds = [];
     for (let i = 0; i < quelist.length; i++) {
-      let desc = String(quelist[i]).substring(0, 2048);
-      await embeds.push(
+      const desc = String(quelist[i]).substring(0, 2048);
+      embeds.push(
         new EmbedBuilder()
           .setAuthor({
             name: `Queue for ${guild.name}  -  [ ${tracks.length} Tracks ]`,
             iconURL: guild.iconURL({ dynamic: true }),
           })
-          .addFields([
-            {
-              name: `**\` N. \` *${
-                tracks.length > maxTracks
-                  ? tracks.length - maxTracks
-                  : tracks.length
-              } other Tracks ...***`,
-              value: `\u200b`,
-            },
-            {
-              name: `**\` 0. \` __CURRENT TRACK__**`,
-              value: `**${queue.songs[0].name.substring(0, 35)}** - \`${
-                queue.songs[0].isLive
-                  ? `LIVE STREAM`
-                  : queue.songs[0].formattedDuration.split(` | `)[0]
-              }\` \`${queue.songs[0].user.tag}\``,
-            },
-          ])
           .setColor(client.config.embed.color)
           .setDescription(desc)
       );
@@ -258,7 +242,7 @@ module.exports = async (client) => {
         .slice(1, 10)
         .map(
           (track, index) =>
-            `\`${index + 1}.\` **${track.name.substring(0, 35)}** - ${
+            `\`${index + 1}.\` **${client.getTitle(track)}** - ${
               track.isLive
                 ? "LIVE STREAM"
                 : track.formattedDuration.split(" | ")[0]
@@ -276,7 +260,7 @@ module.exports = async (client) => {
         .addFields([
           {
             name: `**\`0.\` __CURRENT TRACK__**`,
-            value: `**${currentSong?.name.substring(0, 35)}** - ${
+            value: `**${client.getTitle(currentSong)}** - ${
               currentSong?.isLive
                 ? "LIVE STREAM"
                 : currentSong?.formattedDuration.split(" | ")[0]
@@ -323,18 +307,16 @@ module.exports = async (client) => {
       if (!playembed || !playembed.id) return;
 
       const track = queue.songs[0];
-      if (!track || !track.name) {
-        await queue.stop();
-        return;
-      }
+
+      if (!track || !track.name) return;
 
       await playembed.edit({
         embeds: [
           new EmbedBuilder()
             .setColor(client.config.embed.color)
-            .setImage(track.thumbnail)
-            .setTitle(track.name)
-            .setURL(track.url)
+            .setImage(track?.thumbnail)
+            .setTitle(`${client.getTitle(track)}`)
+            .setURL(track?.url)
             .addFields([
               {
                 name: "**Requested By**",
@@ -544,5 +526,30 @@ module.exports = async (client) => {
     send({
       embeds: [help_embed],
     });
+  };
+
+  /**
+   *
+   * @param {Song} song
+   * @returns {string}
+   */
+  client.getTitle = (song) => {
+    try {
+      if (!song) return;
+      const TrackTitle = song.name || song.playlist.name;
+
+      if (!TrackTitle) return "Unknown Track";
+
+      const title = TrackTitle.replace(/[\[\(][^\]\)]*[\]\)]/, "").trim();
+
+      const parts = title.split("|");
+
+      const shortTitle = parts[0].trim();
+
+      return shortTitle.substring(0, 25);
+    } catch (error) {
+      console.error("Error while processing track title:", error);
+      return "Unknown Track";
+    }
   };
 };

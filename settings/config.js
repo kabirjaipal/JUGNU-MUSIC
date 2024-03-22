@@ -14,7 +14,7 @@ const embedSettings = {
 
 const emojiSettings = {
   ERROR: "<a:wrong:1158264214960488468>",
-  SUCCESS: "<a:check:1158261895111913554> ",
+  SUCCESS: "<a:check:1158261895111913554>",
   disabled: "🔴",
   enabled: "🟢",
   cleared: "🧹",
@@ -27,6 +27,12 @@ const emojiSettings = {
   loop: "🔄",
   stop: "⏹️",
   autoplay: "♾",
+  volume_down: "🔈",
+  volume_up: "🔊",
+  previous_song: "⏮️",
+  next_song: "⏭️",
+  shuffle: "🔀",
+  repeat: "🔁",
 };
 
 const filters = {
@@ -77,7 +83,7 @@ const filters = {
 };
 
 const links = {
-  inviteURL: `https://discord.com/api/oauth2/authorize?client_id=BOTID&permissions=8&scope=bot%20applications.commands`,
+  inviteURL: `https://discord.com/api/oauth2/authorize?client_id=BOTID&permissions=6508997968&scope=bot%20applications.commands`,
   DiscordServer: `https://discord.gg/FuKfAREn9f`,
   VoteURL: `https://discord.gg/FuKfAREn9f`,
   Website: `https://jugnu.netlify.app/`,

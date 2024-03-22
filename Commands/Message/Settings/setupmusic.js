@@ -38,8 +38,22 @@ module.exports = {
           name: `${client.user.username}-requests`,
           type: ChannelType.GuildText,
           rateLimitPerUser: 3,
-          reason: `for music bot`,
-          topic: `Music Request Channel for ${client.user.username}, Type Song Name or Link to Play Song`,
+          reason: `Management of music requests channel.`,
+          topic: `Music Request Channel for ${client.user.username}. Please submit song names or links to play music.`,
+          permissionOverwrites: [
+            {
+              id: client.user.id,
+              allow: [
+                "ManageMessages",
+                "ManageChannels",
+                "SendMessages",
+                "EmbedLinks",
+                "ReadMessageHistory",
+                "UseExternalEmojis",
+                "ViewChannel",
+              ],
+            },
+          ],
         })
         .then(async (ch) => {
           await ch

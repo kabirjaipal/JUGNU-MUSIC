@@ -45,9 +45,9 @@ module.exports = {
     });
     let tracks = res
       .map((song, index) => {
-        return `\`${index + 1}\`) [\`${song.name}\`](${song.url}) \`[${
-          song.formattedDuration
-        }]\``;
+        return `\`${index + 1}\`) [\`${client.getTitle(song)}\`](${
+          song.url
+        }) \`[${song.formattedDuration}]\``;
       })
       .join("\n\n");
 
@@ -65,7 +65,7 @@ module.exports = {
         .addOptions(
           res.map((song, index) => {
             return {
-              label: song.name.substring(0, 50),
+              label: client.getTitle(song),
               value: song.url,
               description: `Click to Play Song`,
               emoji: numberEmojis[index + 1],

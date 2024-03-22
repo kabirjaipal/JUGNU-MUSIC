@@ -134,7 +134,7 @@ class JUGNU extends Client {
           embeds: [
             new EmbedBuilder()
               .setColor(this.config.embed.color)
-              .setDescription(`>>> ${data.substring(0, 3000)}`)
+              .setDescription(`${data.substring(0, 3000)}`)
               .setFooter(this.getFooter(user)),
           ],
         })
@@ -145,7 +145,7 @@ class JUGNU extends Client {
           embeds: [
             new EmbedBuilder()
               .setColor(this.config.embed.color)
-              .setDescription(`>>> ${data.substring(0, 3000)}`)
+              .setDescription(`${data.substring(0, 3000)}`)
               .setFooter(this.getFooter(user)),
           ],
         })

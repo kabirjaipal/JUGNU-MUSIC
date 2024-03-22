@@ -51,7 +51,9 @@ module.exports = {
       queue.jump(index).then((q) => {
         client.embed(
           interaction,
-          `** ${client.config.emoji.SUCCESS} Jumped to The Song [\`${song.name}\`](${song.url}) **`
+          `** ${
+            client.config.emoji.SUCCESS
+          } Jumped to The Song [\`${client.getTitle(song)}\`](${song.url}) **`
         );
       });
     }

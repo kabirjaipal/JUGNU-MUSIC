@@ -64,9 +64,9 @@ module.exports = {
       queue.addToQueue(song, position);
       client.embed(
         interaction,
-        `📑 Moved **${
-          song.name
-        }** to the **\`${position}th\`** Place right after **_${
+        `📑 Moved **${client.getTitle(
+          song
+        )}** to the **\`${position}th\`** Place right after **_${
           queue.songs[position - 1].name
         }_!**`
       );

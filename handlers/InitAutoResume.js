@@ -63,8 +63,6 @@ module.exports = async (client, queue) => {
       newQueue.textChannel.guildId
     );
 
-    console.log(storedData);
-
     if (!storedData) return;
 
     // Properties to update

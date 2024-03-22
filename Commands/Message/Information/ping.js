@@ -25,13 +25,42 @@ module.exports = {
    */
   run: async (client, message, args, prefix, queue) => {
     // Code
-    return message.reply({
+    const startTime = Date.now();
+
+    const tempMessage = await message.reply({
       embeds: [
         {
-          description: `Pong \`${client.ws.ping}\``,
+          description: "Pinging...",
+          color: Colors.Blurple,
+        },
+      ],
+    });
+
+    const messageLatency =
+      tempMessage.createdTimestamp - message.createdTimestamp;
+    const serverLatency = Math.round(messageLatency / 2);
+    const apiLatency = Math.round(client.ws.ping);
+    const botLatency = Date.now() - startTime;
+
+    await tempMessage.edit({
+      embeds: [
+        {
+          title: "Pong! 🏓",
+          description: `Bot Latency: \`${formatMilliseconds(
+            botLatency
+          )}\`\nMessage Latency: \`${formatMilliseconds(
+            messageLatency
+          )}\`\nServer Latency: \`${formatMilliseconds(
+            serverLatency
+          )}\`\nDiscord API Latency: \`${formatMilliseconds(apiLatency)}\``,
           color: Colors.Blurple,
         },
       ],
     });
   },
 };
+
+// Function to format milliseconds into a human-readable string
+function formatMilliseconds(ms) {
+  return `${ms}ms`;
+}

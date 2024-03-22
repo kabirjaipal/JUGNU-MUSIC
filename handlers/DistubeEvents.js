@@ -26,7 +26,7 @@ module.exports = async (client) => {
         embeds: [
           new EmbedBuilder()
             .setColor(client.config.embed.color)
-            .setDescription(`** [\`${song.name}\`](${song.url}) **`)
+            .setDescription(`** [\`${client.getTitle(song)}\`](${song.url}) **`)
             .addFields([
               {
                 name: `Requested By`,
@@ -70,7 +70,7 @@ module.exports = async (client) => {
               url: song.url,
             })
             .setThumbnail(song.thumbnail)
-            .setDescription(`[\`${song.name}\`](${song.url})`)
+            .setDescription(`[\`${client.getTitle(song)}\`](${song.url})`)
             .addFields([
               {
                 name: `Requested By`,

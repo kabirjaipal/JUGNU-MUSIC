@@ -46,7 +46,9 @@ module.exports = {
 
       client.embed(
         message,
-        `${client.config.emoji.SUCCESS} Removed \`${removedTrack.name}\` From the Queue !!`
+        `${client.config.emoji.SUCCESS} Removed \`${client.getTitle(
+          removedTrack
+        )}\` From the Queue !!`
       );
     } catch (error) {
       console.error(error);

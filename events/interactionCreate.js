@@ -6,17 +6,14 @@ const {
   getPermissionName,
 } = require("../handlers/functions");
 const { emoji } = require("../settings/config");
-const {
-  ApplicationCommandOptionType,
-  PermissionsBitField,
-} = require("discord.js");
+const { ApplicationCommandOptionType } = require("discord.js");
 
 client.on("interactionCreate", async (interaction) => {
-  await databasing(interaction.guildId, interaction.user.id);
-
   // Slash Command Handling
   if (interaction.isCommand()) {
     await interaction.deferReply().catch((e) => {});
+    await databasing(interaction.guildId, interaction.user.id);
+
     const cmd = client.commands.get(interaction.commandName);
     if (!cmd) {
       return client.embed(
@@ -40,20 +37,15 @@ client.on("interactionCreate", async (interaction) => {
       let voiceChannel = interaction.member.voice.channel;
       let botChannel = interaction.guild.members.me.voice.channel;
       let checkDJ = await check_dj(client, interaction.member, queue?.songs[0]);
-      if (
-        !interaction.member.permissions.has(
-          PermissionsBitField.resolve(cmd.userPermissions)
-        )
-      ) {
+
+      if (!interaction.member.permissions.has(cmd.userPermissions)) {
         const needPerms = getPermissionName(cmd.userPermissions);
         return client.embed(
           interaction,
           `You Don't Have \`${needPerms}\` Permission to Use \`${cmd.name}\` Command!!`
         );
       } else if (
-        !interaction.guild.members.me.permissions.has(
-          PermissionsBitField.resolve(cmd.botPermissions)
-        )
+        !interaction.guild.members.me.permissions.has(cmd.botPermissions)
       ) {
         const needPerms = getPermissionName(cmd.botPermissions);
         return client.embed(
