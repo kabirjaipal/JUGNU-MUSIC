@@ -24,6 +24,7 @@ module.exports = async (client) => {
         }
         // code
         await message.delete().catch((e) => {});
+        if (message.author.bot) return;
 
         let song = message.cleanContent;
 
