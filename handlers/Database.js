@@ -1,4 +1,4 @@
-const { mongodb } = require("../settings/config");
+const { MONGO_URL } = require("../settings/config");
 const Josh = require("@joshdb/core");
 const provider = require("@joshdb/json"); // Use JSON database provider
 const JUGNU = require("./Client");
@@ -11,21 +11,28 @@ const JUGNU = require("./Client");
 module.exports = async (client) => {
   // Initialize music and autoresume databases
   const dbName = client.user.username.replace(" ", "");
+
   const dbOptions = {
-    url: mongodb,
-    collection: "music", // Collection name for music
+    url: MONGO_URL,
     dbName: dbName,
   };
 
   client.music = new Josh({
     name: "music",
     provider,
-    providerOptions: dbOptions,
+    providerOptions: {
+      ...dbOptions,
+      collection: "music",
+    },
   });
+
   client.autoresume = new Josh({
     name: "autoresume",
     provider,
-    providerOptions: dbOptions,
+    providerOptions: {
+      ...dbOptions,
+      collection: "autoresume",
+    },
   });
 
   // Handle guild deletion event

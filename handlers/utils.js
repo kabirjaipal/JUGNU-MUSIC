@@ -144,13 +144,9 @@ module.exports = async (client) => {
   client.queueembed = (guild) => {
     let embed = new EmbedBuilder()
       .setColor(client.config.embed.color)
-      .setTitle(`Jugnu | Queue`);
-    // .setDescription(`\n\n ** There are \`0\` Songss in Queue ** \n\n`)
-    // .setThumbnail(guild.iconURL({ dynamic: true }))
-    // .setFooter({
-    //   text: guild.name,
-    //   iconURL: guild.iconURL({ dynamic: true }),
-    // });
+      .setAuthor({ name: `Jugnu Music Queue` })
+      .setDescription("The music queue is empty.");
+
     return embed;
   };
 
@@ -195,21 +191,23 @@ module.exports = async (client) => {
       const musicchannel = guild.channels.cache.get(data.channel);
       if (!musicchannel) return;
 
-      const playmsg = await musicchannel.messages
-        .fetch(data.pmsg)
-        .catch(console.error);
-      const queuemsg = await musicchannel.messages
-        .fetch(data.qmsg)
-        .catch(console.error);
+      // Fetch both playmsg and queuemsg simultaneously using Promise.all()
+      const [playmsg, queuemsg] = await Promise.all([
+        musicchannel.messages.fetch(data.pmsg).catch(() => {}),
+        musicchannel.messages.fetch(data.qmsg).catch(() => {}),
+      ]);
 
+      // If either playmsg or queuemsg is not found, return
       if (!playmsg || !queuemsg) return;
 
-      await playmsg.edit({
-        embeds: [client.playembed(guild)],
-        components: [client.buttons(true)],
-      });
-
-      await queuemsg.edit({ embeds: [client.queueembed(guild)] });
+      // Edit playmsg and queuemsg simultaneously using Promise.all()
+      await Promise.all([
+        playmsg.edit({
+          embeds: [client.playembed(guild)],
+          components: [client.buttons(true)],
+        }),
+        queuemsg.edit({ embeds: [client.queueembed(guild)] }),
+      ]);
     } catch (error) {
       console.error("Error updating embed:", error);
     }
@@ -234,22 +232,19 @@ module.exports = async (client) => {
 
       let queueembed = await musicchannel.messages
         .fetch(data.qmsg)
-        .catch(console.error);
+        .catch(() => {});
+
       if (!queueembed) return;
 
       const currentSong = queue.songs[0];
-      const queueString = queue.songs
-        .slice(1, 10)
-        .map(
-          (track, index) =>
-            `\`${index + 1}.\` **${client.getTitle(track)}** - ${
-              track.isLive
-                ? "LIVE STREAM"
-                : track.formattedDuration.split(" | ")[0]
-            } - \`${track.user.tag}\``
-        )
-        .reverse()
-        .join("\n");
+
+      let queueString = "";
+      for (let index = 1; index < Math.min(queue.songs.length, 10); index++) {
+        const track = queue.songs[index];
+        queueString += `\`${index}.\` **${client.getTitle(track)}** - ${
+          track.isLive ? "LIVE STREAM" : track.formattedDuration.split(" | ")[0]
+        } - \`${track.user.tag}\`\n`;
+      }
 
       const newQueueEmbed = new EmbedBuilder()
         .setColor(client.config.embed.color)
@@ -266,19 +261,13 @@ module.exports = async (client) => {
                 : currentSong?.formattedDuration.split(" | ")[0]
             } - \`${currentSong?.user.tag}\``,
           },
-        ])
-        .setFooter({
-          text: guild.name,
-          iconURL: guild.iconURL({ dynamic: true }),
-        });
+        ]);
 
       if (queueString.length > 0) {
-        newQueueEmbed.setDescription(queueString.substring(0, 2048) || null);
+        newQueueEmbed.setDescription(queueString.substring(0, 2048));
       }
 
-      await queueembed.edit({
-        embeds: [newQueueEmbed],
-      });
+      await queueembed.edit({ embeds: [newQueueEmbed] });
     } catch (error) {
       console.error("Error updating queue:", error);
     }
@@ -303,39 +292,39 @@ module.exports = async (client) => {
 
       let playembed = await musicchannel.messages
         .fetch(data.pmsg)
-        .catch(console.error);
-      if (!playembed || !playembed.id) return;
+        .catch(() => {});
+      if (!playembed) return;
 
       const track = queue.songs[0];
 
       if (!track || !track.name) return;
 
+      const newEmbed = new EmbedBuilder()
+        .setColor(client.config.embed.color)
+        .setImage(track?.thumbnail)
+        .setTitle(client.getTitle(track))
+        .setURL(track?.url)
+        .addFields(
+          {
+            name: "**Requested By**",
+            value: `\`${track.user.tag}\``,
+            inline: true,
+          },
+          {
+            name: "**Author**",
+            value: `\`${track.uploader.name || "😏"}\``,
+            inline: true,
+          },
+          {
+            name: "**Duration**",
+            value: `\`${track.formattedDuration}\``,
+            inline: true,
+          }
+        )
+        .setFooter(client.getFooter(track.user));
+
       await playembed.edit({
-        embeds: [
-          new EmbedBuilder()
-            .setColor(client.config.embed.color)
-            .setImage(track?.thumbnail)
-            .setTitle(`${client.getTitle(track)}`)
-            .setURL(track?.url)
-            .addFields([
-              {
-                name: "**Requested By**",
-                value: `\`${track.user.tag}\``,
-                inline: true,
-              },
-              {
-                name: "**Author**",
-                value: `\`${track.uploader.name || "😏"}\``,
-                inline: true,
-              },
-              {
-                name: "**Duration**",
-                value: `\`${track.formattedDuration}\``,
-                inline: true,
-              },
-            ])
-            .setFooter(client.getFooter(track.user)),
-        ],
+        embeds: [newEmbed],
         components: [client.buttons(false)],
       });
     } catch (error) {
@@ -359,10 +348,8 @@ module.exports = async (client) => {
       const voiceChannel = guild.channels.cache.get(db.channel);
       if (!voiceChannel || voiceChannel.type !== ChannelType.GuildVoice) return;
 
-      // Delay joining the voice channel by 2 seconds to ensure stability
-      setTimeout(() => {
-        client.distube.voices.join(voiceChannel);
-      }, 2000);
+      // Join the voice channel immediately
+      await client.distube.voices.join(voiceChannel);
     } catch (error) {
       console.error("Error joining voice channel:", error);
     }

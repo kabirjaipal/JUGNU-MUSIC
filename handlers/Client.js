@@ -64,6 +64,15 @@ class JUGNU extends Client {
       savePreviousSongs: true, // Save previous songs in the queue
       searchCooldown: 0, // Reduce search cooldown
       joinNewVoiceChannel: false, // Join the new voice channel when a song is played
+      // Additional options
+      customFilters: filters, // Use custom filters if needed
+      ytdlOptions: {
+        highWaterMark: 1024 * 1024 * 64, // Set higher highWaterMark for faster streaming
+        quality: "highestaudio", // Get the highest quality audio
+        format: "bestaudio/best", // Use the best audio format available
+        liveBuffer: 60000, // Set liveBuffer to improve stream stability
+        dlChunkSize: 1024 * 1024 * 4, // Increase download chunk size for faster downloading
+      },
       // Plugins configuration
       plugins: [
         // Spotify Plugin with optimizations
@@ -74,7 +83,7 @@ class JUGNU extends Client {
         new SoundCloudPlugin(), // SoundCloud Plugin remains the same
         // YouTube DL Plugin with optimizations
         new YtDlpPlugin({
-          update: false, // Don't update youtube-dl binary automatically
+          update: true, // Update youtube-dl automatically
           requestOptions: {
             // Configure request options for faster downloading
             maxRedirects: 5, // Increase maximum redirects
@@ -82,15 +91,6 @@ class JUGNU extends Client {
           },
         }),
       ],
-      // Additional options
-      customFilters: filters, // Use custom filters if needed
-      ytdlOptions: {
-        highWaterMark: 1024 * 1024 * 64, // Set higher highWaterMark for faster streaming
-        quality: "highestaudio", // Get the highest quality audio
-        format: "bestaudio/best", // Use the best audio format available
-        liveBuffer: 60000, // Set liveBuffer to improve stream stability
-        dlChunkSize: 1024 * 1024 * 4, // Increase download chunk size for faster downloading
-      },
     });
   }
 
@@ -112,18 +112,12 @@ class JUGNU extends Client {
    * @returns
    */
   getFooter(user) {
-    let obj = {
+    const obj = {
       text: `Requested By ${user.username}`,
       iconURL: user.displayAvatarURL(),
     };
-    if (options.embedFooter) {
-      return obj;
-    } else {
-      return {
-        text: " ",
-        iconURL: " ",
-      };
-    }
+
+    return options.embedFooter ? obj : null;
   }
 
   embed(interaction, data) {
