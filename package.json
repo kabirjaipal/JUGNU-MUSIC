@@ -38,5 +38,6 @@
     "simple-find-lyrics": "^0.0.1",
     "systeminformation": "^5.22.6",
     "tweetnacl": "^1.0.3"
+    "husky": "^5.2.0",
   }
 }
