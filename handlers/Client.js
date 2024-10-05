@@ -12,7 +12,7 @@ const { SpotifyPlugin } = require("@distube/spotify");
 const { SoundCloudPlugin } = require("@distube/soundcloud");
 const { filters, options } = require("../settings/config");
 const { YtDlpPlugin } = require("@distube/yt-dlp");
-const { StreamType } = require("distube");
+const { YouTubePlugin } = require("@distube/youtube");
 
 class JUGNU extends Client {
   constructor() {
@@ -52,34 +52,17 @@ class JUGNU extends Client {
     this.temp = new Collection();
     this.config = require("../settings/config");
     this.distube = new Distube(this, {
-      leaveOnEmpty: false, // Leave voice channel only if manually stopped
-      leaveOnFinish: false, // Don't leave after finishing a queue
-      leaveOnStop: true, // Leave when the stop command is used
-      searchSongs: 0, // Increase the number of search results to improve user choices
       emitNewSongOnly: true, // Emit 'playSong' event only when a new song starts playing
-      directLink: true, // Direct link for youtube
-      emptyCooldown: 0, // Reduce cooldown for empty queue
       nsfw: false, // Enable nsfw mode for searching
-      streamType: StreamType.OPUS, // Use opus stream for better performance
       savePreviousSongs: true, // Save previous songs in the queue
-      searchCooldown: 0, // Reduce search cooldown
       joinNewVoiceChannel: false, // Join the new voice channel when a song is played
       // Additional options
       customFilters: filters, // Use custom filters if needed
-      ytdlOptions: {
-        highWaterMark: 1024 * 1024 * 64, // Set higher highWaterMark for faster streaming
-        quality: "highestaudio", // Get the highest quality audio
-        format: "bestaudio/best", // Use the best audio format available
-        liveBuffer: 60000, // Set liveBuffer to improve stream stability
-        dlChunkSize: 1024 * 1024 * 4, // Increase download chunk size for faster downloading
-      },
       // Plugins configuration
       plugins: [
+        new YouTubePlugin(),
         // Spotify Plugin with optimizations
-        new SpotifyPlugin({
-          emitEventsAfterFetching: true, // Emit events only after fetching data
-          parallel: true, // Enable parallel fetching for faster processing
-        }),
+        new SpotifyPlugin(),
         new SoundCloudPlugin(), // SoundCloud Plugin remains the same
         // YouTube DL Plugin with optimizations
         new YtDlpPlugin({
@@ -91,6 +74,9 @@ class JUGNU extends Client {
           },
         }),
       ],
+      ffmpeg: {
+        path: require("ffmpeg-static"),
+      },
     });
   }
 
