@@ -6,6 +6,9 @@ import {
   EmbedBuilder,
 } from "discord.js";
 import settings from "../settings/config.js";
+import { Player } from "discord-player";
+import fs from "fs";
+import config from "../settings/config.js";
 
 /**
  * Custom client class extending Discord.js Client.
@@ -45,6 +48,13 @@ export class Bot extends Client {
     this.mcommands = new Collection();
     this.cooldowns = new Collection();
     this.events = new Collection();
+    this.mcategories = fs.readdirSync("./Commands/Message");
+    this.scategories = fs.readdirSync("./Commands/Slash");
+    this.shuffleData = new Collection();
+    this.leaveTimeoutHandles = new Collection();
+    this.temp = new Collection();
+    this.config = config;
+    this.player = new Player(this);
   }
 
   /**
@@ -52,6 +62,9 @@ export class Bot extends Client {
    * @param {string} token - The bot token.
    */
   async build(token) {
+    await this.player.extractors.loadDefault(
+      (ext) => ext !== "YouTubeExtractor"
+    );
     await loadHandlers(this);
     this.login(token);
   }

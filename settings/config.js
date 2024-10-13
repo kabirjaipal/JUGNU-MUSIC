@@ -13,8 +13,8 @@ const settings = {
     wrongColor: Colors.Red,
   },
   emoji: {
-    success: "✅",
-    error: "❌",
+    SUCCESS: "✅",
+    ERROR: "❌",
   },
 };
 

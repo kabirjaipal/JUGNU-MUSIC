@@ -1,4 +1,3 @@
-import { Bot } from "./handlers/Client.js";
 import {
   ApplicationCommandNonOptions,
   CommandInteraction,
@@ -9,13 +8,16 @@ import {
   InteractionResponse,
   ApplicationCommandDataResolvable,
   PermissionResolvable,
-} from "discord.js/typings";
+} from "discord.js";
+import { Bot } from "./handlers/Client.js";
+import { Player } from "discord-player";
 
 interface McommandOptions {
   client?: Bot;
   message?: Message;
   args?: string[];
   prefix?: string;
+  player: Player;
 }
 
 export interface Mcommand {
@@ -31,6 +33,7 @@ export interface Mcommand {
 interface ScommandOptions {
   client?: Bot;
   interaction?: CommandInteraction;
+  player: Player;
 }
 
 export interface CustomSCommand {

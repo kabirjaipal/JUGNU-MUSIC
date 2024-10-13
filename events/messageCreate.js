@@ -1,5 +1,6 @@
 import { cooldown } from "../handlers/functions.js";
 import { client } from "../bot.js";
+import { useMainPlayer } from "discord-player";
 
 /**
  * Event listener for when a message is created.
@@ -45,6 +46,9 @@ client.on("messageCreate", async (message) => {
 
     const { owneronly, userPermissions, botPermissions } = command;
     const { author, member, guild } = message;
+    const player = useMainPlayer();
+    const voiceChannel = member.voice.channel;
+    const botVoiceChannel = guild.members.me.voice.channel;
 
     // Check ownership
     if (owneronly && !client.config.Owners.includes(author.id)) {
@@ -92,8 +96,29 @@ client.on("messageCreate", async (message) => {
       );
     }
 
+    if (command.inVoiceChannel && !voiceChannel) {
+      return client.sendEmbed(
+        message,
+        `${client.config.emoji.ERROR} You Need to Join Voice Channel`
+      );
+    } else if (
+      command.inSameVoiceChannel &&
+      botVoiceChannel &&
+      !botVoiceChannel?.equals(voiceChannel)
+    ) {
+      return client.embed(
+        message,
+        `${client.config.emoji.ERROR} You Need to Join ${botChannel} Voice Channel`
+      );
+    } else if (command.Player && !player) {
+      return client.embed(
+        message,
+        `${client.config.emoji.ERROR} Music Not Playing`
+      );
+    }
+
     // Run the command
-    await command.run({ client, message, args, prefix });
+    await command.run({ client, message, args, prefix, player });
   } catch (error) {
     console.error(
       "An error occurred while processing messageCreate event:",

@@ -8,8 +8,11 @@ export default {
   botPermissions: ["SendMessages", "EmbedLinks"],
   category: "",
   cooldown: 5,
+  inVoiceChannel: true,
+  inSameVoiceChannel: true,
+  Player: false,
 
-  run: async ({ client, message, args, prefix }) => {
+  run: async ({ client, message, args, prefix, player }) => {
     // Code
   },
 };

@@ -10,6 +10,9 @@ export default {
   botPermissions: ["SendMessages", "EmbedLinks"],
   category: "",
   type: ApplicationCommandType.ChatInput,
+  inVoiceChannel: true,
+  inSameVoiceChannel: true,
+  Player: false,
 
   run: async ({ client, interaction }) => {
     // Code
