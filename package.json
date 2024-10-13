@@ -33,8 +33,13 @@
     "music-bot"
   ],
   "dependencies": {
-    "discord.js": "^14.16.2",
-    "dotenv": "^16.4.5"
+    "@discord-player/extractor": "^4.5.1",
+    "discord-player": "^6.7.1",
+    "discord-player-youtubei": "^1.3.2",
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "ffmpeg-static": "^5.2.0",
+    "mediaplex": "^0.0.9"
   },
   "engines": {
     "node": ">=16"

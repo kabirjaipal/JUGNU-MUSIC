@@ -1,153 +1,77 @@
 # Hi, I'm Kabir! 👋
 
-I'm a Discord Bot Developer and here is mine bot handler
+I'm Kabir, a Discord Bot Developer, and here is my advanced Discord Music Bot.
 
-## Installation | How to use the Handler
+## **Installation | How to use the Bot**
 
-1. Clone this repository.
-2. Fill in the required details in **`settings/config.js`**.
-3. Run `npm install` to install dependencies.
-4. Start the bot with `node index.js`.
+**1.** Install the latest LTS [NodeJS](https://nodejs.org/en/).
+
+**2.** Install the latest [Python](https://www.python.org/downloads/)
+
+**3.** Download this repo and unzip it or use `git clone`.
+
+**4.** Fill in everything in **`settings/config.js`**.
 
 ### _Modify - config.js_
 
-```js
-import { Colors } from "discord.js";
-
-const settings = {
-  TOKEN: process.env.TOKEN || "BOT_TOKEN",
-  PREFIX: process.env.PREFIX || "BOT_PREFIX",
-  Owners: ["OwnersId", "OwnersId"],
-  Slash: {
-    Global: false,
-    GuildID: process.env.GuildID || "GUILD_ID",
-  },
-};
-
-export default settings;
+```javascript
+{
+  TOKEN: "BOT_TOKEN",
+  PREFIX: "BOT_PREFIX",
+  mongodb : "MONGO_URL"
+}
 ```
 
-## Handler Features
+### _Modify - .env_
 
-- Easy-to-use Handler
-- Event handling support
-- Slash commands
-- Message commands
-- Built on [discord.js](https://discord.js.org/#/)
-- Code snippets for commands
-- Subdirectory support in the commands folder
-- Code suggestions in Handler
+_*Rename `.env.example` to `.env.` and configure it*_
 
-## Feedback
-
-If you have any feedback or need assistance, please join out [Discord Server](https://discord.gg/PcUVWApWN3)
-
-## Usage/Examples
-
-- Commands Example
-
-# Slash Chat Input Command
-
-```js
-import { ApplicationCommandType, PermissionFlagsBits } from "discord.js";
-
-/**
- * @type {import("../../../index.js").Scommand}
- */
-export default {
-  name: "",
-  description: "",
-  userPermissions: [PermissionFlagsBits.SendMessages],
-  botPermissions: [
-    PermissionFlagsBits.SendMessages,
-    PermissionFlagsBits.EmbedLinks,
-  ],
-  category: "",
-  type: ApplicationCommandType.ChatInput,
-
-  run: async ({ client, interaction }) => {
-    // Code
-  },
-};
+```env
+TOKEN=
+MONGO_URL=
+PREFIX=
+GUILD_ID=
 ```
 
-# Slash Message Input Command
+**4.** Fill everything in the config, then type in:
 
-```js
-import { ApplicationCommandType } from "discord.js";
-
-/**
- * @type {import("../../..").CMcommand}
- */
-export default {
-  name: "",
-  category: "",
-  type: ApplicationCommandType.Message,
-
-  run: async ({ client, interaction }) => {
-    // Code
-  },
-};
+```sh
+npm install
 ```
 
-# Slash User Input Command
+**5.** Start the bot with:
 
-```js
-const { ApplicationCommandType } = require("discord.js");
-
-/**
- * @type {import("../../..").CUcommand}
- */
-export default {
-  name: "",
-  category: "",
-  type: ApplicationCommandType.User,
-
-  run: async ({ client, interaction }) => {
-    // Code
-  },
-};
+```sh
+node index.js
 ```
 
-# Message/Prefix Command
+## Music Bot Features
 
-```js
-import { PermissionFlagsBits } from "discord.js";
+- Easy-to-use Music Bot
+- Supports Youtube, Spotify, Soundcloud, and 700+ other websites
+- Slash commands support
+- Dashboard support
+- Message commands support
+- Stable & up-to-date with discord.js v14
+- 24/7 voice channel support
+- Autoresume system
+- Music request channel system
+- Additional filters
+- DJ system
+- Works on Replit and other VPS
 
-/**
- * @type {import("../../../index.js").Mcommand}
- */
-export default {
-  name: "",
-  description: "",
-  userPermissions: [PermissionFlagsBits.SendMessages],
-  botPermissions: [
-    PermissionFlagsBits.SendMessages,
-    PermissionFlagsBits.EmbedLinks,
-  ],
-  category: "",
-  cooldown: 5,
+## Music Bot Dashboard Setup
 
-  run: async ({ client, message, args, prefix }) => {
-    // Code
-  },
-};
-```
+[Click Here](https://github.com/kabirsingh2004/JUGNU-Dashboard/blob/main/README.md)
+
+## Feedback & Support
+
+If you have any feedback or need assistance, please join our [Discord Server](https://discord.gg/FuKfAREn9f).
 
 ## License
 
-This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/). See the [LICENSE](LICENSE) file for details.
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
 
-# Acknowledgements
+### Thanks For Using Music Bot! Please Give it a Star and give credit
 
-Thank you for considering the use of Kabir's Discord Bot Handler! If you find it helpful, we encourage you to give it a ⭐️.
-
-## Contributing
-
-If you encounter any bugs or have suggestions for improvement, please open a pull request. Your contributions are highly appreciated!
-
-## Support
-
-For any inquiries or assistance, feel free to reach out to us on our [Discord Server](https://discord.gg/PcUVWApWN3).
-
-Happy coding! 🚀
+Your support is appreciated! 🌟
