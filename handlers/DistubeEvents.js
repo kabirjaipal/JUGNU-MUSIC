@@ -180,8 +180,8 @@ module.exports = async (client) => {
     }
   });
 
-  client.distube.on("error", async (channel, error) => {
-    channel
+  client.distube.on("error", async (error, queue, song) => {
+    queue.textChannel
       .send({
         embeds: [
           new EmbedBuilder()
