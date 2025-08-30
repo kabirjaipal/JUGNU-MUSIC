@@ -125,6 +125,10 @@ module.exports = async (client) => {
                 );
               } else {
                 await queue.stop().catch((e) => {});
+                try {
+                  const db = await client.music?.get(`${interaction.guildId}.vc`);
+                  if (!db?.enable) await client.distube.voices.leave(interaction.guild);
+                } catch {}
                 return send(
                   interaction,
                   ` ${client.config.emoji.SUCCESS} Song Stoped and Left Channel !!.`

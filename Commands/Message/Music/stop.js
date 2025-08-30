@@ -26,6 +26,10 @@ module.exports = {
   run: async (client, message, args, prefix, queue) => {
     // Code
     queue.stop();
+    try {
+      const db = await client.music?.get(`${message.guildId}.vc`);
+      if (!db?.enable) await client.distube.voices.leave(message.guild);
+    } catch {}
     client.embed(message, `${client.config.emoji.SUCCESS} Queue Destroyed !!`);
   },
 };

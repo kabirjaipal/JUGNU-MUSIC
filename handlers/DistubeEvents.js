@@ -225,6 +225,16 @@ module.exports = async (client) => {
     // Remove auto-resume entry
     await client.autoresume.delete(queue.textChannel.guild.id);
 
+    // Leave voice channel if 24/7 is disabled
+    try {
+      const db = await client.music?.get(`${queue.textChannel.guild.id}.vc`);
+      if (!db?.enable) {
+        await client.distube.voices.leave(queue.textChannel.guild);
+      }
+    } catch (e) {
+      // ignore leave errors
+    }
+
     queue.textChannel
       .send({
         embeds: [
