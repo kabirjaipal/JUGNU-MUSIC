@@ -2,6 +2,7 @@ const { MONGO_URL } = require("../settings/config");
 const Josh = require("@joshdb/core");
 const provider = require("@joshdb/json"); // Use JSON database provider
 const JUGNU = require("./Client");
+const { Events } = require("discord.js");
 // const provider = require("@joshdb/mongo"); // Use MongoDB database provider
 
 /**
@@ -36,7 +37,7 @@ module.exports = async (client) => {
   });
 
   // Handle guild deletion event
-  client.on("guildDelete", async (guild) => {
+  client.on(Events.GuildDelete, async (guild) => {
     try {
       if (!guild) return;
 

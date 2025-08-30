@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, Events } = require("discord.js");
 const JUGNU = require("./Client");
 const AutoresumeHandler = require("./AutoresumeHandler");
 const InitAutoResume = require("./InitAutoResume");
@@ -8,7 +8,7 @@ const InitAutoResume = require("./InitAutoResume");
  * @param {JUGNU} client
  */
 module.exports = async (client) => {
-  client.on("clientReady", async () => {
+  client.on(Events.ClientReady, async () => {
     setTimeout(async () => await AutoresumeHandler(client), 2 * client.ws.ping);
   });
 

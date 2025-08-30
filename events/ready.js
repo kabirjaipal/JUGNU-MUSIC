@@ -1,10 +1,10 @@
-const { ActivityType } = require("discord.js");
+const { ActivityType, Events } = require("discord.js");
 const client = require("../index");
 const { registerSlashCommands } = require("../handlers/functions");
 const server = require("../server.js");
 const Database = require("../handlers/Database");
 
-client.once("clientReady", async () => {
+client.once(Events.ClientReady, async () => {
   try {
     console.log(`${client.user.username} is Online`);
 

@@ -6,9 +6,9 @@ const {
 } = require("../handlers/functions");
 const client = require("..");
 const { PREFIX: botPrefix, emoji } = require("../settings/config");
-const { PermissionsBitField, EmbedBuilder } = require("discord.js");
+const { PermissionsBitField, EmbedBuilder, Events } = require("discord.js");
 
-client.on("messageCreate", async (message) => {
+client.on(Events.MessageCreate, async (message) => {
   if (message.author.bot || !message.guild || !message.id) return;
   await databasing(message.guildId, message.author.id);
   let settings = await client.music.get(message.guild.id);

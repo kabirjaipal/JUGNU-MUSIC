@@ -1,4 +1,4 @@
-const { PermissionFlagsBits } = require("discord.js");
+const { PermissionFlagsBits, Events } = require("discord.js");
 const JUGNU = require("./Client");
 
 /**
@@ -6,7 +6,7 @@ const JUGNU = require("./Client");
  * @param {JUGNU} client
  */
 module.exports = async (client) => {
-  client.on("messageCreate", async (message) => {
+  client.on(Events.MessageCreate, async (message) => {
     try {
       // Check if the message is in a guild and has an ID
       if (!message.guild || !message.id) return;

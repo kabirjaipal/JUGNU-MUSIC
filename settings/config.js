@@ -111,8 +111,10 @@ const numberEmojis = [
 ];
 
 const slashSettings = {
-  global: false,
-  guildIDS: ["903532162236694539"], // for slash command
+  global: process.env.SLASH_GLOBAL === "true" || false,
+  guildIDS: process.env.GUILD_ID
+    ? process.env.GUILD_ID.split(",").map((s) => s.trim()).filter(Boolean)
+    : [""], // default fallback
 };
 
 module.exports = {

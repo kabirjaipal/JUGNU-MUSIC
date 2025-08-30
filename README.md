@@ -24,14 +24,36 @@ I'm Kabir, a Discord Bot Developer, and here is my advanced Discord Music Bot.
 
 ### _Modify - .env_
 
-_*Rename `.env.example` to `.env.` and configure it*_
+Rename `.env.example` to `.env` and configure the following keys:
 
 ```env
+# Discord
 TOKEN=
-MONGO_URL=
 PREFIX=
+
+# Database (optional if using JSON storage)
+MONGO_URL=
+
+# Slash commands
+# Comma-separated list of guild IDs (for faster, per-guild registration)
 GUILD_ID=
+# Set to true to register commands globally (may take up to 1 hour to propagate)
+SLASH_GLOBAL=false
+
+# Web server
+PORT=3000
+
+# Reduce noisy update checks from ytsr/ytdl
+YTSR_NO_UPDATE=true
+YTDL_NO_UPDATE=true
+
+# Voice diagnostics (optional; set true to print a dependency report on startup)
+VOICE_DEBUG_REPORT=false
 ```
+
+Notes:
+- If you want global slash commands, set `SLASH_GLOBAL=true`. Otherwise, keep `GUILD_ID` set (you can provide multiple IDs separated by commas) for instant per‑guild updates.
+- `MONGO_URL` enables MongoDB storage via JoshDB’s Mongo provider; if omitted, JSON storage is used.
 
 **4.** Fill everything in the config, then type in:
 

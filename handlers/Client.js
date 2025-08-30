@@ -75,7 +75,7 @@ class JUGNU extends Client {
         }),
       ],
       ffmpeg: {
-        path: require("ffmpeg-static"),
+        path: process.env.FFMPEG_PATH || require("ffmpeg-static"),
       },
     });
   }

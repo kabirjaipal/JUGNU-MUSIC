@@ -6,9 +6,9 @@ const {
   getPermissionName,
 } = require("../handlers/functions");
 const { emoji } = require("../settings/config");
-const { ApplicationCommandOptionType } = require("discord.js");
+const { ApplicationCommandOptionType, Events } = require("discord.js");
 
-client.on("interactionCreate", async (interaction) => {
+client.on(Events.InteractionCreate, async (interaction) => {
   // Slash Command Handling
   if (interaction.isCommand()) {
     await interaction.deferReply().catch((e) => {});

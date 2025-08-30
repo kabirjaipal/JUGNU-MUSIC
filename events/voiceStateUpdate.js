@@ -1,10 +1,10 @@
-const { ChannelType, Colors } = require("discord.js");
+const { ChannelType, Colors, Events } = require("discord.js");
 const client = require("../index");
 const { msToDuration } = require("../handlers/functions");
 
 const leaveTimeout = client.config.options.leaveTimeout;
 
-client.on("voiceStateUpdate", async (oldState, newState) => {
+client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
   if (!newState.guild || newState.member.user.bot) return;
   const queue = client.distube.getQueue(newState.guild);
 

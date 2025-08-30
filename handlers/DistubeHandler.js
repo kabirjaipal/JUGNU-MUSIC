@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, Events } = require("discord.js");
 const JUGNU = require("./Client");
 const { check_dj, skip } = require("./functions");
 
@@ -9,7 +9,7 @@ const { check_dj, skip } = require("./functions");
 module.exports = async (client) => {
   // interaction handling
   try {
-    client.on("interactionCreate", async (interaction) => {
+    client.on(Events.InteractionCreate, async (interaction) => {
       if (!interaction.guild || interaction.user.bot) return;
       if (interaction.isButton()) {
         await interaction.deferUpdate().catch((e) => {});
