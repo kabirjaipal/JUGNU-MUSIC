@@ -39,9 +39,20 @@ module.exports = {
     // Code
     let song = interaction.options.getString("song");
     let { channel } = interaction.member.voice;
-    client.distube.play(channel, song, {
+    const hqStored = await client.music.get(`${interaction.guildId}.hqmode`);
+    const hqMode =
+      (hqStored === undefined ? process.env.HQ_MODE === "true" : hqStored) ||
+      false;
+    // Pre-join voice to parallelize connection with source resolution
+    try {
+      await client.distube.voices.join(channel);
+    } catch {}
+    const isURL = /^(https?:\/\/)/i.test(song);
+    const query = isURL ? song : `ytsearch1:${song}`;
+    client.distube.play(channel, query, {
       member: interaction.member,
       textChannel: interaction.channel,
+      ...(hqMode ? { volume: 100 } : {}),
     });
     interaction
       .followUp({

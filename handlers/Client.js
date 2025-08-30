@@ -66,11 +66,14 @@ class JUGNU extends Client {
         new SoundCloudPlugin(), // SoundCloud Plugin remains the same
         // YouTube DL Plugin with optimizations
         new YtDlpPlugin({
-          update: true, // Update youtube-dl automatically
+          update: false, // Disable runtime updater for faster startup
           requestOptions: {
             // Configure request options for faster downloading
             maxRedirects: 5, // Increase maximum redirects
             timeout: 10000, // Set timeout for requests to avoid long waits
+            headers: process.env.YOUTUBE_COOKIE
+              ? { Cookie: process.env.YOUTUBE_COOKIE }
+              : undefined,
           },
         }),
       ],

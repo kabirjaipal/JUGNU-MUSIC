@@ -81,6 +81,7 @@ async function check_dj(client, member, song = null) {
 async function databasing(guildID, userID) {
   await client.music.ensure(guildID, {
     prefix: client.config.PREFIX,
+  hqmode: false,
     djrole: null,
     vc: {
       enable: false,
