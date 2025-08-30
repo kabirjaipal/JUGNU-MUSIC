@@ -406,7 +406,7 @@ module.exports = async (client) => {
       .addFields([
         {
           name: `Stats`,
-          value: `>>> **:gear: \`${allcommands}\` Commands\n:file_folder: \`${allguilds}\` Guilds\n⌚️ ${botuptime} Uptime\n🏓 \`${client.ws.ping}\` Ping\nMade by [\`Fire Bird\`](https://discord.gg/PcUVWApWN3)**`,
+          value: `>>> **:gear: \`${allcommands}\` Commands\n:file_folder: \`${allguilds}\` Guilds\n⌚️ ${botuptime} Uptime\n🏓 \`${client.ws.ping}\` Ping\nMade by [\`Kabir Jaipal\`](https://kabirjaipal.vercel.app)**`,
         },
       ])
       .setFooter(client.getFooter(user));

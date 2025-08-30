@@ -9,7 +9,7 @@ const defaultSettings = {
 const embedSettings = {
   color: Colors.Blurple,
   wrongcolor: Colors.Red,
-  footertext: "By Kabir Jaipal | Fire Bird",
+  footertext: "By Kabir Jaipal | @kabirjaipal",
 };
 
 const emojiSettings = {

@@ -4,7 +4,7 @@ const { registerSlashCommands } = require("../handlers/functions");
 const server = require("../server.js");
 const Database = require("../handlers/Database");
 
-client.once("ready", async () => {
+client.once("clientReady", async () => {
   try {
     console.log(`${client.user.username} is Online`);
 

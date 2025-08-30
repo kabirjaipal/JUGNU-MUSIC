@@ -8,7 +8,7 @@ const InitAutoResume = require("./InitAutoResume");
  * @param {JUGNU} client
  */
 module.exports = async (client) => {
-  client.on("ready", async () => {
+  client.on("clientReady", async () => {
     setTimeout(async () => await AutoresumeHandler(client), 2 * client.ws.ping);
   });
 
