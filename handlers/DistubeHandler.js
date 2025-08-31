@@ -1,5 +1,6 @@
-const { EmbedBuilder, Events } = require("discord.js");
+const { EmbedBuilder, Events, ChannelType } = require("discord.js");
 const JUGNU = require("./Client");
+const Store = require("./PlaylistStore");
 const { check_dj, skip } = require("./functions");
 
 /**
@@ -31,7 +32,7 @@ module.exports = async (client) => {
           } catch {}
         };
 
-        switch (customId) {
+  switch (customId) {
           case "previous":
             {
               if (!channel) return send(interaction, ` ${client.config.emoji.ERROR} You Need to Join Voice Channel`);
@@ -310,6 +311,78 @@ module.exports = async (client) => {
                     );
                 }
               }
+            }
+            break;
+
+          case "savecurrent_btn":
+            {
+              // Validate context
+              if (!channel) {
+                return send(
+                  interaction,
+                  `${client.config.emoji.ERROR} You Need to Join Voice Channel`
+                );
+              }
+              if (
+                interaction.guild.members.me.voice.channel &&
+                !interaction.guild.members.me.voice.channel.equals(channel)
+              ) {
+                return send(
+                  interaction,
+                  `${client.config.emoji.ERROR} You Need to Join __My__ Voice Channel`
+                );
+              }
+              if (!queue || !queue.songs?.length) {
+                return send(
+                  interaction,
+                  `${client.config.emoji.ERROR} I am Not Playing Right Now`
+                );
+              }
+
+              // Open a private thread asking for playlist name
+              const baseMsgId = client.temp.get(interaction.guildId);
+              const baseMsg = baseMsgId
+                ? await interaction.channel.messages.fetch(baseMsgId).catch(() => null)
+                : null;
+              const threadName = `save ▶ ${interaction.user.username}`.substring(0, 90);
+              const starter = baseMsg || (await interaction.message?.fetch().catch(() => null)) || null;
+              let thread;
+              try {
+                thread = await interaction.channel.threads.create({
+                  name: threadName,
+                  autoArchiveDuration: 60,
+                  type: ChannelType.PrivateThread,
+                  reason: `Save current song prompt for ${interaction.user.tag}`,
+                });
+              } catch (e) {
+                return send(
+                  interaction,
+                  `${client.config.emoji.ERROR} I need permission to create threads in this channel.`
+                );
+              }
+              // Invite only the clicker
+              try { await thread.members.add(interaction.user.id).catch(() => {}); } catch {}
+              await thread.send({
+                content: `${interaction.user}, reply with the playlist name to save "${client.getTitle(queue.songs[0])}" (timeout 60s).`,
+              });
+
+              const collector = thread.createMessageCollector({
+                time: 60_000,
+                max: 1,
+                filter: (m) => m.author.id === interaction.user.id,
+              });
+
+              collector.on("collect", async (m) => {
+                const name = m.content.trim().slice(0, 64);
+                const track = Store.serializeSong(queue.songs[0], interaction.user);
+                await Store.create(client, interaction.guildId, interaction.user.id, name);
+                await Store.addTracks(client, interaction.guildId, interaction.user.id, name, [track]);
+                await thread.send(`${client.config.emoji.SUCCESS} Saved to \`${name}\`. This thread will close soon.`);
+              });
+
+              collector.on("end", async () => {
+                setTimeout(() => thread.setArchived(true, "Completed save prompt").catch(() => {}), 5000);
+              });
             }
             break;
 

@@ -9,6 +9,19 @@ const { emoji } = require("../settings/config");
 const { ApplicationCommandOptionType, Events } = require("discord.js");
 
 client.on(Events.InteractionCreate, async (interaction) => {
+  // Autocomplete Handling
+  if (interaction.isAutocomplete()) {
+    const cmd = client.commands.get(interaction.commandName);
+    if (cmd && typeof cmd.autocomplete === "function") {
+      try {
+        await cmd.autocomplete(client, interaction);
+      } catch (e) {
+        // swallow
+      }
+    }
+    return;
+  }
+
   // Slash Command Handling
   if (interaction.isCommand()) {
     await interaction.deferReply().catch((e) => {});

@@ -86,7 +86,7 @@ module.exports = async (client) => {
         .setDisabled(dis(!hasNext)),
     ]);
 
-    // Row 2: Stop • Shuffle • Loop • Autoplay
+    // Row 2: Stop • Shuffle • Loop • Autoplay • SaveCurrent ⭐
     const row2 = new ActionRowBuilder().addComponents([
       new ButtonBuilder()
         .setStyle(ButtonStyle.Danger)
@@ -112,6 +112,12 @@ module.exports = async (client) => {
         .setEmoji(client.config.emoji.autoplay)
         .setLabel("Autoplay")
         .setDisabled(state),
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Secondary)
+        .setCustomId("savecurrent_btn")
+        .setEmoji("⭐")
+        .setLabel("Save")
+        .setDisabled(dis(!track)),
     ]);
 
     return [row1, row2];
@@ -433,7 +439,7 @@ module.exports = async (client) => {
       ? client.scategories
       : client.mcategories;
 
-    const emoji = { Information: "🔰", Music: "🎵", Settings: "⚙️" };
+  const emoji = { Information: "🔰", Music: "🎵", Settings: "⚙️", Playlist: "📂" };
 
     const allcommands = client.mcommands.size;
     const allguilds = client.guilds.cache.size;
@@ -444,16 +450,18 @@ module.exports = async (client) => {
       new ButtonBuilder()
         .setCustomId("home")
         .setStyle(ButtonStyle.Success)
-        .setEmoji("🏘️"),
-      categories
-        .map((cat) =>
-          new ButtonBuilder()
-            .setCustomId(cat)
-            .setStyle(ButtonStyle.Secondary)
-            .setEmoji(emoji[cat])
-        )
-        .flat(),
-    ].flat();
+        .setEmoji("🏘️")
+        .setLabel("Home"),
+      ...categories.map((cat) => {
+        const btn = new ButtonBuilder()
+          .setCustomId(cat)
+          .setStyle(ButtonStyle.Secondary)
+          .setLabel(cat);
+        const em = emoji[cat];
+        if (em) btn.setEmoji(em);
+        return btn;
+      }),
+    ];
     const row = new ActionRowBuilder().addComponents(buttons);
 
     const help_embed = new EmbedBuilder()
@@ -507,7 +515,9 @@ module.exports = async (client) => {
                 new EmbedBuilder()
                   .setColor(client.config.embed.color)
                   .setTitle(
-                    `${emoji[directory]} ${directory} Commands ${emoji[directory]}`
+                    `${emoji[directory] || "📁"} ${directory} Commands ${
+                      emoji[directory] || ""
+                    }`
                   )
                   .setDescription(
                     `>>> ${commands
@@ -550,6 +560,7 @@ module.exports = async (client) => {
       Information: "🔰",
       Music: "🎵",
       Settings: "⚙️",
+      Playlist: "📂",
     };
 
     let allCommands = categories.map((cat) => {
