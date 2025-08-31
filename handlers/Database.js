@@ -1,9 +1,26 @@
 const { MONGO_URL } = require("../settings/config");
 const Josh = require("@joshdb/core");
-const provider = require("@joshdb/json"); // Use JSON database provider
+// Dynamically choose provider: MongoDB when MONGO_URL is set, else JSON
+let provider;
+try {
+  if (MONGO_URL && typeof MONGO_URL === "string" && MONGO_URL.trim().length) {
+    provider = require("@joshdb/mongo");
+    console.log("[Database] Using MongoDB provider (@joshdb/mongo)");
+  } else {
+    provider = require("@joshdb/json");
+    console.log("[Database] Using JSON provider (@joshdb/json)");
+  }
+} catch (err) {
+  // Fallback to JSON if mongo provider isn't installed or any error occurs
+  provider = require("@joshdb/json");
+  console.warn(
+    "[Database] Falling back to JSON provider (@joshdb/json):",
+    err?.message || err
+  );
+}
 const JUGNU = require("./Client");
 const { Events } = require("discord.js");
-// const provider = require("@joshdb/mongo"); // Use MongoDB database provider
+// const provider = require("@joshdb/mongo"); // Manual override example
 
 /**
  * Initialize Josh database for music and autoresume

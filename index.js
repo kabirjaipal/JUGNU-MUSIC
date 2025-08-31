@@ -1,4 +1,5 @@
-require("dotenv").config();
+const { loadEnvFile } = require("process");
+loadEnvFile()
 const JUGNU = require("./handlers/Client");
 const { TOKEN } = require("./settings/config");
 

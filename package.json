@@ -1,24 +1,52 @@
 {
   "name": "jugnu-music",
   "version": "1.0.0",
-  "description": "I'm a Discord Bot Developer and here is mine Discord Music Bot",
+  "description": "High-quality Discord music bot powered by DisTube and discord.js v14 — YouTube, Spotify, SoundCloud, lyrics, filters, autoplay, 24/7, and more.",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+  "start": "node index.js",
+  "postinstall": "node scripts/ffmpeg-postinstall.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kabirsingh2004/JUGNU-MUSIC.git"
+    "url": "git+https://github.com/kabirjaipal/JUGNU-MUSIC.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "discord",
+    "discord-bot",
+    "discord-music-bot",
+    "music",
+    "distube",
+    "discord.js",
+    "discordjs-v14",
+    "slash-commands",
+    "youtube",
+    "spotify",
+    "soundcloud",
+    "lyrics",
+    "queue",
+    "playlist",
+    "filters",
+    "autoplay",
+    "24-7",
+    "auto-resume",
+    "dj",
+    "ffmpeg",
+    "nodejs",
+    "self-hosted",
+    "open-source"
+  ],
+  "author": "Kabir Jaipal",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/kabirjaipal",
   "bugs": {
-    "url": "https://github.com/kabirsingh2004/JUGNU-MUSIC/issues"
+    "url": "https://github.com/kabirjaipal/JUGNU-MUSIC/issues"
   },
-  "homepage": "https://github.com/kabirsingh2004/JUGNU-MUSIC#readme",
+  "homepage": "https://github.com/kabirjaipal/JUGNU-MUSIC#readme",
   "engines": {
-    "node": ">=18.17.0"
+    "node": ">=18.17.0",
+    "npm": ">=9"
   },
   "dependencies": {
     "@discordjs/opus": "^0.10.0",
@@ -46,5 +74,8 @@
     "sodium-native": "^5.0.8",
     "systeminformation": "^5.27.8",
     "tweetnacl": "^1.0.3"
+  },
+  "optionalDependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0"
   }
 }

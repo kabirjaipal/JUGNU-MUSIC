@@ -1,16 +1,41 @@
-# Hi, I'm Kabir! 👋
+<div align="center">
 
-I'm Kabir, a Discord Bot Developer, and here is my advanced Discord Music Bot.
+# JUGNU MUSIC — Discord Music Bot 🎵
 
-## **Installation | How to use the Bot**
+[![Stars](https://img.shields.io/github/stars/kabirjaipal/JUGNU-MUSIC?style=flat-square)](https://github.com/kabirjaipal/JUGNU-MUSIC/stargazers)
+[![Forks](https://img.shields.io/github/forks/kabirjaipal/JUGNU-MUSIC?style=flat-square)](https://github.com/kabirjaipal/JUGNU-MUSIC/fork)
+[![Issues](https://img.shields.io/github/issues/kabirjaipal/JUGNU-MUSIC?style=flat-square)](https://github.com/kabirjaipal/JUGNU-MUSIC/issues)
+[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%E2%89%A518.17-43853D?logo=node.js&style=flat-square)](https://nodejs.org/)
 
-**1.** Install the latest LTS [NodeJS](https://nodejs.org/en/).
+High‑quality Discord music bot powered by DisTube and discord.js v14 — YouTube, Spotify, SoundCloud, filters, autoplay, 24/7, request channel, lyrics, and more.
 
-**2.** Install the latest [Python](https://www.python.org/downloads/)
+</div>
 
-**3.** Download this repo and unzip it or use `git clone`.
+## Features
 
-**4.** Fill in everything in **`settings/config.js`**.
+- YouTube, Spotify, and SoundCloud playback
+- Slash commands and message commands
+- 24/7 voice channel + autoresume
+- Rich queue controls: skip, seek, loop, shuffle, move, remove, jump, filters
+- Lyrics lookup, request channel system, DJ role
+- Works on Replit/VPS, uses DisTube + discord.js v14
+
+---
+
+## Installation
+
+1) Install latest LTS [Node.js](https://nodejs.org/) (>= 18.17) and [Python](https://www.python.org/downloads/).
+
+2) Clone or download the repository.
+
+3) Install dependencies:
+
+```powershell
+npm install
+```
+
+4) Configure the bot in `settings/config.js` and `.env`.
 
 ### _Modify - config.js_
 
@@ -55,51 +80,44 @@ Notes:
 - If you want global slash commands, set `SLASH_GLOBAL=true`. Otherwise, keep `GUILD_ID` set (you can provide multiple IDs separated by commas) for instant per‑guild updates.
 - `MONGO_URL` enables MongoDB storage via JoshDB’s Mongo provider; if omitted, JSON storage is used.
 
-**4.** Fill everything in the config, then type in:
+5) Optional native optimizations (Windows/macOS/Linux):
 
-```sh
-npm install
-```
-
-**5.** Install additional packages:
-
-```sh
+```powershell
 npm install @discordjs/opus zlib-sync@latest erlpack@latest
 ```
 
-**6.** Start the bot with:
+6) Start the bot:
 
-```sh
-node index.js
+```powershell
+npm start
 ```
 
-## Music Bot Features
+Dev mode with auto-reload:
 
-- Easy-to-use Music Bot
-- Supports Youtube, Spotify, Soundcloud, and 700+ other websites
-- Slash commands support
-- Dashboard support
-- Message commands support
-- Stable & up-to-date with discord.js v14
-- 24/7 voice channel support
-- Autoresume system
-- Music request channel system
-- Additional filters
-- DJ system
-- Works on Replit and other VPS
+```powershell
+npm run dev
+```
 
-## Music Bot Dashboard Setup
+## Dashboard
 
-[Click Here](https://github.com/kabirsingh2004/JUGNU-Dashboard/blob/main/README.md)
+[Dashboard setup guide](https://github.com/kabirsingh2004/JUGNU-Dashboard/blob/main/README.md)
 
 ## Feedback & Support
 
 If you have any feedback or need assistance, please join our [Discord Server](https://discord.gg/FuKfAREn9f).
 
+## Contributing
+
+Contributions are welcome! Please open an issue or PR. For larger changes, start a discussion first.
+
+## Security
+
+Please report vulnerabilities privately via [GitHub Security Advisories](https://github.com/kabirjaipal/JUGNU-MUSIC/security/advisories) or email.
+
 ## License
 
-This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
+This project is licensed under the [MIT License](LICENSE).
 
-### Thanks For Using Music Bot! Please Give it a Star and give credit
+### Thanks for using JUGNU MUSIC! If this helps you, please ⭐ the repo and consider a fork.
 
 Your support is appreciated! 🌟
