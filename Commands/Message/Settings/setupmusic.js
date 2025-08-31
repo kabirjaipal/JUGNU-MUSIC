@@ -62,7 +62,7 @@ module.exports = {
               await ch
                 .send({
                   embeds: [client.playembed(message.guild)],
-                  components: [client.buttons(true)],
+                  components: client.buttons(true),
                 })
                 .then(async (playmsg) => {
                   await client.music.set(`${message.guild.id}.music`, {

@@ -46,7 +46,7 @@ module.exports = async (client) => {
             ])
             .setFooter(client.getFooter(song.user)),
         ],
-        components: [client.buttons(false)],
+  components: client.buttons(false, queue),
       })
       .then((msg) => {
         client.temp.set(queue.textChannel.guildId, msg.id);
@@ -56,7 +56,8 @@ module.exports = async (client) => {
   client.distube.on("addSong", async (queue, song) => {
     let data = await client.music.get(`${queue.textChannel.guildId}.music`);
     if (data) {
-      await client.updatequeue(queue);
+  await client.updatequeue(queue);
+  await client.updateplayer(queue);
       if (data.channel === queue.textChannel.id) return;
     }
     queue.textChannel
@@ -101,7 +102,8 @@ module.exports = async (client) => {
   client.distube.on("addList", async (queue, playlist) => {
     let data = await client.music.get(`${queue.textChannel.guildId}.music`);
     if (data) {
-      await client.updatequeue(queue);
+  await client.updatequeue(queue);
+  await client.updateplayer(queue);
       if (data.channel === queue.textChannel.id) return;
     }
 

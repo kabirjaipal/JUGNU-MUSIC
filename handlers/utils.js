@@ -21,40 +21,100 @@ module.exports = async (client) => {
    *
    * @param {Queue} queue
    */
-  client.buttons = (state) => {
-    let raw = new ActionRowBuilder().addComponents([
+  client.buttons = (state, queue) => {
+    // Determine dynamic states when queue is available
+    const track = queue?.songs?.[0];
+    const isLive = !!track?.isLive;
+    const duration = Number(track?.duration || 0);
+    const pos = Number(queue?.currentTime || 0);
+  const nearStart = pos <= 1;
+    const nearEnd = duration ? pos >= Math.max(0, duration - 1) : false;
+    const hasNext = (queue?.songs?.length || 0) > 1;
+    const hasPrev = (queue?.previousSongs?.length || 0) > 0;
+    const canSeek = !isLive && duration > 0;
+
+    // Loop visuals
+    const loopMode = Number(queue?.repeatMode || 0); // 0 off, 1 song, 2 queue
+    const loopActive = loopMode === 1 || loopMode === 2;
+    const loopEmoji = loopMode === 1 ? "🔂" : loopMode === 2 ? "🔁" : client.config.emoji.loop;
+    const loopStyle = loopActive ? ButtonStyle.Success : ButtonStyle.Secondary;
+    const loopLabel = loopMode === 1 ? "Loop Song" : loopMode === 2 ? "Loop Queue" : "Loop";
+
+    // Autoplay visuals
+    const autoplayOn = !!queue?.autoplay;
+    const autoplayStyle = autoplayOn ? ButtonStyle.Success : ButtonStyle.Secondary;
+
+    // Play/Pause visuals
+    const isPaused = !!queue?.paused;
+    const prEmoji = isPaused ? "▶️" : "⏸️";
+    const prLabel = isPaused ? "Play" : "Pause";
+
+    // Helper: apply base disabled state
+    const dis = (d) => (state ? true : d);
+
+    // Row 1: Previous • -10s • Play/Pause • +10s • Next
+    const row1 = new ActionRowBuilder().addComponents([
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Primary)
+        .setCustomId("previous")
+        .setEmoji(client.config.emoji.previous_song)
+        .setLabel("Prev")
+        .setDisabled(dis(!hasPrev)),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Secondary)
-        .setCustomId("skip")
-        // .setLabel("Skip")
-        .setEmoji(client.config.emoji.skip)
-        .setDisabled(state),
+        .setCustomId("rewind10")
+        .setEmoji("⏪")
+        .setLabel("-10s")
+        .setDisabled(dis(!canSeek)),
       new ButtonBuilder()
-        .setStyle(ButtonStyle.Secondary)
+        .setStyle(ButtonStyle.Primary)
         .setCustomId("pauseresume")
-        // .setLabel("P/R")
-        .setEmoji(client.config.emoji.pause_resume)
+        .setEmoji(prEmoji)
+        .setLabel(prLabel)
         .setDisabled(state),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Secondary)
-        .setCustomId("loop")
-        // .setLabel("Loop")
-        .setEmoji(client.config.emoji.loop)
-        .setDisabled(state),
+        .setCustomId("forward10")
+        .setEmoji("⏩")
+        .setLabel("+10s")
+        .setDisabled(dis(!canSeek || nearEnd)),
       new ButtonBuilder()
-        .setStyle(ButtonStyle.Secondary)
+        .setStyle(ButtonStyle.Primary)
+        .setCustomId("skip")
+        .setEmoji(client.config.emoji.next_song)
+        .setLabel("Next")
+        .setDisabled(dis(!hasNext)),
+    ]);
+
+    // Row 2: Stop • Shuffle • Loop • Autoplay
+    const row2 = new ActionRowBuilder().addComponents([
+      new ButtonBuilder()
+        .setStyle(ButtonStyle.Danger)
         .setCustomId("stop")
-        // .setLabel("Stop")
         .setEmoji(client.config.emoji.stop)
+        .setLabel("Stop")
         .setDisabled(state),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Secondary)
+        .setCustomId("shuffle")
+        .setEmoji(client.config.emoji.shuffle)
+        .setLabel("Shuffle")
+        .setDisabled(dis((queue?.songs?.length || 0) <= 2)),
+      new ButtonBuilder()
+        .setStyle(loopStyle)
+        .setCustomId("loop")
+        .setEmoji(loopEmoji)
+        .setLabel(loopLabel)
+        .setDisabled(state),
+      new ButtonBuilder()
+        .setStyle(autoplayStyle)
         .setCustomId("autoplay")
-        // .setLabel("Autoplay")
         .setEmoji(client.config.emoji.autoplay)
+        .setLabel("Autoplay")
         .setDisabled(state),
     ]);
-    return raw;
+
+    return [row1, row2];
   };
 
   client.editPlayerMessage = async (channel) => {
@@ -79,7 +139,7 @@ module.exports = async (client) => {
                 iconURL: channel.guild.iconURL({ dynamic: true }),
               }),
             ],
-            components: [client.buttons(true)],
+            components: client.buttons(true, null),
           })
           .catch(console.error);
       }
@@ -204,7 +264,7 @@ module.exports = async (client) => {
       await Promise.all([
         playmsg.edit({
           embeds: [client.playembed(guild)],
-          components: [client.buttons(true)],
+          components: client.buttons(true),
         }),
         queuemsg.edit({ embeds: [client.queueembed(guild)] }),
       ]);
@@ -281,7 +341,7 @@ module.exports = async (client) => {
    */
   client.updateplayer = async (queue) => {
     try {
-      const guild = client.guilds.cache.get(queue.textChannel.guildId);
+  const guild = client.guilds.cache.get(queue.textChannel.guildId);
       if (!guild) return;
 
       const data = await client.music.get(`${guild.id}.music`);
@@ -295,7 +355,10 @@ module.exports = async (client) => {
         .catch(() => {});
       if (!playembed) return;
 
-      const track = queue.songs[0];
+  // Refresh queue snapshot to avoid stale state (e.g., after addSong/addList)
+  const freshQueue = client.distube.getQueue(guild.id) || queue;
+
+  const track = freshQueue.songs[0];
 
       if (!track || !track.name) return;
 
@@ -325,7 +388,7 @@ module.exports = async (client) => {
 
       await playembed.edit({
         embeds: [newEmbed],
-        components: [client.buttons(false)],
+        components: client.buttons(false, freshQueue),
       });
     } catch (error) {
       console.error("Error updating player:", error);
